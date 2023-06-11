@@ -169,9 +169,6 @@ public class Slice implements Collection< Contour >
 	 * @param x
 	 *            an array in which to store the intersection position. Reset by
 	 *            this call.
-	 * @param nx
-	 *            an array in which to store the projected normal value at the
-	 *            intersections. Reset by this call.
 	 * @param yScale
 	 *            some scale in Y (such as the pixel size in Y), used to shift
 	 *            the vertices and ray position by a small fraction of this

@@ -10,9 +10,7 @@ import net.imglib2.mesh.obj.Vertices;
  * This algorithm can efficiently tells whether a ray intersects with a triangle
  * in a mesh. Adapted from Wikipedia.
  *
- * @see <a
- *      href="https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm"
- *      Möller–Trumbore intersection algorithm on Wikipedia</a>.
+ * @see <a href="https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm">Möller–Trumbore intersection algorithm on Wikipedia</a>.
  * @author Jean-Yves Tinevez
  *
  */

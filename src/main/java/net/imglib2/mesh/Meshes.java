@@ -360,7 +360,7 @@ public class Meshes
 	 * 
 	 * @param mesh
 	 *            the mesh to scale.
-	 * @param pixelSizes
+	 * @param scale
 	 *            a <code>double</code> array of at least 3 elements.
 	 */
 	public static void scale( final Mesh mesh, final double[] scale )
