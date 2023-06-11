@@ -31,13 +31,11 @@
 package net.imglib2.mesh.io.stl;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import org.scijava.util.FileUtils;
 
@@ -58,8 +56,7 @@ public class STLMeshIO
 
 	public static final int HEADER_BYTES = 80;
 
-	public static final String HEADER = Strings.padEnd(
-			"Binary STL created with ImageJ", HEADER_BYTES, '.' );
+	public static final String HEADER = Strings.padEnd( "Binary STL created with ImageJ", HEADER_BYTES, '.' );
 
 	public static final int COUNT_BYTES = 4;
 
@@ -67,9 +64,7 @@ public class STLMeshIO
 
 	public static final int FACET_BYTES = 50;
 
-	// -- STLMeshIO methods --
-
-	public void read( final Mesh mesh, final byte[] data )
+	public static final void read( final Mesh mesh, final byte[] data )
 	{
 		if ( data.length < FACET_START )
 			return;
@@ -91,7 +86,7 @@ public class STLMeshIO
 	}
 
 	/** Writes the facets into a byte[] that can then be saved into a file */
-	public byte[] write( final Mesh mesh )
+	public static final byte[] write( final Mesh mesh )
 	{
 		final long facetCount = mesh == null ? 0 : mesh.triangles().size();
 		final long longBytes = HEADER_BYTES + COUNT_BYTES + facetCount * FACET_BYTES;
@@ -112,7 +107,7 @@ public class STLMeshIO
 		return buffer.array();
 	}
 
-	public void read( final Mesh mesh, final File stlFile ) throws IOException
+	public static final void read( final Mesh mesh, final File stlFile ) throws IOException
 	{
 		if ( stlFile == null )
 			return;
@@ -123,35 +118,14 @@ public class STLMeshIO
 		read( mesh, data );
 	}
 
-	public boolean supports( final File file )
-	{
-		final String extension = FileUtils.getExtension( file );
-		if ( !EXTENSION.equalsIgnoreCase( extension ) )
-		{ return false; }
-
-		try (FileInputStream reader = new FileInputStream( file ))
-		{
-			final byte[] dataStart = new byte[ 5 ];
-			reader.read( dataStart, 0, 5 );
-			// ASCII STL files begin with the line solid <name> whereas binary
-			// files
-			// have an arbitrary header
-			return !"solid".equals( Arrays.toString( dataStart ) );
-		}
-		catch ( final IOException e )
-		{
-			return false;
-		}
-	}
-
-	public Mesh open( final String source ) throws IOException
+	public static final Mesh open( final String source ) throws IOException
 	{
 		final Mesh mesh = new NaiveFloatMesh();
 		read( mesh, new File( source ) );
 		return mesh;
 	}
 
-	public void save( final Mesh data, final String destination ) throws IOException
+	public static final void save( final Mesh data, final String destination ) throws IOException
 	{
 		final byte[] bytes = write( data );
 		FileUtils.writeFile( new File( destination ), bytes );
@@ -159,8 +133,7 @@ public class STLMeshIO
 
 	// -- Helper methods --
 
-	private static void writeFacet( final ByteBuffer buffer,
-			final Triangle facet )
+	private final static void writeFacet( final ByteBuffer buffer, final Triangle facet )
 	{
 		// TODO Blend vertices
 		writeVector( buffer, facet.nxf(), facet.nyf(), facet.nzf() );
@@ -170,8 +143,7 @@ public class STLMeshIO
 		buffer.putShort( ( short ) 0 ); // Attribute byte count
 	}
 
-	private static void writeVector( final ByteBuffer buffer, final float x,
-			final float y, final float z )
+	private static void writeVector( final ByteBuffer buffer, final float x, final float y, final float z )
 	{
 		buffer.putFloat( x );
 		buffer.putFloat( y );
@@ -201,6 +173,4 @@ public class STLMeshIO
 				v2x, v2y, v2z, //
 				nx, ny, nz );
 	}
-
-	String EXTENSION = "stl";
 }

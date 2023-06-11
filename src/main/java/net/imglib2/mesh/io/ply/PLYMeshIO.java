@@ -42,6 +42,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.scijava.util.FileUtils;
 import org.smurn.jply.Element;
 import org.smurn.jply.ElementReader;
 import org.smurn.jply.PlyReader;
@@ -69,9 +70,24 @@ import net.imglib2.mesh.obj.nio.BufferMesh;
 public class PLYMeshIO
 {
 
-	// -- PLYMeshIO methods --
+	public static final BufferMesh open( final String source ) throws IOException
+	{
+		final File file = new File( source );
+		final int[] nels = getNVerticesFaces( source );
+		final int nVertices = nels[ 0 ];
+		final int nTriangles = nels[ 1 ];
+		final BufferMesh mesh = new BufferMesh( nVertices, nTriangles );
+		read( file, mesh );
+		return mesh;
+	}
 
-	public void read( final File plyFile, final Mesh mesh ) throws IOException
+	public static final void save( final Mesh data, final String destination ) throws IOException
+	{
+		final byte[] bytes = writeBinary( data );
+		FileUtils.writeFile( new File( destination ), bytes );
+	}
+
+	public static final void read( final File plyFile, final Mesh mesh ) throws IOException
 	{
 		try (final FileInputStream is = new FileInputStream( plyFile ))
 		{
@@ -79,7 +95,7 @@ public class PLYMeshIO
 		}
 	}
 
-	public void read( final InputStream plyIS, final Mesh mesh ) throws IOException
+	public static final void read( final InputStream plyIS, final Mesh mesh ) throws IOException
 	{
 		final PlyReader pr = new PlyReaderFile( plyIS );
 		final NormalizingPlyReader plyReader = new NormalizingPlyReader( pr, TesselationMode.TRIANGLES,
@@ -95,7 +111,7 @@ public class PLYMeshIO
 		}
 	}
 
-	public Mesh open( final InputStream plyIS ) throws IOException
+	public static final BufferMesh open( final InputStream plyIS ) throws IOException
 	{
 		final PlyReader pr = new PlyReaderFile( plyIS );
 		final NormalizingPlyReader plyReader = new NormalizingPlyReader( pr, TesselationMode.TRIANGLES,
@@ -116,7 +132,7 @@ public class PLYMeshIO
 		}
 	}
 
-	private List< int[] > readTriangles( final ElementReader reader ) throws IOException
+	private static final List< int[] > readTriangles( final ElementReader reader ) throws IOException
 	{
 		final List< int[] > triangles = new ArrayList<>( reader.getCount() );
 		Element triangle = reader.readElement();
@@ -140,7 +156,7 @@ public class PLYMeshIO
 	 *            the mesh to populate.
 	 * @throws IOException
 	 */
-	private void read( final PlyReader plyReader, final Mesh mesh ) throws IOException
+	private static final void read( final PlyReader plyReader, final Mesh mesh ) throws IOException
 	{
 		// Data holders.
 		TIntLongHashMap vertexRowMap = null;
@@ -179,7 +195,7 @@ public class PLYMeshIO
 		}
 	}
 
-	private TIntLongHashMap readVertices( final ElementReader reader, final Vertices vertices ) throws IOException
+	private static final TIntLongHashMap readVertices( final ElementReader reader, final Vertices vertices ) throws IOException
 	{
 		final TIntLongHashMap rowToVertIndex = new TIntLongHashMap();
 		int vertCount = 0;
@@ -200,7 +216,7 @@ public class PLYMeshIO
 		return rowToVertIndex;
 	}
 
-	public byte[] writeBinary( final Mesh mesh )
+	public static final byte[] writeBinary( final Mesh mesh )
 	{
 		final int vertexBytes = 3 * 4 + 3 * 4 + 3 * 4;
 		final int triangleBytes = 3 * 4 + 1;
@@ -220,7 +236,8 @@ public class PLYMeshIO
 				+ mesh.vertices().size() * vertexBytes + //
 				mesh.triangles().size() * triangleBytes;
 		if ( bytes > Integer.MAX_VALUE )
-		{ throw new IllegalArgumentException( "Mesh data too large: " + bytes ); }
+			throw new IllegalArgumentException( "Mesh data too large: " + bytes );
+
 		final ByteBuffer buffer = ByteBuffer.allocate( ( int ) bytes ).order( ByteOrder.LITTLE_ENDIAN );
 
 		buffer.put( header.getBytes() );
@@ -230,7 +247,7 @@ public class PLYMeshIO
 
 		// Do not populate file if there are no vertices
 		if ( mesh.vertices().size() == 0 )
-		{ return buffer.array(); }
+			return buffer.array();
 
 		// Write vertices
 		final TLongIntHashMap refToVertId = //
@@ -262,7 +279,7 @@ public class PLYMeshIO
 		return buffer.array();
 	}
 
-	public byte[] writeAscii( final Mesh mesh ) throws IOException
+	public static final byte[] writeAscii( final Mesh mesh ) throws IOException
 	{
 		final String header = "ply\nformat ascii 1.0\ncomment This binary PLY mesh was created with imagej-mesh.\n";
 		final String vertexHeader = "element vertex " + mesh.vertices().size()
@@ -274,15 +291,12 @@ public class PLYMeshIO
 		// TODO: Fail fast more robustly if mesh is too large.
 		// But need to modify the API to not return a byte[].
 		if ( mesh.vertices().size() > Integer.MAX_VALUE )
-		{
 			throw new IllegalArgumentException( "Too many vertices: " + //
 					mesh.vertices().size() );
-		}
+
 		if ( mesh.triangles().size() > Integer.MAX_VALUE )
-		{
 			throw new IllegalArgumentException( "Too many triangles: " + //
 					mesh.triangles().size() );
-		}
 
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 
@@ -301,8 +315,7 @@ public class PLYMeshIO
 		}
 
 		// Write vertices
-		final TLongIntHashMap refToVertId = new TLongIntHashMap( //
-				( int ) mesh.vertices().size() );
+		final TLongIntHashMap refToVertId = new TLongIntHashMap( ( int ) mesh.vertices().size() );
 		int vertId = 0;
 		for ( final Vertex v : mesh.vertices() )
 		{
@@ -353,7 +366,7 @@ public class PLYMeshIO
 	 *         </ol>
 	 * @throws IOException
 	 */
-	public int[] getNVerticesFaces( final String source ) throws IOException
+	public static final int[] getNVerticesFaces( final String source ) throws IOException
 	{
 		final File file = new File( source );
 		final PlyReaderFile reader = new PlyReaderFile( file );
@@ -368,4 +381,7 @@ public class PLYMeshIO
 			reader.close();
 		}
 	}
+
+	private PLYMeshIO()
+	{}
 }

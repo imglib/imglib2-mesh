@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.scijava.log.LogService;
-import org.scijava.plugin.Parameter;
+import org.scijava.log.StderrLogService;
 
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
@@ -50,10 +50,12 @@ import net.imglib2.RealPoint;
 public class XYZPointsIO
 {
 
-	@Parameter
-	private LogService log;
+	public static final List< RealLocalizable > open( final String source ) throws IOException
+	{
+		return open( source, new StderrLogService() );
+	}
 
-	public List< RealLocalizable > open( final String source ) throws IOException
+	public static final List< RealLocalizable > open( final String source, final LogService log ) throws IOException
 	{
 		final ArrayList< RealLocalizable > points = new ArrayList<>();
 
