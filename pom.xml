@@ -9,17 +9,17 @@
 		<relativePath />
 	</parent>
 
-	<groupId>net.imagej</groupId>
-	<artifactId>imagej-mesh</artifactId>
+	<groupId>net.imglib2</groupId>
+	<artifactId>imglib2-mesh</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<name>ImageJ Mesh</name>
-	<description>3D mesh structures for ImageJ.</description>
-	<url>https://imagej.net/ImageJ_Mesh</url>
+	<name>ImgLib2 Mesh</name>
+	<description>3D mesh structures for ImgLib2 related projects.</description>
+	<url>https://imagej.net/ImgLib2_Mesh</url>
 	<inceptionYear>2016</inceptionYear>
 	<organization>
-		<name>ImageJ</name>
-		<url>https://imagej.net/</url>
+		<name>ImgLib2</name>
+		<url>http://imglib2.net/</url>
 	</organization>
 	<licenses>
 		<license>
@@ -71,6 +71,15 @@
 				<role>developer</role>
 			</roles>
 		</developer>
+		<developer>
+			<name>Jean-Yves Tinevez</name>
+			<url>https://imagej.net/User:JeanYvesTinevez</url>
+			<roles>
+				<role>developer</role>
+				<role>reviewer</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
 	</developers>
 	<contributors>
 		<!--
@@ -90,22 +99,22 @@
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:https://github.com/imagej/imagej-mesh</connection>
-		<developerConnection>scm:git:git@github.com:imagej/imagej-mesh</developerConnection>
+		<connection>scm:git:https://github.com/tinevez/imglib2-mesh</connection>
+		<developerConnection>scm:git:git@github.com:tinevez/imglib2-mesh</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/imagej/imagej-mesh</url>
+		<url>https://github.com/tinevez/imglib2-mesh</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/imagej/imagej-mesh/issues</url>
+		<url>https://github.com/tinevez/imglib2-mesh/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>GitHub Actions</system>
-		<url>https://github.com/imagej/imagej-mesh/actions</url>
+		<url>https://github.com/tinevez/imglib2-mesh/actions</url>
 	</ciManagement>
 
 	<properties>
-		<package-name>net.imagej.mesh</package-name>
+		<package-name>net.imglib2.mesh</package-name>
 
 		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>University of Idaho, Royal Veterinary College, and
