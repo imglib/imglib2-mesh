@@ -35,35 +35,44 @@ import org.scijava.util.IntArray;
 
 import net.imglib2.mesh.obj.Mesh;
 
-public class NaiveDoubleMesh implements Mesh {
+public class NaiveDoubleMesh implements Mesh
+{
 
 	private final Vertices vertices;
+
 	private final Triangles triangles;
 
-	public NaiveDoubleMesh() {
+	public NaiveDoubleMesh()
+	{
 		vertices = new Vertices();
 		triangles = new Triangles();
 	}
 
 	@Override
-	public Vertices vertices() {
+	public Vertices vertices()
+	{
 		return vertices;
 	}
 
 	@Override
-	public Triangles triangles() {
+	public Triangles triangles()
+	{
 		return triangles;
 	}
 
 	// -- Inner classes --
 
-	public class Vertices implements net.imglib2.mesh.obj.Vertices {
+	public class Vertices implements net.imglib2.mesh.obj.Vertices
+	{
 
 		private final DoubleArray xs, ys, zs;
+
 		private final DoubleArray nxs, nys, nzs;
+
 		private final DoubleArray us, vs;
 
-		public Vertices() {
+		public Vertices()
+		{
 			xs = new DoubleArray();
 			ys = new DoubleArray();
 			zs = new DoubleArray();
@@ -75,203 +84,224 @@ public class NaiveDoubleMesh implements Mesh {
 		}
 
 		@Override
-		public Mesh mesh() {
+		public Mesh mesh()
+		{
 			return NaiveDoubleMesh.this;
 		}
 
 		@Override
-		public long size() {
+		public long size()
+		{
 			return xs.size();
 		}
 
 		@Override
-		public double x(long vIndex) {
-			return xs.get(safeIndex(vIndex));
+		public double x( long vIndex )
+		{
+			return xs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double y(long vIndex) {
-			return ys.get(safeIndex(vIndex));
+		public double y( long vIndex )
+		{
+			return ys.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double z(long vIndex) {
-			return zs.get(safeIndex(vIndex));
+		public double z( long vIndex )
+		{
+			return zs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double nx(long vIndex) {
-			return nxs.get(safeIndex(vIndex));
+		public double nx( long vIndex )
+		{
+			return nxs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double ny(long vIndex) {
-			return nys.get(safeIndex(vIndex));
+		public double ny( long vIndex )
+		{
+			return nys.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double nz(long vIndex) {
-			return nzs.get(safeIndex(vIndex));
+		public double nz( long vIndex )
+		{
+			return nzs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double u(long vIndex) {
-			return us.get(safeIndex(vIndex));
+		public double u( long vIndex )
+		{
+			return us.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double v(long vIndex) {
-			return vs.get(safeIndex(vIndex));
+		public double v( long vIndex )
+		{
+			return vs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public long add(double x, double y, double z, double nx, double ny, double nz,
-			double u, double v)
+		public long add( double x, double y, double z, double nx, double ny, double nz,
+				double u, double v )
 		{
 			final int index = xs.size();
-			xs.add(x);
-			ys.add(y);
-			zs.add(z);
-			nxs.add(nx);
-			nys.add(ny);
-			nzs.add(nz);
-			us.add(u);
-			vs.add(v);
+			xs.add( x );
+			ys.add( y );
+			zs.add( z );
+			nxs.add( nx );
+			nys.add( ny );
+			nzs.add( nz );
+			us.add( u );
+			vs.add( v );
 			return index;
 		}
 
 		@Override
-		public void set(long vIndex, double x, double y, double z, double nx, double ny,
-			double nz, double u, double v)
+		public void set( long vIndex, double x, double y, double z, double nx, double ny,
+				double nz, double u, double v )
 		{
-			final int index = safeIndex(vIndex);
-			xs.set(index, x);
-			ys.set(index, y);
-			zs.set(index, z);
-			nxs.set(index, nx);
-			nys.set(index, ny);
-			nzs.set(index, nz);
-			us.set(index, u);
-			vs.set(index, v);
+			final int index = safeIndex( vIndex );
+			xs.set( index, x );
+			ys.set( index, y );
+			zs.set( index, z );
+			nxs.set( index, nx );
+			nys.set( index, ny );
+			nzs.set( index, nz );
+			us.set( index, u );
+			vs.set( index, v );
 		}
 
 		@Override
-		public void setPosition(final long vIndex, final double x,
-			final double y, final double z)
+		public void setPosition( final long vIndex, final double x,
+				final double y, final double z )
 		{
-			final int index = safeIndex(vIndex);
-			xs.set(index, x);
-			ys.set(index, y);
-			zs.set(index, z);
+			final int index = safeIndex( vIndex );
+			xs.set( index, x );
+			ys.set( index, y );
+			zs.set( index, z );
 		}
 
 		@Override
-		public void setNormal(final long vIndex, final double nx,
-			final double ny, final double nz)
+		public void setNormal( final long vIndex, final double nx,
+				final double ny, final double nz )
 		{
-			final int index = safeIndex(vIndex);
-			nxs.set(index, nx);
-			nys.set(index, ny);
-			nzs.set(index, nz);
+			final int index = safeIndex( vIndex );
+			nxs.set( index, nx );
+			nys.set( index, ny );
+			nzs.set( index, nz );
 		}
 
 		@Override
-		public void setTexture(final long vIndex, final double u,
-			final double v)
+		public void setTexture( final long vIndex, final double u,
+				final double v )
 		{
-			final int index = safeIndex(vIndex);
-			us.set(index, u);
-			vs.set(index, v);
+			final int index = safeIndex( vIndex );
+			us.set( index, u );
+			vs.set( index, v );
 		}
 
-		private int safeIndex(final long index) {
-			if (index > Integer.MAX_VALUE) {
-				throw new IndexOutOfBoundsException("Index too large: " + index);
-			}
-			return (int) index;
-		}
-
-		@Override
-		public float xf(long vIndex) {
-			return (float) x(vIndex);
-		}
-
-		@Override
-		public float yf(long vIndex) {
-			return (float) y(vIndex);
-		}
-
-		@Override
-		public float zf(long vIndex) {
-			return (float) z(vIndex);
-		}
-
-		@Override
-		public float nxf(long vIndex) {
-			return (float) nx(vIndex);
-		}
-
-		@Override
-		public float nyf(long vIndex) {
-			return (float) ny(vIndex);
-		}
-
-		@Override
-		public float nzf(long vIndex) {
-			return (float) nz(vIndex);
-		}
-
-		@Override
-		public float uf(long vIndex) {
-			return (float) u(vIndex);
-		}
-
-		@Override
-		public float vf(long vIndex) {
-			return (float) v(vIndex);
-		}
-
-		@Override
-		public long addf(float x, float y, float z, float nx, float ny, float nz,
-			float u, float v)
+		private int safeIndex( final long index )
 		{
-			return add(x, y, z, nx, ny, nz, u, v);
+			if ( index > Integer.MAX_VALUE )
+			{ throw new IndexOutOfBoundsException( "Index too large: " + index ); }
+			return ( int ) index;
 		}
 
 		@Override
-		public void setf(long vIndex, float x, float y, float z, float nx, float ny,
-			float nz, float u, float v)
+		public float xf( long vIndex )
 		{
-			set(vIndex, x, y, z, nx, ny, nz, u, v);
+			return ( float ) x( vIndex );
 		}
 
 		@Override
-		public void setPositionf(final long vIndex, final float x,
-			final float y, final float z)
+		public float yf( long vIndex )
 		{
-			setPosition(vIndex, x, y, z);
+			return ( float ) y( vIndex );
 		}
 
 		@Override
-		public void setNormalf(final long vIndex, final float nx,
-			final float ny, final float nz)
+		public float zf( long vIndex )
 		{
-			setNormal(vIndex, nx, ny, nz);
+			return ( float ) z( vIndex );
 		}
 
 		@Override
-		public void setTexturef(final long vIndex, final float u, final float v)
+		public float nxf( long vIndex )
 		{
-			setTexture(vIndex, u, v);
+			return ( float ) nx( vIndex );
+		}
+
+		@Override
+		public float nyf( long vIndex )
+		{
+			return ( float ) ny( vIndex );
+		}
+
+		@Override
+		public float nzf( long vIndex )
+		{
+			return ( float ) nz( vIndex );
+		}
+
+		@Override
+		public float uf( long vIndex )
+		{
+			return ( float ) u( vIndex );
+		}
+
+		@Override
+		public float vf( long vIndex )
+		{
+			return ( float ) v( vIndex );
+		}
+
+		@Override
+		public long addf( float x, float y, float z, float nx, float ny, float nz,
+				float u, float v )
+		{
+			return add( x, y, z, nx, ny, nz, u, v );
+		}
+
+		@Override
+		public void setf( long vIndex, float x, float y, float z, float nx, float ny,
+				float nz, float u, float v )
+		{
+			set( vIndex, x, y, z, nx, ny, nz, u, v );
+		}
+
+		@Override
+		public void setPositionf( final long vIndex, final float x,
+				final float y, final float z )
+		{
+			setPosition( vIndex, x, y, z );
+		}
+
+		@Override
+		public void setNormalf( final long vIndex, final float nx,
+				final float ny, final float nz )
+		{
+			setNormal( vIndex, nx, ny, nz );
+		}
+
+		@Override
+		public void setTexturef( final long vIndex, final float u, final float v )
+		{
+			setTexture( vIndex, u, v );
 		}
 	}
 
-	public class Triangles implements net.imglib2.mesh.obj.Triangles {
+	public class Triangles implements net.imglib2.mesh.obj.Triangles
+	{
 
 		private final IntArray v0s, v1s, v2s;
+
 		private final DoubleArray nxs, nys, nzs;
 
-		public Triangles() {
+		public Triangles()
+		{
 			v0s = new IntArray();
 			v1s = new IntArray();
 			v2s = new IntArray();
@@ -281,82 +311,95 @@ public class NaiveDoubleMesh implements Mesh {
 		}
 
 		@Override
-		public Mesh mesh() {
+		public Mesh mesh()
+		{
 			return NaiveDoubleMesh.this;
 		}
 
 		@Override
-		public long size() {
+		public long size()
+		{
 			return v1s.size();
 		}
 
 		@Override
-		public long vertex0(long tIndex) {
-			return v0s.get(safeIndex(tIndex));
+		public long vertex0( long tIndex )
+		{
+			return v0s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long vertex1(long tIndex) {
-			return v1s.get(safeIndex(tIndex));
+		public long vertex1( long tIndex )
+		{
+			return v1s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long vertex2(long tIndex) {
-			return v2s.get(safeIndex(tIndex));
+		public long vertex2( long tIndex )
+		{
+			return v2s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public double nx(long tIndex) {
-			return nxs.get(safeIndex(tIndex));
+		public double nx( long tIndex )
+		{
+			return nxs.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public double ny(long tIndex) {
-			return nys.get(safeIndex(tIndex));
+		public double ny( long tIndex )
+		{
+			return nys.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public double nz(long tIndex) {
-			return nzs.get(safeIndex(tIndex));
+		public double nz( long tIndex )
+		{
+			return nzs.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long add(long v0, long v1, long v2, double nx, double ny, double nz) {
+		public long add( long v0, long v1, long v2, double nx, double ny, double nz )
+		{
 			final int index = v0s.size();
-			v0s.add(safeIndex(v0));
-			v1s.add(safeIndex(v1));
-			v2s.add(safeIndex(v2));
-			nxs.add(nx);
-			nys.add(ny);
-			nzs.add(nz);
+			v0s.add( safeIndex( v0 ) );
+			v1s.add( safeIndex( v1 ) );
+			v2s.add( safeIndex( v2 ) );
+			nxs.add( nx );
+			nys.add( ny );
+			nzs.add( nz );
 			return index;
 		}
 
-		private int safeIndex(final long index) {
-			if (index > Integer.MAX_VALUE) {
-				throw new IndexOutOfBoundsException("Index too large: " + index);
-			}
-			return (int) index;
+		private int safeIndex( final long index )
+		{
+			if ( index > Integer.MAX_VALUE )
+			{ throw new IndexOutOfBoundsException( "Index too large: " + index ); }
+			return ( int ) index;
 		}
 
 		@Override
-		public float nxf(long tIndex) {
-			return (float) nx(tIndex);
+		public float nxf( long tIndex )
+		{
+			return ( float ) nx( tIndex );
 		}
 
 		@Override
-		public float nyf(long tIndex) {
-			return (float) ny(tIndex);
+		public float nyf( long tIndex )
+		{
+			return ( float ) ny( tIndex );
 		}
 
 		@Override
-		public float nzf(long tIndex) {
-			return (float) nz(tIndex);
+		public float nzf( long tIndex )
+		{
+			return ( float ) nz( tIndex );
 		}
 
 		@Override
-		public long addf(long v0, long v1, long v2, float nx, float ny, float nz) {
-			return add(v0, v1, v2, nx, ny, nz);
+		public long addf( long v0, long v1, long v2, float nx, float ny, float nz )
+		{
+			return add( v0, v1, v2, nx, ny, nz );
 		}
 	}
 }

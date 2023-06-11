@@ -37,7 +37,8 @@ import java.util.Iterator;
  *
  * @author Curtis Rueden
  */
-public interface Vertices extends Iterable<Vertex> {
+public interface Vertices extends Iterable< Vertex >
+{
 
 	/** The mesh to which the collection of vertices belongs. */
 	Mesh mesh();
@@ -48,383 +49,503 @@ public interface Vertices extends Iterable<Vertex> {
 	/**
 	 * Number of vertices in the collection as an <code>int</code> value.
 	 * 
-	 * @throws RuntimeException if the number of vertices exceed
-	 *                          {@link Integer#MAX_VALUE}.
+	 * @throws RuntimeException
+	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
 	 */
-	default int isize() {
-	    final long size = size();
-	    if (size >= Integer.MAX_VALUE)
-		throw new RuntimeException("Too many vertices: " + size);
-	    return (int) size;
+	default int isize()
+	{
+		final long size = size();
+		if ( size >= Integer.MAX_VALUE )
+			throw new RuntimeException( "Too many vertices: " + size );
+		return ( int ) size;
 	}
 
 	/** X position of a vertex, as a float. */
-	float xf(long vIndex);
+	float xf( long vIndex );
 
 	/** Y position of a vertex, as a float. */
-	float yf(long vIndex);
+	float yf( long vIndex );
 
 	/** Z position of a vertex, as a float. */
-	float zf(long vIndex);
+	float zf( long vIndex );
 
 	/** X coordinate of vertex normal, as a float. */
-	float nxf(long vIndex);
+	float nxf( long vIndex );
 
 	/** Y coordinate of vertex normal, as a float. */
-	float nyf(long vIndex);
+	float nyf( long vIndex );
 
 	/** Z coordinate of vertex normal, as a float. */
-	float nzf(long vIndex);
+	float nzf( long vIndex );
 
 	/** U value of vertex texture coordinate, as a float. */
-	float uf(long vIndex);
+	float uf( long vIndex );
 
 	/** V value of vertex texture coordinate, as a float. */
-	float vf(long vIndex);
+	float vf( long vIndex );
 
 	/**
 	 * Adds a vertex.
 	 *
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
-	 * @param u U value of vertex texture coordinate.
-	 * @param v V value of vertex texture coordinate.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
 	 * @return Index of newly added vertex.
 	 */
-	long addf(float x, float y, float z, //
-		float nx, float ny, float nz, //
-		float u, float v);
+	long addf( float x, float y, float z, //
+			float nx, float ny, float nz, //
+			float u, float v );
 
 	/**
-	 * Adds a vertex, restrictig the number of vertices to be an <code>int</code>.
+	 * Adds a vertex, restrictig the number of vertices to be an
+	 * <code>int</code>.
 	 *
-	 * @param x  X position of the vertex.
-	 * @param y  Y position of the vertex.
-	 * @param z  Z position of the vertex.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
-	 * @param u  U value of vertex texture coordinate.
-	 * @param v  V value of vertex texture coordinate.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
 	 * @return Index of newly added vertex.
-	 * @throws RuntimeException if the number of vertices exceed
-	 *                          {@link Integer#MAX_VALUE}.
+	 * @throws RuntimeException
+	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
 	 */
-	default int addfi(float x, float y, float z, //
-		float nx, float ny, float nz, //
-		float u, float v) {
-	    long vi = addf(x, y, z, nx, ny, nz, u, v);
-	    if (vi >= Integer.MAX_VALUE)
-		throw new RuntimeException("Too many vertices: " + vi);
-	    return (int) vi;
+	default int addfi( float x, float y, float z, //
+			float nx, float ny, float nz, //
+			float u, float v )
+	{
+		long vi = addf( x, y, z, nx, ny, nz, u, v );
+		if ( vi >= Integer.MAX_VALUE )
+			throw new RuntimeException( "Too many vertices: " + vi );
+		return ( int ) vi;
 	}
 
 	/**
 	 * Overwrites a vertex's position, normal and texture coordinates.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
-	 * @param u U value of vertex texture coordinate.
-	 * @param v V value of vertex texture coordinate.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
 	 */
-	void setf(long vIndex, float x, float y, float z, //
-		float nx, float ny, float nz, //
-		float u, float v);
+	void setf( long vIndex, float x, float y, float z, //
+			float nx, float ny, float nz, //
+			float u, float v );
 
 	/**
 	 * Overwrites a vertex's position.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
 	 */
-	void setPositionf(long vIndex, float x, float y, float z);
+	void setPositionf( long vIndex, float x, float y, float z );
 
 	/**
 	 * Overwrites a vertex's normal.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
 	 */
-	void setNormalf(long vIndex, float nx, float ny, float nz);
+	void setNormalf( long vIndex, float nx, float ny, float nz );
 
 	/**
 	 * Overwrites a vertex's texture coordinates.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param u U value of vertex texture coordinate.
-	 * @param v V value of vertex texture coordinate.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
 	 */
-	void setTexturef(long vIndex, float u, float v);
+	void setTexturef( long vIndex, float u, float v );
 
 	/**
 	 * Adds a vertex.
 	 *
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
 	 * @return Index of newly added vertex.
 	 */
-	default long addf(final float x, final float y, final float z) {
-		return addf(x, y, z, 0, 0, 0, 0, 0);
+	default long addf( final float x, final float y, final float z )
+	{
+		return addf( x, y, z, 0, 0, 0, 0, 0 );
 	}
 
 	/**
-	 * Adds a vertex, restricting the number of vertices to be an <code>int</code>.
+	 * Adds a vertex, restricting the number of vertices to be an
+	 * <code>int</code>.
 	 *
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
 	 * @return Index of newly added vertex.
-	 * @throws RuntimeException if the number of vertices exceed Integer.MAX_VALUE.
+	 * @throws RuntimeException
+	 *             if the number of vertices exceed Integer.MAX_VALUE.
 	 */
-	default int addfi(final float x, final float y, final float z) {
-	    return addfi(x, y, z, 0, 0, 0, 0, 0);
+	default int addfi( final float x, final float y, final float z )
+	{
+		return addfi( x, y, z, 0, 0, 0, 0, 0 );
 	}
 
 	/**
 	 * Overwrites the position of a vertex, sets normal and texture coordinates
 	 * to {@code 0}
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
 	 */
-	default void setf(final long vIndex, //
-		final float x, final float y, final float z)
+	default void setf( final long vIndex, //
+			final float x, final float y, final float z )
 	{
-		setf(vIndex, x, y, z, 0, 0, 0, 0, 0);
+		setf( vIndex, x, y, z, 0, 0, 0, 0, 0 );
 	}
 
 	/** X position of a vertex, as a double. */
-	default double x(final long vIndex) {
-		return xf(vIndex);
+	default double x( final long vIndex )
+	{
+		return xf( vIndex );
 	}
 
 	/** Y position of a vertex, as a double. */
-	default double y(final long vIndex) {
-		return yf(vIndex);
+	default double y( final long vIndex )
+	{
+		return yf( vIndex );
 	}
 
 	/** Z position of a vertex, as a double. */
-	default double z(final long vIndex) {
-		return zf(vIndex);
+	default double z( final long vIndex )
+	{
+		return zf( vIndex );
 	}
 
 	/** X coordinate of vertex normal, as a double. */
-	default double nx(final long vIndex) {
-		return nxf(vIndex);
+	default double nx( final long vIndex )
+	{
+		return nxf( vIndex );
 	}
 
 	/** Y coordinate of vertex normal, as a double. */
-	default double ny(final long vIndex) {
-		return nyf(vIndex);
+	default double ny( final long vIndex )
+	{
+		return nyf( vIndex );
 	}
 
 	/** Z coordinate of vertex normal, as a double. */
-	default double nz(final long vIndex) {
-		return nzf(vIndex);
+	default double nz( final long vIndex )
+	{
+		return nzf( vIndex );
 	}
 
 	/** U value of vertex texture coordinate, as a double. */
-	default double u(long vIndex) {
-		return uf(vIndex);
+	default double u( long vIndex )
+	{
+		return uf( vIndex );
 	}
 
 	/** V value of vertex texture coordinate, as a double. */
-	default double v(long vIndex) {
-		return vf(vIndex);
-	}
-
-	/**
-	 * Adds a vertex.
-	 *
-	 * @param x X coordinate of the vertex.
-	 * @param y Y coordinate of the vertex.
-	 * @param z Z coordinate of the vertex.
-	 * @return Index of newly added vertex.
-	 */
-	default long add(final double x, final double y, final double z) {
-		return addf((float) x, (float) y, (float) z);
-	}
-
-	/**
-	 * Adds a vertex, restricting the size of the vertices collection to
-	 * <code>int</code>.
-	 *
-	 * @param x X coordinate of the vertex.
-	 * @param y Y coordinate of the vertex.
-	 * @param z Z coordinate of the vertex.
-	 * @return Index of newly added vertex.
-	 * @throws RuntimeException if the number of vertices exceed
-	 *                          {@link Integer#MAX_VALUE}.
-	 */
-	default int addi(final double x, final double y, final double z) {
-	    return addfi((float) x, (float) y, (float) z);
-	}
-
-	/**
-	 * Adds a vertex.
-	 *
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
-	 * @param u U value of vertex texture coordinate.
-	 * @param v V value of vertex texture coordinate.
-	 * @return Index of newly added vertex.
-	 */
-	default long add(double x, double y, double z, //
-		double nx, double ny, double nz, //
-		double u, double v)
+	default double v( long vIndex )
 	{
-		return addf((float) x, (float) y, (float) z, //
-			(float) nx, (float) ny, (float) nz, //
-			(float) u, (float) v);
+		return vf( vIndex );
+	}
+
+	/**
+	 * Adds a vertex.
+	 *
+	 * @param x
+	 *            X coordinate of the vertex.
+	 * @param y
+	 *            Y coordinate of the vertex.
+	 * @param z
+	 *            Z coordinate of the vertex.
+	 * @return Index of newly added vertex.
+	 */
+	default long add( final double x, final double y, final double z )
+	{
+		return addf( ( float ) x, ( float ) y, ( float ) z );
 	}
 
 	/**
 	 * Adds a vertex, restricting the size of the vertices collection to
 	 * <code>int</code>.
 	 *
-	 * @param x  X position of the vertex.
-	 * @param y  Y position of the vertex.
-	 * @param z  Z position of the vertex.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
-	 * @param u  U value of vertex texture coordinate.
-	 * @param v  V value of vertex texture coordinate.
+	 * @param x
+	 *            X coordinate of the vertex.
+	 * @param y
+	 *            Y coordinate of the vertex.
+	 * @param z
+	 *            Z coordinate of the vertex.
 	 * @return Index of newly added vertex.
-	 * @throws RuntimeException if the number of vertices exceed
-	 *                          {@link Integer#MAX_VALUE}.
+	 * @throws RuntimeException
+	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
 	 */
-	default int addi(double x, double y, double z, //
-		double nx, double ny, double nz, //
-		double u, double v) {
-	    return addfi((float) x, (float) y, (float) z, //
-		    (float) nx, (float) ny, (float) nz, //
-		    (float) u, (float) v);
+	default int addi( final double x, final double y, final double z )
+	{
+		return addfi( ( float ) x, ( float ) y, ( float ) z );
+	}
+
+	/**
+	 * Adds a vertex.
+	 *
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
+	 * @return Index of newly added vertex.
+	 */
+	default long add( double x, double y, double z, //
+			double nx, double ny, double nz, //
+			double u, double v )
+	{
+		return addf( ( float ) x, ( float ) y, ( float ) z, //
+				( float ) nx, ( float ) ny, ( float ) nz, //
+				( float ) u, ( float ) v );
+	}
+
+	/**
+	 * Adds a vertex, restricting the size of the vertices collection to
+	 * <code>int</code>.
+	 *
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
+	 * @return Index of newly added vertex.
+	 * @throws RuntimeException
+	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
+	 */
+	default int addi( double x, double y, double z, //
+			double nx, double ny, double nz, //
+			double u, double v )
+	{
+		return addfi( ( float ) x, ( float ) y, ( float ) z, //
+				( float ) nx, ( float ) ny, ( float ) nz, //
+				( float ) u, ( float ) v );
 	}
 
 	/**
 	 * Overwrites the position of a vertex, sets normal and texture coordinates
 	 * to {@code 0}
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
 	 */
-	default void set(final long vIndex, final double x, final double y,
-		final double z)
+	default void set( final long vIndex, final double x, final double y,
+			final double z )
 	{
-		set(vIndex, x, y, z, 0, 0, 0, 0, 0);
+		set( vIndex, x, y, z, 0, 0, 0, 0, 0 );
 	}
 
 	/**
 	 * Overwrites a vertex's position, normal and texture coordinates.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
-	 * @param u U value of vertex texture coordinate.
-	 * @param v V value of vertex texture coordinate.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
 	 */
-	default void set(final long vIndex, final double x, final double y,
-		final double z, //
-		final double nx, final double ny, final double nz, //
-		final double u, final double v)
+	default void set( final long vIndex, final double x, final double y,
+			final double z, //
+			final double nx, final double ny, final double nz, //
+			final double u, final double v )
 	{
-		setf(vIndex, (float) x, (float) y, (float) z, //
-			(float) nx, (float) ny, (float) nz, //
-			(float) u, (float) v);
+		setf( vIndex, ( float ) x, ( float ) y, ( float ) z, //
+				( float ) nx, ( float ) ny, ( float ) nz, //
+				( float ) u, ( float ) v );
 	}
 
 	/**
 	 * Overwrites a vertex's position.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param x X position of the vertex.
-	 * @param y Y position of the vertex.
-	 * @param z Z position of the vertex.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param x
+	 *            X position of the vertex.
+	 * @param y
+	 *            Y position of the vertex.
+	 * @param z
+	 *            Z position of the vertex.
 	 */
-	default void setPosition(final long vIndex, final double x, final double y,
-		final double z)
+	default void setPosition( final long vIndex, final double x, final double y,
+			final double z )
 	{
-		setPositionf(vIndex, (float) x, (float) y, (float) z);
+		setPositionf( vIndex, ( float ) x, ( float ) y, ( float ) z );
 	}
 
 	/**
 	 * Overwrites a vertex's normal.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param nx X coordinate of the vertex's normal.
-	 * @param ny Y coordinate of the vertex's normal.
-	 * @param nz Z coordinate of the vertex's normal.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param nx
+	 *            X coordinate of the vertex's normal.
+	 * @param ny
+	 *            Y coordinate of the vertex's normal.
+	 * @param nz
+	 *            Z coordinate of the vertex's normal.
 	 */
-	default void setNormal(final long vIndex, final double nx, final double ny,
-		final double nz)
+	default void setNormal( final long vIndex, final double nx, final double ny,
+			final double nz )
 	{
-		setNormalf(vIndex, (float) nx, (float) ny, (float) nz);
+		setNormalf( vIndex, ( float ) nx, ( float ) ny, ( float ) nz );
 	}
 
 	/**
 	 * Overwrites a vertex's texture coordinates.
 	 *
-	 * @param vIndex Index of vertex to overwrite.
-	 * @param u U value of vertex texture coordinate.
-	 * @param v V value of vertex texture coordinate.
+	 * @param vIndex
+	 *            Index of vertex to overwrite.
+	 * @param u
+	 *            U value of vertex texture coordinate.
+	 * @param v
+	 *            V value of vertex texture coordinate.
 	 */
-	default void setTexture(final long vIndex, final double u, final double v)
+	default void setTexture( final long vIndex, final double u, final double v )
 	{
-		setTexturef(vIndex, (float) u, (float) v);
+		setTexturef( vIndex, ( float ) u, ( float ) v );
 	}
-
 
 	// -- Iterable methods --
 
 	@Override
-	default Iterator<Vertex> iterator() {
-		return new Iterator<Vertex>() {
+	default Iterator< Vertex > iterator()
+	{
+		return new Iterator< Vertex >()
+		{
 
 			private long index = -1;
 
-			private Vertex vertex = new Vertex() {
+			private Vertex vertex = new Vertex()
+			{
 
 				@Override
-				public Mesh mesh() { return Vertices.this.mesh(); }
+				public Mesh mesh()
+				{
+					return Vertices.this.mesh();
+				}
 
 				@Override
-				public long index() { return index; }
+				public long index()
+				{
+					return index;
+				}
 			};
 
 			@Override
-			public boolean hasNext() {
+			public boolean hasNext()
+			{
 				return index + 1 < size();
 			}
 
 			@Override
-			public Vertex next() {
+			public Vertex next()
+			{
 				index++;
 				return vertex;
 			}

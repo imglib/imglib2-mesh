@@ -39,10 +39,12 @@ import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
  *
  * @author Curtis Rueden
  */
-public class NaiveDoubleMeshTest extends AbstractMeshTest {
+public class NaiveDoubleMeshTest extends AbstractMeshTest
+{
 
 	@Override
-	public Mesh createMesh() {
+	public Mesh createMesh()
+	{
 		return new NaiveDoubleMesh();
 	}
 }

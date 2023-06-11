@@ -39,10 +39,12 @@ import net.imglib2.mesh.obj.nio.BufferMesh;
  *
  * @author Curtis Rueden
  */
-public class BufferMeshTest extends AbstractMeshTest {
+public class BufferMeshTest extends AbstractMeshTest
+{
 
 	@Override
-	public Mesh createMesh() {
-		return new BufferMesh(100, 100);
+	public Mesh createMesh()
+	{
+		return new BufferMesh( 100, 100 );
 	}
 }

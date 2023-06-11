@@ -83,7 +83,8 @@ package net.imglib2.mesh.obj;
  *
  * @author Curtis Rueden
  */
-public interface Mesh {
+public interface Mesh
+{
 
 	/** The mesh's collection of vertices. */
 	Vertices vertices();

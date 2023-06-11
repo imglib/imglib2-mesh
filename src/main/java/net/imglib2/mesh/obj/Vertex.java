@@ -38,7 +38,8 @@ import net.imglib2.RealLocalizable;
  * @author Curtis Rueden
  * @see Vertices
  */
-public interface Vertex extends RealLocalizable {
+public interface Vertex extends RealLocalizable
+{
 
 	/**
 	 * The mesh to which the vertex belongs.
@@ -51,131 +52,154 @@ public interface Vertex extends RealLocalizable {
 	long index();
 
 	/** X position of vertex, as a float. */
-	default float xf() {
-		return mesh().vertices().xf(index());
+	default float xf()
+	{
+		return mesh().vertices().xf( index() );
 	}
 
 	/** Y position of vertex, as a float. */
-	default float yf() {
-		return mesh().vertices().yf(index());
+	default float yf()
+	{
+		return mesh().vertices().yf( index() );
 	}
 
 	/** Z position of vertex, as a float. */
-	default float zf() {
-		return mesh().vertices().zf(index());
+	default float zf()
+	{
+		return mesh().vertices().zf( index() );
 	}
 
 	/** X coordinate of vertex normal, as a float. */
-	default float nxf() {
-		return mesh().vertices().nxf(index());
+	default float nxf()
+	{
+		return mesh().vertices().nxf( index() );
 	}
 
 	/** Y coordinate of vertex normal, as a float. */
-	default float nyf() {
-		return mesh().vertices().nyf(index());
+	default float nyf()
+	{
+		return mesh().vertices().nyf( index() );
 	}
 
 	/** Z coordinate of vertex normal, as a float. */
-	default float nzf() {
-		return mesh().vertices().nzf(index());
+	default float nzf()
+	{
+		return mesh().vertices().nzf( index() );
 	}
 
 	/** U value of vertex texture coordinate, as a float. */
-	default float uf() {
-		return mesh().vertices().uf(index());
+	default float uf()
+	{
+		return mesh().vertices().uf( index() );
 	}
 
 	/** V value of vertex texture coordinate, as a float. */
-	default float vf() {
-		return mesh().vertices().vf(index());
+	default float vf()
+	{
+		return mesh().vertices().vf( index() );
 	}
 
 	/** X position of vertex, as a double. */
-	default double x() {
-		return mesh().vertices().x(index());
+	default double x()
+	{
+		return mesh().vertices().x( index() );
 	}
 
 	/** Y position of vertex, as a double. */
-	default double y() {
-		return mesh().vertices().y(index());
+	default double y()
+	{
+		return mesh().vertices().y( index() );
 	}
 
 	/** Z position of vertex, as a double. */
-	default double z() {
-		return mesh().vertices().z(index());
+	default double z()
+	{
+		return mesh().vertices().z( index() );
 	}
 
 	/** X coordinate of vertex normal, as a double. */
-	default double nx() {
-		return mesh().vertices().nx(index());
+	default double nx()
+	{
+		return mesh().vertices().nx( index() );
 	}
 
 	/** Y coordinate of vertex normal, as a double. */
-	default double ny() {
-		return mesh().vertices().ny(index());
+	default double ny()
+	{
+		return mesh().vertices().ny( index() );
 	}
 
 	/** Z coordinate of vertex normal, as a double. */
-	default double nz() {
-		return mesh().vertices().nz(index());
+	default double nz()
+	{
+		return mesh().vertices().nz( index() );
 	}
 
 	/** U value of vertex texture coordinate, as a double. */
-	default double u() {
-		return mesh().vertices().u(index());
+	default double u()
+	{
+		return mesh().vertices().u( index() );
 	}
 
 	/** V value of vertex texture coordinate, as a double. */
-	default double v() {
-		return mesh().vertices().v(index());
+	default double v()
+	{
+		return mesh().vertices().v( index() );
 	}
 
 	// -- RealLocalizable methods --
 
 	@Override
-	default void localize(final float[] position) {
-		position[0] = xf();
-		position[1] = yf();
-		position[2] = zf();
+	default void localize( final float[] position )
+	{
+		position[ 0 ] = xf();
+		position[ 1 ] = yf();
+		position[ 2 ] = zf();
 	}
 
 	@Override
-	default void localize(final double[] position) {
-		position[0] = x();
-		position[1] = y();
-		position[2] = z();
+	default void localize( final double[] position )
+	{
+		position[ 0 ] = x();
+		position[ 1 ] = y();
+		position[ 2 ] = z();
 	}
 
 	@Override
-	default float getFloatPosition(final int d) {
-		switch (d) {
-			case 0:
-				return xf();
-			case 1:
-				return yf();
-			case 2:
-				return zf();
+	default float getFloatPosition( final int d )
+	{
+		switch ( d )
+		{
+		case 0:
+			return xf();
+		case 1:
+			return yf();
+		case 2:
+			return zf();
 		}
-		throw new IndexOutOfBoundsException("" + d);
+		throw new IndexOutOfBoundsException( "" + d );
 	}
 
 	@Override
-	default double getDoublePosition(final int d) {
-		switch (d) {
-			case 0:
-				return x();
-			case 1:
-				return y();
-			case 2:
-				return z();
+	default double getDoublePosition( final int d )
+	{
+		switch ( d )
+		{
+		case 0:
+			return x();
+		case 1:
+			return y();
+		case 2:
+			return z();
 		}
-		throw new IndexOutOfBoundsException("" + d);
+		throw new IndexOutOfBoundsException( "" + d );
 	}
 
 	// -- EuclideanSpace methods --
 
 	@Override
-	default int numDimensions() {
+	default int numDimensions()
+	{
 		return 3;
 	}
 }

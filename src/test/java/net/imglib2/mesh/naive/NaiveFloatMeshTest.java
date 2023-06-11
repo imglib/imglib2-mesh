@@ -39,10 +39,12 @@ import net.imglib2.mesh.obj.naive.NaiveFloatMesh;
  *
  * @author Curtis Rueden
  */
-public class NaiveFloatMeshTest extends AbstractMeshTest {
+public class NaiveFloatMeshTest extends AbstractMeshTest
+{
 
 	@Override
-	public Mesh createMesh() {
+	public Mesh createMesh()
+	{
 		return new NaiveFloatMesh();
 	}
 }
