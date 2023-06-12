@@ -27,7 +27,7 @@ public class MeshIterable< T > implements IterableInterval< T >
 	 * the pixel coordinates into mesh coordinates. Recompute the mesh
 	 * bounding-box.
 	 * 
-	 * @param img
+	 * @param ra
 	 *            the random accessible to iterate over. It is the caller
 	 *            responsibility to ensure the random accessible is extended to
 	 *            accommodate the mesh coordinates.
@@ -48,7 +48,7 @@ public class MeshIterable< T > implements IterableInterval< T >
 	 * specified mesh. A calibration array (pixel sizes) is used to transform
 	 * the pixel coordinates into mesh coordinates.
 	 * 
-	 * @param img
+	 * @param ra
 	 *            the random accessible to iterate over. It is the caller
 	 *            responsibility to ensure the random accessible is extended to
 	 *            accommodate the mesh coordinates.
