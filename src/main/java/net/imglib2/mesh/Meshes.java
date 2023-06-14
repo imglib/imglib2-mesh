@@ -33,6 +33,8 @@ package net.imglib2.mesh;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.MarchingCubesBooleanType;
@@ -374,5 +376,32 @@ public class Meshes
 			final double z = vertices.z( i );
 			vertices.set( i, x * scale[ 0 ], y * scale[ 1 ], z * scale[ 2 ] );
 		}
+	}
+
+	/**
+	 * Returns the surface area of a mesh.
+	 * <p>
+	 * It is computed as the sum of the are of the outwards-facing triangles.
+	 * 
+	 * @param mesh
+	 *            the input mesh.
+	 * @return the mesh surface area.
+	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 */
+	public static double surfaceArea( final Mesh mesh )
+	{
+		double total = 0;
+		for ( final Triangle tri : mesh.triangles() )
+		{
+			final Vector3D v0 = new Vector3D( tri.v0x(), tri.v0y(), tri.v0z() );
+			final Vector3D v1 = new Vector3D( tri.v1x(), tri.v1y(), tri.v1z() );
+			final Vector3D v2 = new Vector3D( tri.v2x(), tri.v2y(), tri.v2z() );
+
+			final Vector3D cross = v0.subtract( v1 ).crossProduct( v2.subtract( v0 ) );
+			final double norm = cross.getNorm();
+			if ( norm > 0 )
+				total += norm * 0.5;
+		}
+		return total;
 	}
 }
