@@ -136,7 +136,7 @@ public class MeshShapeDescriptors
 	 * Returns the convexity of a mesh.
 	 * <p>
 	 * The convexity is computed as the ratio between the surface area of the
-	 * mesh and the surface area of its convex hull.
+	 * convex hull and the surface area of the mesh.
 	 * 
 	 * @param mesh
 	 *            the input mesh.
@@ -148,7 +148,7 @@ public class MeshShapeDescriptors
 	{
 		final double ra = surfaceArea( mesh );
 		final double raCH = surfaceArea( convexHull );
-		final double convexity = ra / raCH;
+		final double convexity = raCH / ra;
 		return convexity;
 	}
 
