@@ -32,6 +32,32 @@ public class MollerTrumbore
 		this.tmp = new double[ 3 ];
 	}
 
+	/**
+	 * Returns true if the specified ray intersects with the specified triangle
+	 * in the mesh, and if yes, store the position of intersection in an array.
+	 * The intersection is calculated for ray that originates from the point.
+	 * Only one direction is considered.
+	 * 
+	 * @param id
+	 *            the triangle to test.
+	 * @param ox
+	 *            the X position of the ray origin.
+	 * @param oy
+	 *            the Y position of the ray origin.
+	 * @param oz
+	 *            the Z position of the ray origin.
+	 * @param rx
+	 *            the X coordinate of the ray vector.
+	 * @param ry
+	 *            the Y coordinate of the ray vector.
+	 * @param rz
+	 *            the Z coordinate of the ray vector.
+	 * @param intersection
+	 *            a <code>double[]</code> array of at least 3 elements to store
+	 *            the intersection position. Is not modified if the ray does not
+	 *            intersect the triangle.
+	 * @return <code>true</code> if the ray intersects the triangle.
+	 */
 	public boolean rayIntersectsTriangle( final long id, final double ox, final double oy, final double oz,
 			final double rx, final double ry, final double rz, final double[] intersection )
 	{
@@ -86,12 +112,14 @@ public class MollerTrumbore
 		if ( v < 0. || u + v > 1. )
 			return false;
 
-		// We have an infinite line intersection.
 		final double t = f * dot( e2x, e2y, e2z, qx, qy, qz );
+		// We have an infinite line intersection.
+		if ( t < EPSILON )
+			return false;
+
 		intersection[ 0 ] = ox + t * rx;
 		intersection[ 1 ] = oy + t * ry;
 		intersection[ 2 ] = oy + t * rz;
-
 		return true;
 	}
 
