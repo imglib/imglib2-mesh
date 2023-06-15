@@ -1,5 +1,9 @@
 package net.imglib2.mesh.alg.zslicer;
 
+import static net.imglib2.mesh.util.MeshUtil.maxZ;
+import static net.imglib2.mesh.util.MeshUtil.minZ;
+import static net.imglib2.mesh.util.MeshUtil.mround;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -363,13 +367,6 @@ public class ZSlicer
 		}
 	}
 
-	static final double mround( final double v, final double eps, final int mod, final int rem )
-	{
-		final long y = Math.round( v / ( mod * eps ) );
-		final double z = ( y * mod + rem ) * eps;
-		return z;
-	}
-
 	static final class Segment implements Comparable< Segment >
 	{
 
@@ -421,23 +418,5 @@ public class ZSlicer
 		final double x = xs + t * ( xt - xs );
 		final double y = ys + t * ( yt - ys );
 		return new double[] { x, y };
-	}
-
-	private static final double minZ( final Vertices vertices, final long v0, final long v1, final long v2,
-			final double eps )
-	{
-		final double z0 = mround( vertices.z( v0 ), eps, 2, 0 );
-		final double z1 = mround( vertices.z( v1 ), eps, 2, 0 );
-		final double z2 = mround( vertices.z( v2 ), eps, 2, 0 );
-		return Math.min( z0, Math.min( z1, z2 ) );
-	}
-
-	private static final double maxZ( final Vertices vertices, final long v0, final long v1, final long v2,
-			final double eps )
-	{
-		final double z0 = mround( vertices.z( v0 ), eps, 2, 0 );
-		final double z1 = mround( vertices.z( v1 ), eps, 2, 0 );
-		final double z2 = mround( vertices.z( v2 ), eps, 2, 0 );
-		return Math.max( z0, Math.max( z1, z2 ) );
 	}
 }

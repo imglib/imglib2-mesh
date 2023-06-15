@@ -1,7 +1,7 @@
 package net.imglib2.mesh.alg.zslicer;
 
 import static net.imglib2.mesh.alg.zslicer.ZSlicer.EPS;
-import static net.imglib2.mesh.alg.zslicer.ZSlicer.mround;
+import static net.imglib2.mesh.util.MeshUtil.mround;
 
 import java.util.ArrayList;
 import java.util.Collection;

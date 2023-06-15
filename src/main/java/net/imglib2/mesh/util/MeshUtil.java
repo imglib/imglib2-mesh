@@ -2,6 +2,7 @@ package net.imglib2.mesh.util;
 
 import net.imglib2.RealInterval;
 import net.imglib2.mesh.Meshes;
+import net.imglib2.mesh.obj.Vertices;
 import net.imglib2.util.Intervals;
 
 public class MeshUtil
@@ -112,4 +113,82 @@ public class MeshUtil
 	{
 		return String.format( "E: (%d -> %d)", edgeV1( l ), edgeV2( l ) );
 	}
+
+	/**
+	 * Rounds a position to a multiple of small number, plus reminder. This is
+	 * used typically to ensure a ray will not cross a vertex in a mesh, causing
+	 * a singularity.
+	 * 
+	 * @param v
+	 *            the value to round.
+	 * @param eps
+	 *            the scale to round to.
+	 * @param mod
+	 *            the number of time eps to round. For instance if you put 2,
+	 *            everything will be a multiple of 2*eps.
+	 * @param rem
+	 *            the remainder to add to the rounded value. For instance if you
+	 *            put a remainder of 1 and a mod of, all values will be rounded
+	 *            to 2 times eps + eps.
+	 * @return the rounded value.
+	 */
+	public static final double mround( final double v, final double eps, final int mod, final int rem )
+	{
+		final long y = Math.round( v / ( mod * eps ) );
+		final double z = ( y * mod + rem ) * eps;
+		return z;
+	}
+
+	/**
+	 * Return the minimal Z value of a given triangle, rounded to twice the
+	 * specified scale.
+	 * 
+	 * @param vertices
+	 *            the vertices structure.
+	 * @param v0
+	 *            the triangle first vertex.
+	 * @param v1
+	 *            the triangle second vertex.
+	 * @param v2
+	 *            the triangle third vertex. Order does not matter.
+	 * @param eps
+	 *            the rounding scale.
+	 * @return the minimal Z value of the triangle, rounded to twice the
+	 *         specified scale.
+	 */
+	public static final double minZ( final Vertices vertices, final long v0, final long v1, final long v2,
+			final double eps )
+	{
+		final double z0 = mround( vertices.z( v0 ), eps, 2, 0 );
+		final double z1 = mround( vertices.z( v1 ), eps, 2, 0 );
+		final double z2 = mround( vertices.z( v2 ), eps, 2, 0 );
+		return Math.min( z0, Math.min( z1, z2 ) );
+	}
+
+	/**
+	 * Return the maximal Z value of a given triangle, rounded to twice the
+	 * specified scale.
+	 * 
+	 * @param vertices
+	 *            the vertices structure.
+	 * @param v0
+	 *            the triangle first vertex.
+	 * @param v1
+	 *            the triangle second vertex.
+	 * @param v2
+	 *            the triangle third vertex. Order does not matter.
+	 * @param eps
+	 *            the rounding scale.
+	 * @return the maximal Z value of the triangle, rounded to twice the
+	 *         specified scale.
+	 */
+	public static final double maxZ( final Vertices vertices, final long v0, final long v1, final long v2,
+			final double eps )
+	{
+		final double z0 = mround( vertices.z( v0 ), eps, 2, 0 );
+		final double z1 = mround( vertices.z( v1 ), eps, 2, 0 );
+		final double z2 = mround( vertices.z( v2 ), eps, 2, 0 );
+		return Math.max( z0, Math.max( z1, z2 ) );
+	}
 }
+
