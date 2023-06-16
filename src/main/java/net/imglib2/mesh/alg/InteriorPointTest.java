@@ -66,7 +66,7 @@ public class InteriorPointTest
 	 * Tmp holder to store triangle intersection coordinates in Moller-Trumbore
 	 * algorithm.
 	 */
-	private double[] intersection;
+	private final double[] intersection;
 
 	public InteriorPointTest( final Mesh mesh, final double scale )
 	{
@@ -101,8 +101,6 @@ public class InteriorPointTest
 
 	public boolean isInside( final RealPoint p )
 	{
-//		final double ox = mround( p.getDoublePosition( 0 ), EPS, 2, 1 );
-//		final double oy = mround( p.getDoublePosition( 1 ), EPS, 2, 1 );
 		final double ox = p.getDoublePosition( 0 );
 		final double oy = p.getDoublePosition( 1 );
 		final double oz = mround( p.getDoublePosition( 2 ), EPS, 2, 1 );
@@ -157,7 +155,7 @@ public class InteriorPointTest
 		double previous = Double.NaN;
 		for ( int i = 0; i < xIntersect.size(); i++ )
 		{
-			double v = xIntersect.get( i );
+			final double v = xIntersect.get( i );
 			if ( v != previous )
 				nCross++;
 
@@ -193,7 +191,7 @@ public class InteriorPointTest
 	 * @return <code>true</code> if the ray intersects the triangle.
 	 */
 	private final boolean rayIntersectsTriangle( final long id, final double ox, final double oy, final double oz,
-			final double rx, final double ry, final double rz, double[] intersection )
+			final double rx, final double ry, final double rz, final double[] intersection )
 	{
 		final long vertex0 = mesh.triangles().vertex0( id );
 		final long vertex1 = mesh.triangles().vertex1( id );
