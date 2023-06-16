@@ -2,6 +2,8 @@ package net.imglib2.mesh.util;
 
 import net.imglib2.RealInterval;
 import net.imglib2.mesh.Meshes;
+import net.imglib2.mesh.obj.Mesh;
+import net.imglib2.mesh.obj.Triangles;
 import net.imglib2.mesh.obj.Vertices;
 import net.imglib2.util.Intervals;
 
@@ -189,6 +191,41 @@ public class MeshUtil
 		final double z1 = mround( vertices.z( v1 ), eps, 2, 0 );
 		final double z2 = mround( vertices.z( v2 ), eps, 2, 0 );
 		return Math.max( z0, Math.max( z1, z2 ) );
+	}
+
+	/**
+	 * Produces a string representation of a triangle.
+	 * 
+	 * @param mesh
+	 *            the mesh.
+	 * @param id
+	 *            the if of the triangle in the mesh.
+	 * @return a string representation.
+	 */
+	public static String triangleStr( final Mesh mesh, final long id )
+	{
+		final Triangles triangles = mesh.triangles();
+		final long vertex0 = triangles.vertex0( id );
+		final long vertex1 = triangles.vertex1( id );
+		final long vertex2 = triangles.vertex2( id );
+
+		final Vertices vertices = mesh.vertices();
+		final double x0 = vertices.x( vertex0 );
+		final double y0 = vertices.y( vertex0 );
+		final double z0 = vertices.z( vertex0 );
+		final double x1 = vertices.x( vertex1 );
+		final double y1 = vertices.y( vertex1 );
+		final double z1 = vertices.z( vertex1 );
+		final double x2 = vertices.x( vertex2 );
+		final double y2 = vertices.y( vertex2 );
+		final double z2 = vertices.z( vertex2 );
+
+		return String.format( "triangle %d: (%.2f, %.2f, %.2f) -> (%.2f, %.2f, %.2f) -> (%.2f, %.2f, %.2f) N = (%.2f, %.2f, %.2f)",
+				id,
+				x0, y0, z0,
+				x1, y1, z1,
+				x2, y2, z2,
+				triangles.nx( id ), triangles.ny( id ), triangles.nz( id ) );
 	}
 }
 
