@@ -6,6 +6,7 @@ import static net.imglib2.mesh.util.MeshUtil.mround;
 
 import java.util.Arrays;
 
+import gnu.trove.list.array.TDoubleArrayList;
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangles;
@@ -58,6 +59,15 @@ public class InteriorPointTest
 	/** Tmp holder used in the Moller-Trumbore algorithm. */
 	private final double[] tmp = new double[ 3 ];
 
+	/** Holder to store X coords of intersection. */
+	private final TDoubleArrayList xIntersect = new TDoubleArrayList();
+
+	/**
+	 * Tmp holder to store triangle intersection coordinates in Moller-Trumbore
+	 * algorithm.
+	 */
+	private double[] intersection;
+
 	public InteriorPointTest( final Mesh mesh, final double scale )
 	{
 		this.mesh = mesh;
@@ -86,12 +96,15 @@ public class InteriorPointTest
 		}
 		this.indexMin = SortArray.quicksort( minZs );
 		this.indices = new int[ indexMin.length ];
+		this.intersection = new double[ 3 ];
 	}
 
 	public boolean isInside( final RealPoint p )
 	{
-		final double ox = mround( p.getDoublePosition( 0 ), EPS, 2, 1 );
-		final double oy = mround( p.getDoublePosition( 1 ), EPS, 2, 1 );
+//		final double ox = mround( p.getDoublePosition( 0 ), EPS, 2, 1 );
+//		final double oy = mround( p.getDoublePosition( 1 ), EPS, 2, 1 );
+		final double ox = p.getDoublePosition( 0 );
+		final double oy = p.getDoublePosition( 1 );
 		final double oz = mround( p.getDoublePosition( 2 ), EPS, 2, 1 );
 
 		// All triangles with minZ < oz
@@ -127,14 +140,32 @@ public class InteriorPointTest
 
 		final int start = k2;
 		final int end = k1;
-		int nCross = 0;
+		xIntersect.resetQuick();
 		for ( int i = start; i < end; i++ )
 		{
 			final int id = indices[ i ];
-			final boolean intersects = rayIntersectsTriangle( id, ox, oy, oz, RX, RY, RZ );
+			final boolean intersects = rayIntersectsTriangle( id, ox, oy, oz, RX, RY, RZ, intersection );
 			if ( intersects )
-				nCross++;
+				xIntersect.add( intersection[ 0 ] );
 		}
+
+		// Sort intersection coords.
+		xIntersect.sort();
+		int nCross = 0;
+
+		// Only consider intersections that change position.
+		double previous = Double.NaN;
+		for ( int i = 0; i < xIntersect.size(); i++ )
+		{
+			double v = xIntersect.get( i );
+			if ( v != previous )
+				nCross++;
+
+			previous = v;
+		}
+
+		// We are inside if we crossed an odd number of non-duplicate
+		// intersections.
 		return ( nCross % 2 ) != 0;
 	}
 
@@ -162,7 +193,7 @@ public class InteriorPointTest
 	 * @return <code>true</code> if the ray intersects the triangle.
 	 */
 	private final boolean rayIntersectsTriangle( final long id, final double ox, final double oy, final double oz,
-			final double rx, final double ry, final double rz )
+			final double rx, final double ry, final double rz, double[] intersection )
 	{
 		final long vertex0 = mesh.triangles().vertex0( id );
 		final long vertex1 = mesh.triangles().vertex1( id );
@@ -219,6 +250,10 @@ public class InteriorPointTest
 		// We have an infinite line intersection.
 		if ( t < EPSILON )
 			return false;
+
+		intersection[ 0 ] = ox + t * rx;
+		intersection[ 1 ] = oy + t * ry;
+		intersection[ 2 ] = oy + t * rz;
 
 		return true;
 	}
