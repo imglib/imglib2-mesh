@@ -29,13 +29,28 @@
  */
 package net.imglib2.mesh;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.Test;
+import org.scijava.util.LongArray;
+
 import io.scif.img.IO;
 import net.imglib2.Point;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
-import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangle;
 import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
@@ -47,21 +62,6 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.view.RandomAccessibleIntervalCursor;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.junit.Test;
-import org.scijava.util.LongArray;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class MeshesTest
 {
@@ -80,7 +80,7 @@ public class MeshesTest
 	public void testRemoveDuplicateVertices()
 	{
 
-		Mesh mesh = createMeshWithNoise();
+		final Mesh mesh = createMeshWithNoise();
 
 		Mesh res = Meshes.removeDuplicateVertices( mesh, 2 );
 		assertEquals( 4, res.vertices().sizel() );
@@ -108,8 +108,8 @@ public class MeshesTest
 	@Test
 	public void testMarchingCubesBooleanType()
 	{
-		LabelRegion< String > ROI = createLabelRegion( getTestImage3D(), 1, 255 );
-		Mesh mesh = getMesh();
+		final LabelRegion< String > ROI = createLabelRegion( getTestImage3D(), 1, 255 );
+		final Mesh mesh = getMesh();
 		final Mesh result = Meshes.marchingCubes( ROI );
 		assertEquals( mesh.triangles().sizel(), result.triangles().sizel() );
 		final Iterator< Triangle > expectedFacets = mesh.triangles().iterator();
@@ -134,8 +134,8 @@ public class MeshesTest
 	@Test
 	public void testMarchingCubesRealType()
 	{
-		LabelRegion< String > ROI = createLabelRegion( getTestImage3D(), 1, 255 );
-		Mesh mesh = getMesh();
+		final LabelRegion< String > ROI = createLabelRegion( getTestImage3D(), 1, 255 );
+		final Mesh mesh = getMesh();
 		final Mesh result = Meshes.marchingCubes( ROI, 1.0 );
 		assertEquals( mesh.triangles().sizel(), result.triangles().sizel() );
 		final Iterator< Triangle > expectedFacets = mesh.triangles().iterator();
@@ -159,7 +159,7 @@ public class MeshesTest
 
 	private static Mesh createMeshWithNoise()
 	{
-		Mesh mesh = new NaiveDoubleMesh();
+		final Mesh mesh = new NaiveDoubleMesh();
 
 		// Make mesh with two triangles sharing two points with each other.
 		// The points are a bit off in the third decimal digit.
@@ -190,7 +190,7 @@ public class MeshesTest
 		{
 			Files.lines( Paths.get( MeshesTest.class.getResource( "/3d_geometric_features_mesh.txt" ).toURI() ) )
 					.forEach( l -> {
-						String[] coord = l.split( " " );
+						final String[] coord = l.split( " " );
 						final double x = Double.parseDouble( coord[ 0 ] );
 						final double y = Double.parseDouble( coord[ 1 ] );
 						final double z = Double.parseDouble( coord[ 2 ] );

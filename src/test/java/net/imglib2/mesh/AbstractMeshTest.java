@@ -30,12 +30,8 @@
 
 package net.imglib2.mesh;
 
-import org.junit.Test;
-
-import net.imglib2.mesh.Meshes;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -43,8 +39,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import org.junit.Test;
+
+import net.imglib2.mesh.obj.Mesh;
+import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.obj.nio.BufferMesh;
 
 /**
  * Tests for {@link Mesh}.
@@ -155,19 +154,19 @@ public abstract class AbstractMeshTest
 	public void testTriangleNormal() throws URISyntaxException, IOException
 	{
 
-		Mesh inputMesh = new NaiveDoubleMesh();
+		final Mesh inputMesh = new NaiveDoubleMesh();
 		inputMesh.vertices().add( 1, 1, 1 );
 		inputMesh.vertices().add( 1, -1, 1 );
 		inputMesh.vertices().add( 1, 0, -1 );
 		inputMesh.triangles().add( 0, 1, 2, 1, 0, 0 );
 
-		Mesh lazyInputMesh = new NaiveDoubleMesh();
+		final Mesh lazyInputMesh = new NaiveDoubleMesh();
 		lazyInputMesh.vertices().add( 1, 1, 1 );
 		lazyInputMesh.vertices().add( 1, -1, 1 );
 		lazyInputMesh.vertices().add( 1, 0, -1 );
 		lazyInputMesh.triangles().add( 0, 1, 2 );
 
-		Mesh outMesh = new BufferMesh( ( int ) inputMesh.vertices().sizel(), ( int ) inputMesh.triangles().sizel() );
+		final Mesh outMesh = new BufferMesh( inputMesh.vertices().size(), inputMesh.triangles().size() );
 		Meshes.calculateNormals( inputMesh, outMesh );
 
 		for ( int idx = 0; idx < inputMesh.triangles().sizel(); idx++ )
@@ -179,15 +178,15 @@ public abstract class AbstractMeshTest
 		}
 	}
 
-	private void assertTriangleNormal( Mesh mesh, long tIndex, //
-			double nx, double ny, double nz )
+	private void assertTriangleNormal( final Mesh mesh, final long tIndex, //
+			final double nx, final double ny, final double nz )
 	{
 		// We know that our normal calculation does normalization, let's
 		// pre-normalize input normals
-		double mx = mesh.triangles().nx( tIndex );
-		double my = mesh.triangles().ny( tIndex );
-		double mz = mesh.triangles().nz( tIndex );
-		double meshMag = Math.sqrt( Math.pow( mx, 2 ) + Math.pow( my, 2 ) + Math.pow( mz, 2 ) );
+		final double mx = mesh.triangles().nx( tIndex );
+		final double my = mesh.triangles().ny( tIndex );
+		final double mz = mesh.triangles().nz( tIndex );
+		final double meshMag = Math.sqrt( Math.pow( mx, 2 ) + Math.pow( my, 2 ) + Math.pow( mz, 2 ) );
 		assertEquals( nx, mx / meshMag, 0 );
 		assertEquals( ny, my / meshMag, 0 );
 		assertEquals( nz, mz / meshMag, 0 );
@@ -205,8 +204,8 @@ public abstract class AbstractMeshTest
 //        assertEquals(nz, mz / meshMag, 0.7);
 //    }
 
-	private void assertVertex( Mesh mesh, long vIndex, //
-			double x, double y, double z )
+	private void assertVertex( final Mesh mesh, final long vIndex, //
+			final double x, final double y, final double z )
 	{
 		assertEquals( x, mesh.vertices().x( vIndex ), 0 );
 		assertEquals( y, mesh.vertices().y( vIndex ), 0 );
