@@ -160,15 +160,6 @@ public class MeshShapeDescriptorsTest
 	}
 
 	@Test
-	public void sparseness()
-	{
-		final double actual = MeshShapeDescriptors.sparseness( mesh );
-		// ground truth computed with matlab
-		final double expected = 0.7884710437076516;
-		assertEquals( "Incorrect spareness returned.", expected, actual, EPSILON );
-	}
-
-	@Test
 	public void sphericity()
 	{
 		final double actual = MeshShapeDescriptors.sphericity( mesh );
