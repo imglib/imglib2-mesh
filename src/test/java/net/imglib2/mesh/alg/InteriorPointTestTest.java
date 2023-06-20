@@ -44,22 +44,25 @@ public class InteriorPointTestTest
 		final int length = 20;
 		final Img< BitType > img = ArrayImgs.bits( length, length, length );
 		Views.interval( img, outCube ).forEach( p -> p.set( true ) );
-		final BufferMesh mesh = makeMesh( img );
+		final BufferMesh m2 = makeMesh( img );
 
 		// Move one edge "inside" the cube.
 		final RealPoint v1 = new RealPoint( 11, 13, 10 );
 		final RealPoint v2 = new RealPoint( 11, 13, 11 );
-		for ( final Vertex v : mesh.vertices() )
+		for ( final Vertex v : m2.vertices() )
 		{
 			if ( Localizables.equals( v1, v ) || Localizables.equals( v2, v ) )
 			{
 				final long id = v.index();
-				mesh.vertices().setPosition( id,
+				m2.vertices().setPosition( id,
 						v.getDoublePosition( 0 ),
 						v.getDoublePosition( 1 ) - 1,
 						v.getDoublePosition( 2 ) );
 			}
 		}
+
+		final BufferMesh mesh = new BufferMesh( m2.vertices().isize(), m2.triangles().isize() );
+		Meshes.calculateNormals( m2, mesh );
 
 		/*
 		 * Create one point inside the cube, such that the ray-tracing algo with
