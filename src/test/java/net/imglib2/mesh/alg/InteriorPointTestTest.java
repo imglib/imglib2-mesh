@@ -13,14 +13,66 @@ import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.obj.Mesh;
+import net.imglib2.mesh.obj.Vertex;
 import net.imglib2.mesh.obj.nio.BufferMesh;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.util.Intervals;
+import net.imglib2.util.Localizables;
 import net.imglib2.util.Util;
 import net.imglib2.view.Views;
 
 public class InteriorPointTestTest
 {
+
+	@Test
+	public void testEdgeCase()
+	{
+		/*
+		 * Test the situation where the ray casting algorithm will just cross an
+		 * edge between two triangles with opposite normal. It should make the
+		 * test fail for the current version of the algorithm.
+		 */
+
+		final int minX = 8;
+		final int minY = 8;
+		final int minZ = 8;
+		final int maxX = 13;
+		final int maxY = 13;
+		final int maxZ = 13;
+		final FinalInterval outCube = FinalInterval.createMinMax( minX, minY, minZ, maxX, maxY, maxZ );
+
+		final int length = 20;
+		final Img< BitType > img = ArrayImgs.bits( length, length, length );
+		Views.interval( img, outCube ).forEach( p -> p.set( true ) );
+		final BufferMesh mesh = makeMesh( img );
+
+		// Move one edge "inside" the cube.
+		final RealPoint v1 = new RealPoint( 11, 13, 10 );
+		final RealPoint v2 = new RealPoint( 11, 13, 11 );
+		for ( final Vertex v : mesh.vertices() )
+		{
+			if ( Localizables.equals( v1, v ) || Localizables.equals( v2, v ) )
+			{
+				final long id = v.index();
+				mesh.vertices().setPosition( id,
+						v.getDoublePosition( 0 ),
+						v.getDoublePosition( 1 ) - 1,
+						v.getDoublePosition( 2 ) );
+			}
+		}
+
+		/*
+		 * Create one point inside the cube, such that the ray-tracing algo with
+		 * pass exactly on the aforementioned edge.
+		 */
+		
+		final RealPoint p = new RealPoint( 9.5, 12, 10.5 );
+
+		final boolean expected = true;
+		final boolean actual = new InteriorPointTest( mesh, 1. ).isInside( p );
+		assertEquals( "Point at position " + Util.printCoordinates( p ) + " was not properly located inside the mesh.", expected, actual );
+
+	}
 
 	/*
 	 * Disabled for now:
@@ -130,4 +182,8 @@ public class InteriorPointTestTest
 		return mesh;
 	}
 
+	public static void main( final String[] args )
+	{
+		new InteriorPointTestTest().testEdgeCase();
+	}
 }
