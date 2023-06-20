@@ -2,6 +2,7 @@ package net.imglib2.mesh;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
+import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangle;
@@ -200,5 +201,64 @@ public class MeshShapeDescriptors
 		final double c = s3 / v2;
 		final double compactness = ( 36.0 * Math.PI ) / c;
 		return compactness;
+	}
+
+	/**
+	 * Returns the centroid of the mesh, that is the center of gravity of its
+	 * volume.
+	 * <p>
+	 * (As a side note, {@link Meshes#center(Mesh)} returns the center of
+	 * gravity of the mesh's surface.)
+	 *
+	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 * @param input
+	 *            the input mesh.
+	 * @return the centroid of the mesh.
+	 * @see <a href="http://wwwf.imperial.ac.uk/~rn/centroid.pdf">Calculating
+	 *      the volume and centroid of a polyhedron in 3d</a>.
+	 */
+	public static RealPoint centroid( final Mesh input )
+	{
+		double cX = 0.;
+		double cY = 0.;
+		double cZ = 0.;
+		for ( int i = 0; i < input.triangles().size(); i++ )
+		{
+			final long v0 = input.triangles().vertex0( i );
+			final long v1 = input.triangles().vertex1( i );
+			final long v2 = input.triangles().vertex2( i );
+
+			final double nx = input.triangles().nx( i );
+			final double ny = input.triangles().ny( i );
+			final double nz = input.triangles().nz( i );
+
+			final double v0x = input.vertices().x( v0 );
+			final double v0y = input.vertices().y( v0 );
+			final double v0z = input.vertices().z( v0 );
+			final double v1x = input.vertices().x( v1 );
+			final double v1y = input.vertices().y( v1 );
+			final double v1z = input.vertices().z( v1 );
+			final double v2x = input.vertices().x( v2 );
+			final double v2y = input.vertices().y( v2 );
+			final double v2z = input.vertices().z( v2 );
+
+			cX += ( 1 / 24. ) * nx * ( Math.pow( ( v0x + v1x ), 2 )
+					+ Math.pow( ( v1x + v2x ), 2 )
+					+ Math.pow( ( v2x + v0x ), 2 ) );
+			cY += ( 1 / 24. ) * ny * ( Math.pow( ( v0y + v1y ), 2 )
+					+ Math.pow( ( v1y + v2y ), 2 )
+					+ Math.pow( ( v2y + v0y ), 2 ) );
+			cZ += ( 1 / 24. ) * nz * ( Math.pow( ( v0z + v1z ), 2 )
+					+ Math.pow( ( v1z + v2z ), 2 )
+					+ Math.pow( ( v2z + v0z ), 2 ) );
+		}
+
+		final double v = volume( input );
+		final double d = 1 / ( 2 * v );
+		cX *= d;
+		cY *= d;
+		cZ *= d;
+
+		return new RealPoint( -cX, -cY, -cZ );
 	}
 }
