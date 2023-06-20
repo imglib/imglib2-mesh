@@ -1,8 +1,11 @@
 package net.imglib2.mesh;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 
 import net.imglib2.RealPoint;
+import net.imglib2.mesh.alg.InertiaTensor;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangle;
@@ -260,5 +263,45 @@ public class MeshShapeDescriptors
 		cZ *= d;
 
 		return new RealPoint( -cX, -cY, -cZ );
+	}
+
+	/**
+	 * Returns the sparseness of an object.
+	 * <p>
+	 * The sparseness is calculated as the ratio between the volume of the mesh
+	 * and the volume of the ellipsoid fitted to the mesh inertia tensor. Values
+	 * close to 1 indicate a compact object, and lower values indicate a sparser
+	 * one.
+	 * 
+	 * @param input
+	 *            the input mesh.
+	 * @return the mesh sparseness value.
+	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 */
+	public static double sparseness( final Mesh input )
+	{
+		/*
+		 * This code from Timo is probably based on Thomas Boudier 3D Suite
+		 * plugin, itself inspired from BoneJ:
+		 * https://forum.image.sc/t/3d-shape-plugin/24880/11
+		 */
+		final RealMatrix it = InertiaTensor.calculate( input );
+		final EigenDecomposition ed = new EigenDecomposition( it );
+
+		final double l1 = ed.getRealEigenvalue( 0 ) - ed.getRealEigenvalue( 2 ) + ed.getRealEigenvalue( 1 );
+		final double l2 = ed.getRealEigenvalue( 0 ) - ed.getRealEigenvalue( 1 ) + ed.getRealEigenvalue( 2 );
+		final double l3 = ed.getRealEigenvalue( 2 ) - ed.getRealEigenvalue( 0 ) + ed.getRealEigenvalue( 1 );
+
+		final double g = 1. / ( 8. * Math.PI / 15. );
+
+		final double a = Math.pow( g * l1 * l1 / Math.sqrt( l2 * l3 ), 1 / 5. );
+		final double b = Math.pow( g * l2 * l2 / Math.sqrt( l1 * l3 ), 1 / 5. );
+		final double c = Math.pow( g * l3 * l3 / Math.sqrt( l1 * l2 ), 1 / 5. );
+
+		final double volumeEllipsoid = ( 4. / 3. * Math.PI * a * b * c );
+		final double volume = volume( input );
+
+		final double sparseness = volume / volumeEllipsoid;
+		return sparseness;
 	}
 }
