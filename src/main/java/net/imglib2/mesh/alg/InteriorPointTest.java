@@ -183,6 +183,7 @@ public class InteriorPointTest
 		 * count as crossing the boundary.
 		 * 
 		 * Fantastic drawing that illustrates this situation:
+		 * 
 		 * <pre>
 		 *  _________________________________
 		 *  |                               |
@@ -251,14 +252,14 @@ public class InteriorPointTest
 		final long vertex2 = mesh.triangles().vertex2( id );
 
 		// Coords.
-		final double x0 = mround( mesh.vertices().x( vertex0 ), EPS, 2, 0 );
-		final double y0 = mround( mesh.vertices().y( vertex0 ), EPS, 2, 0 );
+		final double x0 = mesh.vertices().x( vertex0 );
+		final double y0 = mesh.vertices().y( vertex0 );
 		final double z0 = mround( mesh.vertices().z( vertex0 ), EPS, 2, 0 );
-		final double x1 = mround( mesh.vertices().x( vertex1 ), EPS, 2, 0 );
-		final double y1 = mround( mesh.vertices().y( vertex1 ), EPS, 2, 0 );
+		final double x1 = mesh.vertices().x( vertex1 );
+		final double y1 = mesh.vertices().y( vertex1 );
 		final double z1 = mround( mesh.vertices().z( vertex1 ), EPS, 2, 0 );
-		final double x2 = mround( mesh.vertices().x( vertex2 ), EPS, 2, 0 );
-		final double y2 = mround( mesh.vertices().y( vertex2 ), EPS, 2, 0 );
+		final double x2 = mesh.vertices().x( vertex2 );
+		final double y2 = mesh.vertices().y( vertex2 );
 		final double z2 = mround( mesh.vertices().z( vertex2 ), EPS, 2, 0 );
 
 		// Edge 1
