@@ -7,12 +7,16 @@ import static net.imglib2.mesh.util.MeshUtil.mround;
 import java.util.Arrays;
 
 import gnu.trove.list.array.TDoubleArrayList;
+import net.imglib2.RealInterval;
 import net.imglib2.RealPoint;
+import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangles;
 import net.imglib2.mesh.obj.Vertices;
+import net.imglib2.mesh.util.MeshUtil;
 import net.imglib2.mesh.util.SortArray;
 import net.imglib2.mesh.util.SortBy;
+import net.imglib2.util.Intervals;
 
 public class InteriorPointTest
 {
@@ -71,9 +75,17 @@ public class InteriorPointTest
 	 */
 	private final double[] intersection;
 
+	private final RealInterval boundingBox;
+
 	public InteriorPointTest( final Mesh mesh, final double scale )
 	{
+		this( mesh, MeshUtil.toRealInterval( Meshes.boundingBox( mesh ) ), scale );
+	}
+
+	public InteriorPointTest( final Mesh mesh, final RealInterval boundingBox, final double scale )
+	{
 		this.mesh = mesh;
+		this.boundingBox = boundingBox;
 
 		/*
 		 * Slice plane Z positions to odd multiples of eps.
@@ -104,6 +116,11 @@ public class InteriorPointTest
 
 	public boolean isInside( final RealPoint p )
 	{
+		// Test for easy cases.
+		if ( !Intervals.contains( boundingBox, p ) )
+			return false;
+
+		// The rest: ray casting along X.
 		final double ox = p.getDoublePosition( 0 );
 		final double oy = p.getDoublePosition( 1 );
 		final double oz = mround( p.getDoublePosition( 2 ), EPS, 2, 1 );
