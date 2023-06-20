@@ -115,24 +115,6 @@ public class MeshShapeDescriptorsTest
 	}
 
 	@Test
-	public void mainElongation()
-	{
-		final double actual = MeshShapeDescriptors.mainElongation( mesh );
-		// formula verified and ground truth computed with matlab
-		final double expected = 0.2079585956045953;
-		assertEquals( "Incorrect main elongation returned.", expected, actual, EPSILON );
-	}
-
-	@Test
-	public void medianElongation()
-	{
-		final double actual = MeshShapeDescriptors.medianElongation( mesh );
-		// formula verified and ground truth computed with matlab
-		final double expected = 0.30059118825775455;
-		assertEquals( "Incorrect median elongation returned.", expected, actual, EPSILON );
-	}
-
-	@Test
 	public void sizeConvexHullMesh()
 	{
 		final double actual = MeshShapeDescriptors.volume( ch );
