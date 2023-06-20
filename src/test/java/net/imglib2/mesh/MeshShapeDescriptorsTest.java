@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import gnu.trove.list.array.TLongArrayList;
+import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
@@ -41,6 +42,19 @@ public class MeshShapeDescriptorsTest
 		// verified with matlab
 		final double expected = 257.5000;
 		assertEquals( "Incorrect volume for the mesh returned.", expected, actual, EPSILON );
+	}
+
+	@Test
+	public void centroid()
+	{
+		// Computed with MATLAB.
+		final double[] expected = new double[] { 5.812621359223301, 5.777346278317152, 4.818770226537216 };
+		final RealPoint centroid = MeshShapeDescriptors.centroid( mesh );
+		for ( int d = 0; d < expected.length; d++ )
+		{
+			assertEquals( "Incorrect centroid position returned for dimension " + d,
+					expected[ d ], centroid.getDoublePosition( d ), EPSILON );
+		}
 	}
 
 	@Test
