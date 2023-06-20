@@ -172,4 +172,33 @@ public class MeshShapeDescriptors
 		final double sphericity = sphereArea / sa;
 		return sphericity;
 	}
+
+	/**
+	 * Returns the compactness of the mesh.
+	 * 
+	 * Based on: <a href=
+	 * "http://www.sciencedirect.com/science/article/pii/S003132030700324X">Ernesto
+	 * Bribiesca, An easy measure of compactness for 2D and 3D shapes, Pattern
+	 * Recognition, Volume 41, Issue 2, 2008, Pages 543-554, ISSN 0031-3203,
+	 * https://doi.org/10.1016/j.patcog.2007.06.029.</a>
+	 * <p>
+	 * In the paper compactness is defined as <code>area^3/volume^2</code>. For
+	 * a sphere this is minimized and results in <code>36*PI</code>. To get
+	 * values between (0,1] we use <code>(36*PI)/(area^3/volume^2)</code>.
+	 * 
+	 * @param mesh
+	 *            the input mesh.
+	 * @return the mesh compactness value.
+	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 */
+	public static double compactness( final Mesh mesh )
+	{
+		final double sa = surfaceArea( mesh );
+		final double s3 = sa * sa * sa;
+		final double v = volume( mesh );
+		final double v2 = v * v;
+		final double c = s3 / v2;
+		final double compactness = ( 36.0 * Math.PI ) / c;
+		return compactness;
+	}
 }
