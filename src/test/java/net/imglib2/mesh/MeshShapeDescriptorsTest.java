@@ -10,11 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrixChangingVisitor;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import gnu.trove.list.array.TLongArrayList;
 import net.imglib2.RealPoint;
+import net.imglib2.mesh.alg.InertiaTensor;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
@@ -55,6 +58,42 @@ public class MeshShapeDescriptorsTest
 			assertEquals( "Incorrect centroid position returned for dimension " + d,
 					expected[ d ], centroid.getDoublePosition( d ), EPSILON );
 		}
+	}
+
+	@Test
+	public void inertiaTensor()
+	{
+		// Computed with MATLAB.
+		final double[] expected = new double[] {
+				1562.29379719525, 295.17637540453, 22.2193365695803,
+				295.17637540453, 1655.9349244876, 42.0405070118677,
+				22.2193365695803, 42.0405070118677, 2061.54350053937
+		};
+		final RealMatrix it = InertiaTensor.calculate( mesh );
+		it.walkInRowOrder( new RealMatrixChangingVisitor()
+		{
+
+			private int i = 0;
+
+			@Override
+			public double visit( final int row, final int column, final double value )
+			{
+				final double e = expected[ i++ ];
+				assertEquals( "Incorrect inertia tensor value returned for row " + row + " and column " + column,
+						e, value, EPSILON );
+				return 0;
+			}
+
+			@Override
+			public void start( final int rows, final int columns, final int startRow, final int endRow, final int startColumn, final int endColumn )
+			{}
+
+			@Override
+			public double end()
+			{
+				return 0;
+			}
+		} );
 	}
 
 	@Test
