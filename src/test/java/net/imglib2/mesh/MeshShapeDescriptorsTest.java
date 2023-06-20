@@ -37,117 +37,117 @@ public class MeshShapeDescriptorsTest
 	@Test
 	public void compactness()
 	{
-		double actual = MeshShapeDescriptors.compactness( mesh );
+		final double actual = MeshShapeDescriptors.compactness( mesh );
 		// formula verified and ground truth computed with matlab
-		double expected = 0.572416357359835;
+		final double expected = 0.572416357359835;
 		assertEquals( "Incorrect compactness returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void convexityMesh()
 	{
-		double actual = MeshShapeDescriptors.convexity( mesh, ch );
+		final double actual = MeshShapeDescriptors.convexity( mesh, ch );
 		// formula verified and ground truth computed with matlab
-		double expected = 0.983930494866521;
+		final double expected = 0.983930494866521;
 		assertEquals( "Incorrect convexity returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void mainElongation()
 	{
-		double actual = MeshShapeDescriptors.mainElongation( mesh );
+		final double actual = MeshShapeDescriptors.mainElongation( mesh );
 		// formula verified and ground truth computed with matlab
-		double expected = 0.2079585956045953;
+		final double expected = 0.2079585956045953;
 		assertEquals( "Incorrect main elongation returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void medianElongation()
 	{
-		double actual = MeshShapeDescriptors.medianElongation( mesh );
+		final double actual = MeshShapeDescriptors.medianElongation( mesh );
 		// formula verified and ground truth computed with matlab
-		double expected = 0.30059118825775455;
+		final double expected = 0.30059118825775455;
 		assertEquals( "Incorrect median elongation returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void sizeConvexHullMesh()
 	{
-		double actual = MeshShapeDescriptors.volume( ch );
+		final double actual = MeshShapeDescriptors.volume( ch );
 		// ground truth computed with matlab
-		double expected = 304.5;
+		final double expected = 304.5;
 		assertEquals( "Incorrect convex hull volume returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void sizeMesh()
 	{
-		double actual = MeshShapeDescriptors.volume( mesh );
+		final double actual = MeshShapeDescriptors.volume( mesh );
 		// ground truth computed with matlab
-		double expected = 257.5;
+		final double expected = 257.5;
 		assertEquals( "Incorrect mesh volume returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void solidityMesh()
 	{
-		double actual = MeshShapeDescriptors.solidity( mesh, ch );
+		final double actual = MeshShapeDescriptors.solidity( mesh, ch );
 		// ground truth computed with matlab
-		double expected = 0.845648604269294;
+		final double expected = 0.845648604269294;
 		assertEquals( "Incorrect solidity returned.", expected, actual, EPSILON );
 	}
 
 	@Test
-	public void spareness()
+	public void sparseness()
 	{
-		double actual = MeshShapeDescriptors.spareness( mesh );
+		final double actual = MeshShapeDescriptors.sparseness( mesh );
 		// ground truth computed with matlab
-		double expected = 0.7884710437076516;
+		final double expected = 0.7884710437076516;
 		assertEquals( "Incorrect spareness returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void sphericity()
 	{
-		double actual = MeshShapeDescriptors.sphericity( mesh );
+		final double actual = MeshShapeDescriptors.sphericity( mesh );
 		// ground truth computed with matlab
-		double expected = 0.830304411183464;
+		final double expected = 0.830304411183464;
 		assertEquals( "Incorrect sphericity returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void surfaceArea()
 	{
-		double actual = MeshShapeDescriptors.surfaceArea( mesh );
+		final double actual = MeshShapeDescriptors.surfaceArea( mesh );
 		// ground truth computed with matlab
-		double expected = 235.7390893402464;
+		final double expected = 235.7390893402464;
 		assertEquals( "Incorrect surface area returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void surfaceAreaConvexHull()
 	{
-		double actual = MeshShapeDescriptors.surfaceArea( ch );
+		final double actual = MeshShapeDescriptors.surfaceArea( ch );
 		// ground truth computed with matlab
-		double expected = 231.9508788339317;
+		final double expected = 231.9508788339317;
 		assertEquals( "Incorrect convex hull surface area returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void verticesCountConvexHullMesh()
 	{
-		long actual = ch.vertices().size();
+		final long actual = ch.vertices().size();
 		// verified with matlab
-		long expected = 57;
+		final long expected = 57;
 		assertEquals( "Incorrect number of vertices in the convex hull returned.", expected, actual, EPSILON );
 	}
 
 	@Test
 	public void verticesCountMesh()
 	{
-		long actual = mesh.vertices().size();
+		final long actual = mesh.vertices().size();
 		// verified with matlab
-		long expected = 184;
+		final long expected = 184;
 		assertEquals( "Incorrect number of vertices in the mesh returned.", expected, actual, EPSILON );
 	}
 
@@ -161,7 +161,7 @@ public class MeshShapeDescriptorsTest
 		{
 			Files.lines( Paths.get( MeshShapeDescriptorsTest.class.getResource( "3d_geometric_features_mesh.txt" ).toURI() ) )
 					.forEach( l -> {
-						String[] coord = l.split( " " );
+						final String[] coord = l.split( " " );
 						final double x = Double.parseDouble( coord[ 0 ] );
 						final double y = Double.parseDouble( coord[ 1 ] );
 						final double z = Double.parseDouble( coord[ 2 ] );
