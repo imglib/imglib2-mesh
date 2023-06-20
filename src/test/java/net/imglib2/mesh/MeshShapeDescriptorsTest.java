@@ -35,6 +35,15 @@ public class MeshShapeDescriptorsTest
 	}
 
 	@Test
+	public void volume()
+	{
+		final double actual = MeshShapeDescriptors.volume( mesh );
+		// verified with matlab
+		final double expected = 257.5000;
+		assertEquals( "Incorrect volume for the mesh returned.", expected, actual, EPSILON );
+	}
+
+	@Test
 	public void compactness()
 	{
 		final double actual = MeshShapeDescriptors.compactness( mesh );
