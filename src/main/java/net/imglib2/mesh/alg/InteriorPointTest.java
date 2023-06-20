@@ -62,6 +62,9 @@ public class InteriorPointTest
 	/** Holder to store X coords of intersection. */
 	private final TDoubleArrayList xIntersect = new TDoubleArrayList();
 
+	/** Holder to store X normals at the intersection. */
+	private final TDoubleArrayList xNormals = new TDoubleArrayList();
+
 	/**
 	 * Tmp holder to store triangle intersection coordinates in Moller-Trumbore
 	 * algorithm.
@@ -139,27 +142,60 @@ public class InteriorPointTest
 		final int start = k2;
 		final int end = k1;
 		xIntersect.resetQuick();
+		xNormals.resetQuick();
 		for ( int i = start; i < end; i++ )
 		{
 			final int id = indices[ i ];
 			final boolean intersects = rayIntersectsTriangle( id, ox, oy, oz, RX, RY, RZ, intersection );
 			if ( intersects )
+			{
 				xIntersect.add( intersection[ 0 ] );
+				xNormals.add( mesh.triangles().nx( id ) );
+			}
 		}
 
+		if ( xIntersect.size() < 1 )
+			return false;
+
+		/**
+		 * Only consider intersections that are unique. If we have twice the
+		 * same X intersection, then it means we crossed an edge. In that case
+		 * we need to test whether the 2 triangles of this edge are facing the
+		 * same direction. If yes (their normals along x have the same sign), it
+		 * means that we are crossing the mesh boundary. If not, they do not
+		 * count as crossing the boundary.
+		 * 
+		 * Fantastic drawing that illustrates this situation:
+		 * <pre>
+		 *  _________________________________
+		 *  |                               |
+		 *  |                               |
+		 *  |   X --------> .               |
+		 *  |              / \              |
+		 *  |_____________/   \_____________|
+		 * 
+		 * </pre>
+		 * 
+		 * The X point is inside, but the ray-casting will cross the edge
+		 * protruding from the bottom, exactly on the line. In that case this
+		 * should not count as one crossing of the bounds.
+		 */
 		// Sort intersection coords.
 		xIntersect.sort();
 		int nCross = 0;
 
-		// Only consider intersections that change position.
-		double previous = Double.NaN;
+		double previousX = Double.NaN;
+		double previousN = xNormals.get( 0 );
 		for ( int i = 0; i < xIntersect.size(); i++ )
 		{
 			final double v = xIntersect.get( i );
-			if ( v != previous )
+			final double n = xNormals.get( i );
+
+			if ( ( v != previousX ) || ( n * previousN > 0 ) )
 				nCross++;
 
-			previous = v;
+			previousX = v;
+			previousN = n;
 		}
 
 		// We are inside if we crossed an odd number of non-duplicate
