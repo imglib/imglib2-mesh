@@ -11,6 +11,7 @@ import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangle;
 import net.imglib2.mesh.obj.Triangles;
 import net.imglib2.mesh.obj.Vertices;
+import net.imglib2.mesh.util.MeshUtil;
 
 /**
  * Static utilities that compute various shape descriptors of a mesh.
@@ -213,56 +214,65 @@ public class MeshShapeDescriptors
 	 * (As a side note, {@link Meshes#center(Mesh)} returns the center of
 	 * gravity of the mesh's surface.)
 	 *
-	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 * @author Jean-Yves Tinevez
 	 * @param input
 	 *            the input mesh.
 	 * @return the centroid of the mesh.
-	 * @see <a href="http://wwwf.imperial.ac.uk/~rn/centroid.pdf">Calculating
-	 *      the volume and centroid of a polyhedron in 3d</a>.
 	 */
 	public static RealPoint centroid( final Mesh input )
 	{
-		double cX = 0.;
-		double cY = 0.;
-		double cZ = 0.;
+		// Variable names from moment definition.
+		double m100 = 0.;
+		double m010 = 0.;
+		double m001 = 0.;
+		final double[] normals = new double[ 3 ];
 		for ( int i = 0; i < input.triangles().size(); i++ )
 		{
 			final long v0 = input.triangles().vertex0( i );
 			final long v1 = input.triangles().vertex1( i );
 			final long v2 = input.triangles().vertex2( i );
 
-			final double nx = input.triangles().nx( i );
-			final double ny = input.triangles().ny( i );
-			final double nz = input.triangles().nz( i );
+			final double x1 = input.vertices().x( v0 );
+			final double y1 = input.vertices().y( v0 );
+			final double z1 = input.vertices().z( v0 );
+			final double x2 = input.vertices().x( v1 );
+			final double y2 = input.vertices().y( v1 );
+			final double z2 = input.vertices().z( v1 );
+			final double x3 = input.vertices().x( v2 );
+			final double y3 = input.vertices().y( v2 );
+			final double z3 = input.vertices().z( v2 );
 
-			final double v0x = input.vertices().x( v0 );
-			final double v0y = input.vertices().y( v0 );
-			final double v0z = input.vertices().z( v0 );
-			final double v1x = input.vertices().x( v1 );
-			final double v1y = input.vertices().y( v1 );
-			final double v1z = input.vertices().z( v1 );
-			final double v2x = input.vertices().x( v2 );
-			final double v2y = input.vertices().y( v2 );
-			final double v2z = input.vertices().z( v2 );
+			// Non-normalized normals.
+			final double d21x = x2 - x1;
+			final double d21y = y2 - y1;
+			final double d21z = z2 - z1;
+			final double d31x = x3 - x1;
+			final double d31y = y3 - y1;
+			final double d31z = z3 - z1;
+			MeshUtil.cross( d21x, d21y, d21z, d31x, d31y, d31z, normals );
+			final double nx = normals[ 0 ];
+			final double ny = normals[ 1 ];
+			final double nz = normals[ 2 ];
 
-			cX += ( 1 / 24. ) * nx * ( Math.pow( ( v0x + v1x ), 2 )
-					+ Math.pow( ( v1x + v2x ), 2 )
-					+ Math.pow( ( v2x + v0x ), 2 ) );
-			cY += ( 1 / 24. ) * ny * ( Math.pow( ( v0y + v1y ), 2 )
-					+ Math.pow( ( v1y + v2y ), 2 )
-					+ Math.pow( ( v2y + v0y ), 2 ) );
-			cZ += ( 1 / 24. ) * nz * ( Math.pow( ( v0z + v1z ), 2 )
-					+ Math.pow( ( v1z + v2z ), 2 )
-					+ Math.pow( ( v2z + v0z ), 2 ) );
+			final double xx = ( ( x1 + x2 ) * ( x2 + x3 ) + x1 * x1 + x3 * x3 ) / 12.;
+			final double yy = ( ( y1 + y2 ) * ( y2 + y3 ) + y1 * y1 + y3 * y3 ) / 12.;
+			final double zz = ( ( z1 + z2 ) * ( z2 + z3 ) + z1 * z1 + z3 * z3 ) / 12.;
+			
+			final double xy = ( ( x1 + x2 + x3 ) * ( y1 + y2 + y3 ) + x1 * y1 + x2 * y2 + x3 * y3 ) / 24.;
+			final double xz = ( ( x1 + x2 + x3 ) * ( z1 + z2 + z3 ) + x1 * z1 + x2 * z2 + x3 * z3 ) / 24.;
+			final double yz = ( ( y1 + y2 + y3 ) * ( z1 + z2 + z3 ) + y1 * z1 + y2 * z2 + y3 * z3 ) / 24.;
+
+			final double dm100 = ( xx * nx + 2. * xy * ny + 2. * xz * nz ) / 6.;
+			final double dm010 = ( 2. * xy * nx + yy * ny + 2. * yz * nz ) / 6.;
+			final double dm001 = ( 2. * xz * nx + 2. * yz * ny + zz * nz ) / 6.;
+
+			m100 += dm100;
+			m010 += dm010;
+			m001 += dm001;
 		}
 
 		final double v = volume( input );
-		final double d = 1 / ( 2 * v );
-		cX *= d;
-		cY *= d;
-		cZ *= d;
-
-		return new RealPoint( -cX, -cY, -cZ );
+		return new RealPoint( m100 / v, m010 / v, m001 / v );
 	}
 
 	/**
