@@ -85,8 +85,8 @@ public class TaubinSmoothing
 	public static final BufferMesh smooth( final Mesh mesh, final int iters, final double lambda, final double mu,
 			final TaubinWeightType weightType )
 	{
-		final int nvs = ( int ) mesh.vertices().size();
-		final int nts = ( int ) mesh.triangles().size();
+		final int nvs = ( int ) mesh.vertices().sizel();
+		final int nts = ( int ) mesh.triangles().sizel();
 		final BufferMesh meshA = new BufferMesh( nvs, nts );
 		Meshes.copy( mesh, meshA );
 		final BufferMesh meshB = new BufferMesh( nvs, nts );
@@ -114,7 +114,7 @@ public class TaubinSmoothing
 			throw new IllegalArgumentException( "Unhandled weight type: " + weightType );
 		}
 
-		final BufferMesh out = new BufferMesh( ( int ) meshA.vertices().size(), ( int ) meshA.triangles().size() );
+		final BufferMesh out = new BufferMesh( ( int ) meshA.vertices().sizel(), ( int ) meshA.triangles().sizel() );
 		Meshes.calculateNormals( meshA, out );
 		return out;
 	}
@@ -123,8 +123,8 @@ public class TaubinSmoothing
 			final double[] trace, final double weigth )
 	{
 
-		final int nvs = ( int ) source.vertices().size();
-		final int nts = ( int ) source.triangles().size();
+		final int nvs = ( int ) source.vertices().sizel();
+		final int nts = ( int ) source.triangles().sizel();
 
 		// Zero target.
 		for ( int i = 0; i < nvs; i++ )
@@ -205,8 +205,8 @@ public class TaubinSmoothing
 			final double[] trace, final double weigth )
 	{
 
-		final int nvs = ( int ) source.vertices().size();
-		final int nts = ( int ) source.triangles().size();
+		final int nvs = ( int ) source.vertices().sizel();
+		final int nts = ( int ) source.triangles().sizel();
 
 		// Zero target.
 		for ( int i = 0; i < nvs; i++ )

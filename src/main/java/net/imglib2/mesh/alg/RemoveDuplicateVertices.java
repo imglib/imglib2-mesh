@@ -47,7 +47,7 @@ public class RemoveDuplicateVertices
 	public static Mesh calculate( final Mesh mesh, final int precision )
 	{
 		final Map< String, IndexedVertex > vertices = new LinkedHashMap<>();
-		final int[][] triangles = new int[ ( int ) mesh.triangles().size() ][ 3 ];
+		final int[][] triangles = new int[ ( int ) mesh.triangles().sizel() ][ 3 ];
 
 		int trianglesCount = 0;
 		for ( final net.imglib2.mesh.obj.Triangle triangle : mesh.triangles() )

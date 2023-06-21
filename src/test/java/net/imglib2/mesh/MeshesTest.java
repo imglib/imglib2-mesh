@@ -83,7 +83,7 @@ public class MeshesTest
 		Mesh mesh = createMeshWithNoise();
 
 		Mesh res = Meshes.removeDuplicateVertices( mesh, 2 );
-		assertEquals( 4, res.vertices().size() );
+		assertEquals( 4, res.vertices().sizel() );
 
 		assertEquals( p1.getDoublePosition( 0 ), res.vertices().x( 0 ), EPSILON );
 		assertEquals( p1.getDoublePosition( 1 ), res.vertices().y( 0 ), EPSILON );
@@ -102,7 +102,7 @@ public class MeshesTest
 		assertEquals( p4.getDoublePosition( 2 ), res.vertices().z( 3 ), EPSILON );
 
 		res = Meshes.removeDuplicateVertices( mesh, 3 );
-		assertEquals( 6, res.vertices().size() );
+		assertEquals( 6, res.vertices().sizel() );
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class MeshesTest
 		LabelRegion< String > ROI = createLabelRegion( getTestImage3D(), 1, 255 );
 		Mesh mesh = getMesh();
 		final Mesh result = Meshes.marchingCubes( ROI );
-		assertEquals( mesh.triangles().size(), result.triangles().size() );
+		assertEquals( mesh.triangles().sizel(), result.triangles().sizel() );
 		final Iterator< Triangle > expectedFacets = mesh.triangles().iterator();
 		final Iterator< Triangle > actualFacets = result.triangles().iterator();
 		while ( expectedFacets.hasNext() && actualFacets.hasNext() )
@@ -137,7 +137,7 @@ public class MeshesTest
 		LabelRegion< String > ROI = createLabelRegion( getTestImage3D(), 1, 255 );
 		Mesh mesh = getMesh();
 		final Mesh result = Meshes.marchingCubes( ROI, 1.0 );
-		assertEquals( mesh.triangles().size(), result.triangles().size() );
+		assertEquals( mesh.triangles().sizel(), result.triangles().sizel() );
 		final Iterator< Triangle > expectedFacets = mesh.triangles().iterator();
 		final Iterator< Triangle > actualFacets = result.triangles().iterator();
 		while ( expectedFacets.hasNext() && actualFacets.hasNext() )

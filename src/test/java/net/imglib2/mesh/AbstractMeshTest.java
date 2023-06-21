@@ -77,7 +77,7 @@ public abstract class AbstractMeshTest
 				t0v2x, t0v2y, t0v2z, //
 				t0nx, t0ny, t0nz ); //
 
-		assertEquals( 3, mesh.vertices().size() );
+		assertEquals( 3, mesh.vertices().sizel() );
 
 		final double t1v0x = 13, t1v0y = 14, t1v0z = 15;
 		final double t1v1x = 16, t1v1y = 17, t1v1z = 18;
@@ -89,7 +89,7 @@ public abstract class AbstractMeshTest
 				t1v2x, t1v2y, t1v2z, //
 				t1nx, t1ny, t1nz ); //
 
-		assertEquals( 6, mesh.vertices().size() );
+		assertEquals( 6, mesh.vertices().sizel() );
 
 		final double t2v0x = 25, t2v0y = 26, t2v0z = 27;
 		final double t2v1x = 28, t2v1y = 29, t2v1z = 30;
@@ -100,7 +100,7 @@ public abstract class AbstractMeshTest
 		final long t2v2 = mesh.vertices().add( t2v2x, t2v2y, t2v2z );
 		final long t2 = mesh.triangles().add( t2v0, t2v1, t2v2, t2nx, t2ny, t2nz );
 
-		assertEquals( 9, mesh.vertices().size() );
+		assertEquals( 9, mesh.vertices().sizel() );
 		assertVertex( mesh, 0, t0v0x, t0v0y, t0v0z );
 		assertVertex( mesh, 1, t0v1x, t0v1y, t0v1z );
 		assertVertex( mesh, 2, t0v2x, t0v2y, t0v2z );
@@ -111,7 +111,7 @@ public abstract class AbstractMeshTest
 		assertVertex( mesh, 7, t2v1x, t2v1y, t2v1z );
 		assertVertex( mesh, 8, t2v2x, t2v2y, t2v2z );
 
-		assertEquals( 3, mesh.triangles().size() );
+		assertEquals( 3, mesh.triangles().sizel() );
 		final Set< Long > vertexIndices = new HashSet<>();
 		assertTriangle( mesh, vertexIndices, 0, //
 				t0v0x, t0v0y, t0v0z, //
@@ -167,10 +167,10 @@ public abstract class AbstractMeshTest
 		lazyInputMesh.vertices().add( 1, 0, -1 );
 		lazyInputMesh.triangles().add( 0, 1, 2 );
 
-		Mesh outMesh = new BufferMesh( ( int ) inputMesh.vertices().size(), ( int ) inputMesh.triangles().size() );
+		Mesh outMesh = new BufferMesh( ( int ) inputMesh.vertices().sizel(), ( int ) inputMesh.triangles().sizel() );
 		Meshes.calculateNormals( inputMesh, outMesh );
 
-		for ( int idx = 0; idx < inputMesh.triangles().size(); idx++ )
+		for ( int idx = 0; idx < inputMesh.triangles().sizel(); idx++ )
 		{
 			// calculateNormals test
 			assertTriangleNormal( inputMesh, 0, outMesh.triangles().nx( idx ), outMesh.triangles().ny( idx ), outMesh.triangles().nz( idx ) );

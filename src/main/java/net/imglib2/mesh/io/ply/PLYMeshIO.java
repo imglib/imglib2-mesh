@@ -224,17 +224,17 @@ public class PLYMeshIO
 				"format binary_little_endian 1.0\n" + //
 				"comment This binary PLY mesh was created with imagej-mesh.\n";
 		final String vertexHeader = "" + //
-				"element vertex " + mesh.vertices().size() + "\n" + //
+				"element vertex " + mesh.vertices().sizel() + "\n" + //
 				"property float x\nproperty float y\nproperty float z\n" + //
 				"property float nx\nproperty float ny\nproperty float nz\n" + //
 				"property float u\nproperty float v\n";
-		final String triangleHeader = "element face " + mesh.triangles().size()
+		final String triangleHeader = "element face " + mesh.triangles().sizel()
 				+ "\nproperty list uchar int vertex_index\n";
 		final String endHeader = "end_header\n";
 		final long bytes = header.getBytes().length + //
 				vertexHeader.getBytes().length + triangleHeader.getBytes().length + endHeader.getBytes().length
-				+ mesh.vertices().size() * vertexBytes + //
-				mesh.triangles().size() * triangleBytes;
+				+ mesh.vertices().sizel() * vertexBytes + //
+				mesh.triangles().sizel() * triangleBytes;
 		if ( bytes > Integer.MAX_VALUE )
 			throw new IllegalArgumentException( "Mesh data too large: " + bytes );
 
@@ -246,12 +246,12 @@ public class PLYMeshIO
 		buffer.put( endHeader.getBytes() );
 
 		// Do not populate file if there are no vertices
-		if ( mesh.vertices().size() == 0 )
+		if ( mesh.vertices().sizel() == 0 )
 			return buffer.array();
 
 		// Write vertices
 		final TLongIntHashMap refToVertId = //
-				new TLongIntHashMap( ( int ) mesh.vertices().size() );
+				new TLongIntHashMap( ( int ) mesh.vertices().sizel() );
 		int vertId = 0;
 		for ( final Vertex v : mesh.vertices() )
 		{
@@ -282,21 +282,21 @@ public class PLYMeshIO
 	public static final byte[] writeAscii( final Mesh mesh ) throws IOException
 	{
 		final String header = "ply\nformat ascii 1.0\ncomment This binary PLY mesh was created with imagej-mesh.\n";
-		final String vertexHeader = "element vertex " + mesh.vertices().size()
+		final String vertexHeader = "element vertex " + mesh.vertices().sizel()
 				+ "\nproperty float x\nproperty float y\nproperty float z\nproperty float nx\nproperty float ny\nproperty float nz\nproperty float u\n property float v\n";
-		final String triangleHeader = "element face " + mesh.triangles().size()
+		final String triangleHeader = "element face " + mesh.triangles().sizel()
 				+ "\nproperty list uchar int vertex_index\n";
 		final String endHeader = "end_header\n";
 
 		// TODO: Fail fast more robustly if mesh is too large.
 		// But need to modify the API to not return a byte[].
-		if ( mesh.vertices().size() > Integer.MAX_VALUE )
+		if ( mesh.vertices().sizel() > Integer.MAX_VALUE )
 			throw new IllegalArgumentException( "Too many vertices: " + //
-					mesh.vertices().size() );
+					mesh.vertices().sizel() );
 
-		if ( mesh.triangles().size() > Integer.MAX_VALUE )
+		if ( mesh.triangles().sizel() > Integer.MAX_VALUE )
 			throw new IllegalArgumentException( "Too many triangles: " + //
-					mesh.triangles().size() );
+					mesh.triangles().sizel() );
 
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 
@@ -308,14 +308,14 @@ public class PLYMeshIO
 		writer.write( endHeader );
 
 		// Do not populate file if there are no vertices
-		if ( mesh.vertices().size() == 0 )
+		if ( mesh.vertices().sizel() == 0 )
 		{
 			writer.flush();
 			return os.toByteArray();
 		}
 
 		// Write vertices
-		final TLongIntHashMap refToVertId = new TLongIntHashMap( ( int ) mesh.vertices().size() );
+		final TLongIntHashMap refToVertId = new TLongIntHashMap( ( int ) mesh.vertices().sizel() );
 		int vertId = 0;
 		for ( final Vertex v : mesh.vertices() )
 		{

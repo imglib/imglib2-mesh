@@ -43,8 +43,8 @@ public interface Vertices extends Iterable< Vertex >
 	/** The mesh to which the collection of vertices belongs. */
 	Mesh mesh();
 
-	/** Number of vertices in the collection. */
-	long size();
+	/** Number of vertices in the collection as a <code>long</code> value. */
+	long sizel();
 
 	/**
 	 * Number of vertices in the collection as an <code>int</code> value.
@@ -52,9 +52,9 @@ public interface Vertices extends Iterable< Vertex >
 	 * @throws RuntimeException
 	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
 	 */
-	default int isize()
+	default int size()
 	{
-		final long size = size();
+		final long size = sizel();
 		if ( size >= Integer.MAX_VALUE )
 			throw new RuntimeException( "Too many vertices: " + size );
 		return ( int ) size;
@@ -133,11 +133,11 @@ public interface Vertices extends Iterable< Vertex >
 	 * @throws RuntimeException
 	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
 	 */
-	default int addfi( float x, float y, float z, //
-			float nx, float ny, float nz, //
-			float u, float v )
+	default int addfi( final float x, final float y, final float z, //
+			final float nx, final float ny, final float nz, //
+			final float u, final float v )
 	{
-		long vi = addf( x, y, z, nx, ny, nz, u, v );
+		final long vi = addf( x, y, z, nx, ny, nz, u, v );
 		if ( vi >= Integer.MAX_VALUE )
 			throw new RuntimeException( "Too many vertices: " + vi );
 		return ( int ) vi;
@@ -300,13 +300,13 @@ public interface Vertices extends Iterable< Vertex >
 	}
 
 	/** U value of vertex texture coordinate, as a double. */
-	default double u( long vIndex )
+	default double u( final long vIndex )
 	{
 		return uf( vIndex );
 	}
 
 	/** V value of vertex texture coordinate, as a double. */
-	default double v( long vIndex )
+	default double v( final long vIndex )
 	{
 		return vf( vIndex );
 	}
@@ -367,9 +367,9 @@ public interface Vertices extends Iterable< Vertex >
 	 *            V value of vertex texture coordinate.
 	 * @return Index of newly added vertex.
 	 */
-	default long add( double x, double y, double z, //
-			double nx, double ny, double nz, //
-			double u, double v )
+	default long add( final double x, final double y, final double z, //
+			final double nx, final double ny, final double nz, //
+			final double u, final double v )
 	{
 		return addf( ( float ) x, ( float ) y, ( float ) z, //
 				( float ) nx, ( float ) ny, ( float ) nz, //
@@ -400,9 +400,9 @@ public interface Vertices extends Iterable< Vertex >
 	 * @throws RuntimeException
 	 *             if the number of vertices exceed {@link Integer#MAX_VALUE}.
 	 */
-	default int addi( double x, double y, double z, //
-			double nx, double ny, double nz, //
-			double u, double v )
+	default int addi( final double x, final double y, final double z, //
+			final double nx, final double ny, final double nz, //
+			final double u, final double v )
 	{
 		return addfi( ( float ) x, ( float ) y, ( float ) z, //
 				( float ) nx, ( float ) ny, ( float ) nz, //
@@ -521,7 +521,7 @@ public interface Vertices extends Iterable< Vertex >
 
 			private long index = -1;
 
-			private Vertex vertex = new Vertex()
+			private final Vertex vertex = new Vertex()
 			{
 
 				@Override
@@ -540,7 +540,7 @@ public interface Vertices extends Iterable< Vertex >
 			@Override
 			public boolean hasNext()
 			{
-				return index + 1 < size();
+				return index + 1 < sizel();
 			}
 
 			@Override

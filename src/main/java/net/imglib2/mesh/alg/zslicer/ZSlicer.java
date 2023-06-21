@@ -67,9 +67,9 @@ public class ZSlicer
 		final Triangles triangles = mesh.triangles();
 		final Vertices vertices = mesh.vertices();
 
-		final double[] minZs = new double[ ( int ) triangles.size() ];
-		final double[] maxZs = new double[ ( int ) triangles.size() ];
-		for ( int t = 0; t < triangles.size(); t++ )
+		final double[] minZs = new double[ ( int ) triangles.sizel() ];
+		final double[] maxZs = new double[ ( int ) triangles.sizel() ];
+		for ( int t = 0; t < triangles.sizel(); t++ )
 		{
 			final long v0 = triangles.vertex0( t );
 			final long v1 = triangles.vertex1( t );
@@ -256,7 +256,7 @@ public class ZSlicer
 		final Vertices vertices = mesh.vertices();
 
 		final TIntArrayList intersecting = new TIntArrayList();
-		for ( long f = 0; f < triangles.size(); f++ )
+		for ( long f = 0; f < triangles.sizel(); f++ )
 		{
 			final long v0 = triangles.vertex0( f );
 			final long v1 = triangles.vertex1( f );

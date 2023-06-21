@@ -90,7 +90,7 @@ public class NaiveFloatMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
 			return xs.size();
 		}
@@ -235,7 +235,7 @@ public class NaiveFloatMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
 			return v1s.size();
 		}

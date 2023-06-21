@@ -237,9 +237,9 @@ public class SimplifyMesh
 		vertices.clear();
 		refs.clear();
 
-		final Point[] meshVerts = new Point[ ( int ) inMesh.vertices().size() ];
+		final Point[] meshVerts = new Point[ ( int ) inMesh.vertices().sizel() ];
 		final Iterator< net.imglib2.mesh.obj.Vertex > iterator = inMesh.vertices().iterator();
-		for ( int i = 0; i < inMesh.vertices().size(); i++ )
+		for ( int i = 0; i < inMesh.vertices().sizel(); i++ )
 		{
 			final Point simpleVertex = new Point();
 			simpleVertex.setPosition( iterator.next() );
@@ -256,7 +256,7 @@ public class SimplifyMesh
 		int triIndex = 0;
 
 		final Iterator< net.imglib2.mesh.obj.Triangle > iteratorTriangles = inMesh.triangles().iterator();
-		for ( int i = 0; i < inMesh.triangles().size(); i++ )
+		for ( int i = 0; i < inMesh.triangles().sizel(); i++ )
 		{
 			final net.imglib2.mesh.obj.Triangle tria = iteratorTriangles.next();
 			final Triangle t = new Triangle(
@@ -288,7 +288,7 @@ public class SimplifyMesh
 	public Mesh simplify( final float target_percent, final double agressiveness )
 	{
 
-		final int target_count = ( int ) ( inMesh.triangles().size() * target_percent );
+		final int target_count = ( int ) ( inMesh.triangles().sizel() * target_percent );
 		return simplify( target_count, agressiveness );
 	}
 

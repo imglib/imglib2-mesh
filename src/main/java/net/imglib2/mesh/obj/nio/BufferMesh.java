@@ -140,7 +140,7 @@ public class BufferMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
 			return verts.limit() / V_STRIDE;
 		}
@@ -197,7 +197,7 @@ public class BufferMesh implements Mesh
 		public long addf( float x, float y, float z, float nx, float ny, float nz,
 				float u, float v )
 		{
-			final long index = size();
+			final long index = sizel();
 			grow( verts, V_STRIDE );
 			verts.put( x );
 			verts.put( y );
@@ -287,7 +287,7 @@ public class BufferMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
 			return indices.limit() / I_STRIDE;
 		}
@@ -331,7 +331,7 @@ public class BufferMesh implements Mesh
 		@Override
 		public long addf( long v0, long v1, long v2, float nx, float ny, float nz )
 		{
-			final long index = size();
+			final long index = sizel();
 			grow( indices, I_STRIDE );
 			indices.put( safeInt( v0 ) );
 			indices.put( safeInt( v1 ) );

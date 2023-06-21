@@ -36,7 +36,7 @@ public class MeshConnectedComponents
 	{
 		final Triangles triangles = mesh.triangles();
 		final Vertices vertices = mesh.vertices();
-		final int nVertices = ( int ) vertices.size();
+		final int nVertices = ( int ) vertices.sizel();
 
 		final TIntObjectHashMap< TIntArrayList > map = triangleMap( mesh );
 		final BitSet visited = new BitSet( nVertices );
@@ -122,9 +122,9 @@ public class MeshConnectedComponents
 	private static final TIntObjectHashMap< TIntArrayList > triangleMap( final Mesh mesh )
 	{
 		final Triangles triangles = mesh.triangles();
-		final int nTriangles = ( int ) triangles.size();
+		final int nTriangles = ( int ) triangles.sizel();
 		final Vertices vertices = mesh.vertices();
-		final int nVertices = ( int ) vertices.size();
+		final int nVertices = ( int ) vertices.sizel();
 
 		final TIntObjectHashMap< TIntArrayList > map = new TIntObjectHashMap<>( nVertices );
 		for ( int tid = 0; tid < nTriangles; tid++ )
@@ -166,7 +166,7 @@ public class MeshConnectedComponents
 		{
 			this.mesh = mesh;
 			this.map = triangleMap( mesh );
-			this.nVertices = ( int ) mesh.vertices().size();
+			this.nVertices = ( int ) mesh.vertices().sizel();
 			this.visited = new BitSet( nVertices );
 			this.currentStartVertex = 0;
 			this.next = prefetch();

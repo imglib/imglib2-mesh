@@ -90,7 +90,7 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
 			return xs.size();
 		}
@@ -317,7 +317,7 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
 			return v1s.size();
 		}

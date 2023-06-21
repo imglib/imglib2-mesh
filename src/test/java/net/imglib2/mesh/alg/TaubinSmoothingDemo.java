@@ -30,7 +30,7 @@ public class TaubinSmoothingDemo
 
 		// Add noise.
 		final Random ran = new Random( 45l );
-		for ( int i = 0; i < mesh.vertices().size(); i++ )
+		for ( int i = 0; i < mesh.vertices().sizel(); i++ )
 		{
 			final double x = mesh.vertices().x( i );
 			final double y = mesh.vertices().y( i );
