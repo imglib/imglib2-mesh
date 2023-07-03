@@ -176,7 +176,7 @@ public class MeshesTest
 
 	private static Img< FloatType > getTestImage3D()
 	{
-		final URL url = MeshesTest.class.getResource( "/3d_geometric_features_testlabel.tif" );
+		final URL url = MeshesTest.class.getResource( "3d_geometric_features_testlabel.tif" );
 		return IO.openAllFloat( url.getPath() ).get( 0 ).getImg();
 	}
 
@@ -188,7 +188,7 @@ public class MeshesTest
 		final LongArray indices = new LongArray();
 		try
 		{
-			Files.lines( Paths.get( MeshesTest.class.getResource( "/3d_geometric_features_mesh.txt" ).toURI() ) )
+			Files.lines( Paths.get( MeshesTest.class.getResource( "3d_geometric_features_mesh.txt" ).toURI() ) )
 					.forEach( l -> {
 						final String[] coord = l.split( " " );
 						final double x = Double.parseDouble( coord[ 0 ] );
