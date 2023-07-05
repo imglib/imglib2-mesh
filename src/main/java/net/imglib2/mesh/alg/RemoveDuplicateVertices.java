@@ -44,7 +44,7 @@ import net.imglib2.mesh.obj.nio.BufferMesh;
 public class RemoveDuplicateVertices
 {
 
-	public static Mesh calculate( final Mesh mesh, final int precision )
+	public static BufferMesh calculate( final Mesh mesh, final int precision )
 	{
 		final Map< String, IndexedVertex > vertices = new LinkedHashMap<>();
 		final int[][] triangles = new int[ mesh.triangles().size() ][ 3 ];
@@ -60,7 +60,7 @@ public class RemoveDuplicateVertices
 			triangles[ trianglesCount ][ 2 ] = getVertex( vertices, p3, precision );
 			trianglesCount++;
 		}
-		final Mesh res = new BufferMesh( vertices.size(), triangles.length );
+		final BufferMesh res = new BufferMesh( vertices.size(), triangles.length );
 		vertices.values().forEach( vertex -> {
 			res.vertices().add( vertex.point.getFloatPosition( 0 ), vertex.point.getFloatPosition( 1 ), vertex.point.getFloatPosition( 2 ) );
 		} );

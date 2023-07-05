@@ -291,7 +291,7 @@ public class Meshes
 	 * @return new mesh without duplicate vertices. The result will not include
 	 *         normals or uv coordinates.
 	 */
-	public static Mesh removeDuplicateVertices( final Mesh mesh, final int precision )
+	public static BufferMesh removeDuplicateVertices( final Mesh mesh, final int precision )
 	{
 		return RemoveDuplicateVertices.calculate( mesh, precision );
 	}
