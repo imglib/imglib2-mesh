@@ -42,6 +42,7 @@ import net.imglib2.mesh.alg.RemoveDuplicateVertices;
 import net.imglib2.mesh.alg.SimplifyMesh;
 import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.obj.Triangle;
+import net.imglib2.mesh.obj.Triangles;
 import net.imglib2.mesh.obj.Vertex;
 import net.imglib2.mesh.obj.Vertices;
 import net.imglib2.mesh.obj.nio.BufferMesh;
@@ -374,5 +375,59 @@ public class Meshes
 			final double z = vertices.z( i );
 			vertices.set( i, x * scale[ 0 ], y * scale[ 1 ], z * scale[ 2 ] );
 		}
+	}
+
+	public static BufferMesh merge( final Iterable< Mesh > meshes )
+	{
+		int nVertices = 0;
+		int nTriangles = 0;
+		for ( final Mesh mesh : meshes )
+		{
+			nVertices += mesh.vertices().size();
+			nTriangles += mesh.triangles().size();
+		}
+
+		final BufferMesh out = new BufferMesh( nVertices, nTriangles );
+		final BufferMesh.Vertices vOut = out.vertices();
+		final BufferMesh.Triangles tOut = out.triangles();
+
+		for ( final Mesh mesh : meshes )
+		{
+			// Add vertices.
+			final Vertices vIn = mesh.vertices();
+			final int[] inToOutMap = new int[ ( int ) vIn.size() ];
+			for ( int i = 0; i < vIn.size(); i++ )
+			{
+				final float xf = vIn.xf( i );
+				final float yf = vIn.yf( i );
+				final float zf = vIn.zf( i );
+				final float nxf = vIn.nxf( i );
+				final float nyf = vIn.nyf( i );
+				final float nzf = vIn.nzf( i );
+				final float uf = vIn.uf( i );
+				final float vf = vIn.vf( i );
+				final int vo = ( int ) vOut.addf( xf, yf, zf, nxf, nyf, nzf, uf, vf );
+				inToOutMap[ i ] = vo;
+			}
+
+			// Add triangles.
+			final Triangles tIn = mesh.triangles();
+			for ( int i = 0; i < tIn.size(); i++ )
+			{
+				final int v0In = tIn.vertex0( i );
+				final int v1In = tIn.vertex1( i );
+				final int v2In = tIn.vertex2( i );
+				final float nxf = tIn.nxf( i );
+				final float nyf = tIn.nyf( i );
+				final float nzf = tIn.nzf( i );
+
+				final int v0Out = inToOutMap[ v0In ];
+				final int v1Out = inToOutMap[ v1In ];
+				final int v2Out = inToOutMap[ v2In ];
+
+				tOut.addf( v0Out, v1Out, v2Out, nxf, nyf, nzf );
+			}
+		}
+		return out;
 	}
 }
