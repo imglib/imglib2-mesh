@@ -251,7 +251,7 @@ public class PLYMeshIO
 
 		// Write vertices
 		final TLongIntHashMap refToVertId = //
-				new TLongIntHashMap( ( int ) mesh.vertices().sizel() );
+				new TLongIntHashMap( mesh.vertices().size() );
 		int vertId = 0;
 		for ( final Vertex v : mesh.vertices() )
 		{
@@ -315,7 +315,7 @@ public class PLYMeshIO
 		}
 
 		// Write vertices
-		final TLongIntHashMap refToVertId = new TLongIntHashMap( ( int ) mesh.vertices().sizel() );
+		final TLongIntHashMap refToVertId = new TLongIntHashMap( mesh.vertices().size() );
 		int vertId = 0;
 		for ( final Vertex v : mesh.vertices() )
 		{

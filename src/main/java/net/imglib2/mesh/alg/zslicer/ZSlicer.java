@@ -67,9 +67,9 @@ public class ZSlicer
 		final Triangles triangles = mesh.triangles();
 		final Vertices vertices = mesh.vertices();
 
-		final double[] minZs = new double[ ( int ) triangles.sizel() ];
-		final double[] maxZs = new double[ ( int ) triangles.sizel() ];
-		for ( int t = 0; t < triangles.sizel(); t++ )
+		final double[] minZs = new double[ triangles.size() ];
+		final double[] maxZs = new double[ triangles.size() ];
+		for ( int t = 0; t < triangles.size(); t++ )
 		{
 			final long v0 = triangles.vertex0( t );
 			final long v1 = triangles.vertex1( t );

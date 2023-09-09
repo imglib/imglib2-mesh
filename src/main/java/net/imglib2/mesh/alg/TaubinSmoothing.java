@@ -13,7 +13,7 @@ import net.imglib2.mesh.obj.nio.BufferMesh;
  * <p>
  * Adapted by the Javascript code of mykolalysenko, MIT license.
  * https://github.com/mikolalysenko/taubin-smooth/blob/master/smooth.js
- * 
+ *
  * @author Jean-Yves Tinevez
  * @see <a href="https://doi.org/10.1109/ICCV.1995.466848">Taubin, G. “Curve and
  *      Surface Smoothing without Shrinkage.” In Proceedings of IEEE
@@ -26,7 +26,7 @@ public class TaubinSmoothing
 	/**
 	 * Smooth the specified mesh using the Taubin smoothing algorithm, with
 	 * default parameters.
-	 * 
+	 *
 	 * @param mesh
 	 *            the mesh to smooth.
 	 * @return a new smoothed mesh.
@@ -39,7 +39,7 @@ public class TaubinSmoothing
 	/**
 	 * Smooth the specified mesh using the Taubin smoothing algorithm, using
 	 * cotangent weights.
-	 * 
+	 *
 	 * @param mesh
 	 *            the mesh to smooth.
 	 * @param iters
@@ -66,7 +66,7 @@ public class TaubinSmoothing
 
 	/**
 	 * Smooth the specified mesh using the Taubin smoothing algorithm.
-	 * 
+	 *
 	 * @param mesh
 	 *            the mesh to smooth.
 	 * @param iters
@@ -85,8 +85,8 @@ public class TaubinSmoothing
 	public static final BufferMesh smooth( final Mesh mesh, final int iters, final double lambda, final double mu,
 			final TaubinWeightType weightType )
 	{
-		final int nvs = ( int ) mesh.vertices().sizel();
-		final int nts = ( int ) mesh.triangles().sizel();
+		final int nvs = mesh.vertices().size();
+		final int nts = mesh.triangles().size();
 		final BufferMesh meshA = new BufferMesh( nvs, nts );
 		Meshes.copy( mesh, meshA );
 		final BufferMesh meshB = new BufferMesh( nvs, nts );
@@ -114,7 +114,7 @@ public class TaubinSmoothing
 			throw new IllegalArgumentException( "Unhandled weight type: " + weightType );
 		}
 
-		final BufferMesh out = new BufferMesh( ( int ) meshA.vertices().sizel(), ( int ) meshA.triangles().sizel() );
+		final BufferMesh out = new BufferMesh( meshA.vertices().size(), meshA.triangles().size() );
 		Meshes.calculateNormals( meshA, out );
 		return out;
 	}
@@ -123,8 +123,8 @@ public class TaubinSmoothing
 			final double[] trace, final double weigth )
 	{
 
-		final int nvs = ( int ) source.vertices().sizel();
-		final int nts = ( int ) source.triangles().sizel();
+		final int nvs = source.vertices().size();
+		final int nts = source.triangles().size();
 
 		// Zero target.
 		for ( int i = 0; i < nvs; i++ )
@@ -205,8 +205,8 @@ public class TaubinSmoothing
 			final double[] trace, final double weigth )
 	{
 
-		final int nvs = ( int ) source.vertices().sizel();
-		final int nts = ( int ) source.triangles().sizel();
+		final int nvs = source.vertices().size();
+		final int nts = source.triangles().size();
 
 		// Zero target.
 		for ( int i = 0; i < nvs; i++ )
