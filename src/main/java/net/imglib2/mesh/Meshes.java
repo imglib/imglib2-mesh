@@ -69,7 +69,7 @@ public class Meshes
 			p.move( v );
 
 		for ( int d = 0; d < 3; d++ )
-			p.setPosition( p.getDoublePosition( d ) / m.vertices().size(), d );
+			p.setPosition( p.getDoublePosition( d ) / m.vertices().sizel(), d );
 
 		return p;
 	}
@@ -366,7 +366,7 @@ public class Meshes
 	public static void scale( final Mesh mesh, final double[] scale )
 	{
 		final Vertices vertices = mesh.vertices();
-		final long nVertices = vertices.size();
+		final long nVertices = vertices.sizel();
 		for ( long i = 0; i < nVertices; i++ )
 		{
 			final double x = vertices.x( i );

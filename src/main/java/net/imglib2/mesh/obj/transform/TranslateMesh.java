@@ -121,7 +121,7 @@ public class TranslateMesh implements Mesh
 				@Override
 				public boolean hasNext()
 				{
-					return index + 1 < size();
+					return index + 1 < sizel();
 				}
 
 				@Override
@@ -140,9 +140,9 @@ public class TranslateMesh implements Mesh
 		}
 
 		@Override
-		public long size()
+		public long sizel()
 		{
-			return invs.size();
+			return invs.sizel();
 		}
 
 		@Override

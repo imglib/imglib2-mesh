@@ -109,7 +109,7 @@ public class MeshCursorTest
 		// Build a mesh from the source image..
 		final Mesh m = Meshes.marchingCubes( img, expected / 2. );
 		final Mesh m2 = Meshes.removeDuplicateVertices( m, 2 );
-		final BufferMesh mesh = new BufferMesh( m2.vertices().isize(), m2.triangles().isize() );
+		final BufferMesh mesh = new BufferMesh( m2.vertices().size(), m2.triangles().size() );
 		Meshes.calculateNormals( m2, mesh );
 
 		// Test we are iterating strictly inside the cube.

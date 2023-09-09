@@ -18,7 +18,7 @@ import net.imglib2.mesh.obj.nio.BufferMesh;
 
 /**
  * Connected components algorithm for meshes.
- * 
+ *
  * @author Jean-Yves Tinevez
  *
  */
@@ -27,7 +27,7 @@ public class MeshConnectedComponents
 
 	/**
 	 * Returns the number of connected components in this mesh.
-	 * 
+	 *
 	 * @param mesh
 	 *            the mesh.
 	 * @return the number of connected components.
@@ -36,7 +36,7 @@ public class MeshConnectedComponents
 	{
 		final Triangles triangles = mesh.triangles();
 		final Vertices vertices = mesh.vertices();
-		final int nVertices = ( int ) vertices.size();
+		final int nVertices = vertices.size();
 
 		final TIntObjectHashMap< TIntArrayList > map = triangleMap( mesh );
 		final BitSet visited = new BitSet( nVertices );
@@ -116,15 +116,15 @@ public class MeshConnectedComponents
 
 	/**
 	 * Returns the map of vertex id to the list of triangles they belong to.
-	 * 
+	 *
 	 * @param mesh
 	 */
 	private static final TIntObjectHashMap< TIntArrayList > triangleMap( final Mesh mesh )
 	{
 		final Triangles triangles = mesh.triangles();
-		final int nTriangles = ( int ) triangles.size();
+		final int nTriangles = triangles.size();
 		final Vertices vertices = mesh.vertices();
-		final int nVertices = ( int ) vertices.size();
+		final int nVertices = vertices.size();
 
 		final TIntObjectHashMap< TIntArrayList > map = new TIntObjectHashMap<>( nVertices );
 		for ( int tid = 0; tid < nTriangles; tid++ )
@@ -166,7 +166,7 @@ public class MeshConnectedComponents
 		{
 			this.mesh = mesh;
 			this.map = triangleMap( mesh );
-			this.nVertices = ( int ) mesh.vertices().size();
+			this.nVertices = mesh.vertices().size();
 			this.visited = new BitSet( nVertices );
 			this.currentStartVertex = 0;
 			this.next = prefetch();

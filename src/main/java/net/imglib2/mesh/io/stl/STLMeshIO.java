@@ -88,7 +88,7 @@ public class STLMeshIO
 	/** Writes the facets into a byte[] that can then be saved into a file */
 	public static final byte[] write( final Mesh mesh )
 	{
-		final long facetCount = mesh == null ? 0 : mesh.triangles().size();
+		final long facetCount = mesh == null ? 0 : mesh.triangles().sizel();
 		final long longBytes = HEADER_BYTES + COUNT_BYTES + facetCount * FACET_BYTES;
 		if ( longBytes > Integer.MAX_VALUE )
 		{ throw new IllegalArgumentException( "Too many triangles: " + facetCount ); }

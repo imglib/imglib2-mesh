@@ -7,13 +7,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -237,7 +237,7 @@ public class SimplifyMesh
 		vertices.clear();
 		refs.clear();
 
-		final Point[] meshVerts = new Point[ ( int ) inMesh.vertices().size() ];
+		final Point[] meshVerts = new Point[ inMesh.vertices().size() ];
 		final Iterator< net.imglib2.mesh.obj.Vertex > iterator = inMesh.vertices().iterator();
 		for ( int i = 0; i < inMesh.vertices().size(); i++ )
 		{
@@ -288,7 +288,7 @@ public class SimplifyMesh
 	public Mesh simplify( final float target_percent, final double agressiveness )
 	{
 
-		final int target_count = ( int ) ( inMesh.triangles().size() * target_percent );
+		final int target_count = ( int ) ( inMesh.triangles().sizel() * target_percent );
 		return simplify( target_count, agressiveness );
 	}
 
@@ -315,7 +315,7 @@ public class SimplifyMesh
 		 * System.out.println(String.format("Simplify Target: %d of %d (%d%%)",
 		 * target_count, triangles.size(), target_count * 100 /
 		 * triangles.size()));
-		 * 
+		 *
 		 * final long timeStart = System.currentTimeMillis();
 		 */
 
@@ -435,7 +435,7 @@ public class SimplifyMesh
 		// ready
 		/*
 		 * long timeEnd = System.currentTimeMillis();
-		 * 
+		 *
 		 * System.out.println(String.
 		 * format("Simplify: %d/%d %d%% removed in %d ms", triangle_count -
 		 * deleted_triangles, triangle_count, deleted_triangles * 100 /

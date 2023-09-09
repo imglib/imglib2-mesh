@@ -217,7 +217,7 @@ public class MeshCursor< T > implements Cursor< T >
 	@Override
 	public Cursor< T > copyCursor()
 	{
-		final BufferMesh dest = new BufferMesh( mesh.vertices().isize(), mesh.triangles().isize() );
+		final BufferMesh dest = new BufferMesh( mesh.vertices().size(), mesh.triangles().size() );
 		Meshes.copy( mesh, dest );
 		return new MeshCursor<>( ra.copyRandomAccess(), dest, cal.clone() );
 	}

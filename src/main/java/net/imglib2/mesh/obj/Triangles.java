@@ -46,9 +46,9 @@ public interface Triangles extends Iterable< Triangle >
 	Mesh mesh();
 
 	/**
-	 * Number of triangles in the collection.
+	 * Number of triangles in the collection as a <code>long</code> value.
 	 */
-	long size();
+	long sizel();
 
 	/**
 	 * Number of triangles in the collection as an <code>int</code> value.
@@ -56,9 +56,9 @@ public interface Triangles extends Iterable< Triangle >
 	 * @throws RuntimeException
 	 *             if the number of triangles exceeds {@link Integer#MAX_VALUE}.
 	 */
-	default int isize()
+	default int size()
 	{
-		final long size = size();
+		final long size = sizel();
 		if ( size >= Integer.MAX_VALUE )
 			throw new RuntimeException( "Too many triangles: " + size );
 		return ( int ) size;
@@ -200,7 +200,7 @@ public interface Triangles extends Iterable< Triangle >
 	 *            Index of triangle's third vertex.
 	 * @return Index of newly added triangle.
 	 */
-	default long addf( long v0, long v1, long v2 )
+	default long addf( final long v0, final long v1, final long v2 )
 	{
 		// (v1 - v0) x (v2 - v0)
 
@@ -456,32 +456,6 @@ public interface Triangles extends Iterable< Triangle >
 	}
 
 	/**
-	 * Adds a triangle to the mesh's triangles list, using <code>int</code>
-	 * indices.
-	 * <p>
-	 * Normal is computed with counterclockwise (i.e., right-hand) orientation.
-	 * </p>
-	 *
-	 * @param v0
-	 *            Index of triangle's first vertex.
-	 * @param v1
-	 *            Index of triangle's second vertex.
-	 * @param v2
-	 *            Index of triangle's third vertex.
-	 * @return Index of newly added triangle.
-	 * @throws RuntimeException
-	 *             if the return triangle index exceeds
-	 *             {@link Integer#MAX_VALUE}.
-	 */
-	default int add( final int v0, final int v1, final int v2 )
-	{
-		final long t = add( ( long ) v0, ( long ) v1, ( long ) v2 );
-		if ( t >= Integer.MAX_VALUE )
-			throw new RuntimeException( "Index too large: " + t );
-		return ( int ) t;
-	}
-
-	/**
 	 * Adds a triangle to the mesh's triangles list.
 	 * <p>
 	 * This is a convenience method that first creates the vertices using
@@ -574,7 +548,7 @@ public interface Triangles extends Iterable< Triangle >
 
 			private long index = -1;
 
-			private Triangle triangle = new Triangle()
+			private final Triangle triangle = new Triangle()
 			{
 
 				@Override
@@ -593,7 +567,7 @@ public interface Triangles extends Iterable< Triangle >
 			@Override
 			public boolean hasNext()
 			{
-				return index + 1 < size();
+				return index + 1 < sizel();
 			}
 
 			@Override
