@@ -104,10 +104,8 @@ public class Interior
 			final long v1 = triangles.vertex1( t );
 			final long v2 = triangles.vertex2( t );
 
-			final double minZ = minZ( vertices, v0, v1, v2, eps );
-			minZs[ t ] = minZ;
-			final double maxZ = maxZ( vertices, v0, v1, v2, eps );
-			maxZs[ t ] = maxZ;
+			minZs[ t ] = minZ( vertices, v0, v1, v2, eps );
+			maxZs[ t ] = maxZ( vertices, v0, v1, v2, eps );
 		}
 		this.indexMin = SortArray.quicksort( minZs );
 		this.indices = new int[ indexMin.length ];
