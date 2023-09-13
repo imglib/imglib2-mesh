@@ -96,8 +96,8 @@ public class Interior
 		final Triangles triangles = mesh.triangles();
 		final Vertices vertices = mesh.vertices();
 
-		this.minZs = new double[ ( int ) triangles.size() ];
-		this.maxZs = new double[ ( int ) triangles.size() ];
+		this.minZs = new double[ triangles.size() ];
+		this.maxZs = new double[ triangles.size() ];
 		for ( int t = 0; t < triangles.size(); t++ )
 		{
 			final long v0 = triangles.vertex0( t );
@@ -116,6 +116,9 @@ public class Interior
 
 	public boolean isInside( final RealPoint p )
 	{
+		if (p.numDimensions() < 3)
+			throw new IllegalArgumentException( "Point must have at least 3 dimensions. Got " + p.numDimensions() + "." );
+		
 		// Test for easy cases.
 		if ( !Intervals.contains( boundingBox, p ) )
 			return false;
