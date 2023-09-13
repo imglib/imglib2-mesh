@@ -32,7 +32,6 @@ package net.imglib2.mesh.impl.nio;
 
 import net.imglib2.mesh.AbstractMeshTest;
 import net.imglib2.mesh.Mesh;
-import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * Tests {@link BufferMesh}.
