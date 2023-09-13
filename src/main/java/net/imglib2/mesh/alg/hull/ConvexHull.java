@@ -39,8 +39,8 @@ import java.util.Set;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 import net.imglib2.util.Pair;
 import net.imglib2.util.ValuePair;
 
@@ -67,7 +67,7 @@ public class ConvexHull
 	{
 		final NaiveDoubleMesh output = new NaiveDoubleMesh();
 		final Set< Vertex > vertices = new LinkedHashSet<>();
-		for ( final net.imglib2.mesh.obj.Vertex v : input.vertices() )
+		for ( final net.imglib2.mesh.Vertex v : input.vertices() )
 		{
 			final Vertex vertex = new Vertex( v.x(), v.y(), v.z() );
 			vertices.add( vertex );

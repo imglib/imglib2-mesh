@@ -1,11 +1,11 @@
 package net.imglib2.mesh.util;
 
 import net.imglib2.RealLocalizable;
+import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Meshes;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.Triangle;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * Icosahedron spheres.

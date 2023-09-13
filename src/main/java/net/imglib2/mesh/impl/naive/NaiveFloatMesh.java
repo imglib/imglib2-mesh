@@ -28,12 +28,12 @@
  * #L%
  */
 
-package net.imglib2.mesh.obj.naive;
+package net.imglib2.mesh.impl.naive;
 
 import org.scijava.util.FloatArray;
 import org.scijava.util.IntArray;
 
-import net.imglib2.mesh.obj.Mesh;
+import net.imglib2.mesh.Mesh;
 
 public class NaiveFloatMesh implements Mesh
 {
@@ -62,7 +62,7 @@ public class NaiveFloatMesh implements Mesh
 
 	// -- Inner classes --
 
-	public class Vertices implements net.imglib2.mesh.obj.Vertices
+	public class Vertices implements net.imglib2.mesh.Vertices
 	{
 
 		private final FloatArray xs, ys, zs;
@@ -211,7 +211,7 @@ public class NaiveFloatMesh implements Mesh
 		}
 	}
 
-	public class Triangles implements net.imglib2.mesh.obj.Triangles
+	public class Triangles implements net.imglib2.mesh.Triangles
 	{
 
 		private final IntArray v0s, v1s, v2s;

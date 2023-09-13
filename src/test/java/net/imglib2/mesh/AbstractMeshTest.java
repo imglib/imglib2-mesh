@@ -41,9 +41,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * Tests for {@link Mesh}.

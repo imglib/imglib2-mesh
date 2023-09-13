@@ -6,8 +6,8 @@ import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
 import net.imglib2.RandomAccessible;
 import net.imglib2.RealInterval;
+import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Meshes;
-import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.mesh.util.MeshUtil;
 
 public class MeshIterable< T > implements IterableInterval< T >

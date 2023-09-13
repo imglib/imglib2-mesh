@@ -28,7 +28,7 @@
  * #L%
  */
 
-package net.imglib2.mesh.obj;
+package net.imglib2.mesh;
 
 import net.imglib2.RealLocalizable;
 

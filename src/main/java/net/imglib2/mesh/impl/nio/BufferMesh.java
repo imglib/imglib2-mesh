@@ -28,7 +28,7 @@
  * #L%
  */
 
-package net.imglib2.mesh.obj.nio;
+package net.imglib2.mesh.impl.nio;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -37,7 +37,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.function.Function;
 
-import net.imglib2.mesh.obj.Mesh;
+import net.imglib2.mesh.Mesh;
 
 /**
  * Mesh implemented using {@link java.nio.Buffer} objects.
@@ -95,7 +95,7 @@ public class BufferMesh implements Mesh
 
 	// -- Inner classes --
 
-	public class Vertices implements net.imglib2.mesh.obj.Vertices
+	public class Vertices implements net.imglib2.mesh.Vertices
 	{
 
 		private static final int V_STRIDE = 3;
@@ -253,7 +253,7 @@ public class BufferMesh implements Mesh
 		}
 	}
 
-	public class Triangles implements net.imglib2.mesh.obj.Triangles
+	public class Triangles implements net.imglib2.mesh.Triangles
 	{
 
 		private static final int I_STRIDE = 3;

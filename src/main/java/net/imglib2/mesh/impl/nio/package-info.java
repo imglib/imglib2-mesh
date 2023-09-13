@@ -1,4 +1,4 @@
 /**
  * Mesh implemented using {@link java.nio.Buffer} objects.
  */
-package net.imglib2.mesh.obj.nio;
+package net.imglib2.mesh.impl.nio;

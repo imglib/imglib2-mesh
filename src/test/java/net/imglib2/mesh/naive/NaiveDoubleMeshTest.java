@@ -31,8 +31,8 @@
 package net.imglib2.mesh.naive;
 
 import net.imglib2.mesh.AbstractMeshTest;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 
 /**
  * Tests {@link NaiveDoubleMesh}.

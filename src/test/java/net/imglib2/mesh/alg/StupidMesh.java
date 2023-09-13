@@ -47,7 +47,7 @@ import bvv.core.shadergen.DefaultShader;
 import bvv.core.shadergen.Shader;
 import bvv.core.shadergen.generate.Segment;
 import bvv.core.shadergen.generate.SegmentTemplate;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 public class StupidMesh
 {

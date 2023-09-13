@@ -4,10 +4,6 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.hull.ConvexHull;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertices;
 import net.imglib2.mesh.util.MeshUtil;
 
 /**

@@ -35,8 +35,8 @@ import java.util.Map;
 
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * @author Deborah Schmidt
@@ -50,7 +50,7 @@ public class RemoveDuplicateVertices
 		final int[][] triangles = new int[ mesh.triangles().size() ][ 3 ];
 
 		int trianglesCount = 0;
-		for ( final net.imglib2.mesh.obj.Triangle triangle : mesh.triangles() )
+		for ( final net.imglib2.mesh.Triangle triangle : mesh.triangles() )
 		{
 			final RealPoint p1 = new RealPoint( triangle.v0x(), triangle.v0y(), triangle.v0z() );
 			final RealPoint p2 = new RealPoint( triangle.v1x(), triangle.v1y(), triangle.v1z() );

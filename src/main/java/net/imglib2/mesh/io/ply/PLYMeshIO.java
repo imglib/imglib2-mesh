@@ -54,11 +54,11 @@ import org.smurn.jply.util.TextureMode;
 
 import gnu.trove.map.hash.TIntLongHashMap;
 import gnu.trove.map.hash.TLongIntHashMap;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
-import net.imglib2.mesh.obj.Vertex;
-import net.imglib2.mesh.obj.Vertices;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangle;
+import net.imglib2.mesh.Vertex;
+import net.imglib2.mesh.Vertices;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * A plugin for reading and writing

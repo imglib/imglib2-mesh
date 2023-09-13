@@ -10,12 +10,12 @@ import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 import net.imglib2.RealInterval;
 import net.imglib2.Sampler;
+import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.alg.zslicer.RamerDouglasPeucker;
 import net.imglib2.mesh.alg.zslicer.Slice;
 import net.imglib2.mesh.alg.zslicer.ZSlicer;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.mesh.util.MeshUtil;
 
 public class MeshCursor< T > implements Cursor< T >

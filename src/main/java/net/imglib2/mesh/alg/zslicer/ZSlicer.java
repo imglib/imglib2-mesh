@@ -8,9 +8,9 @@ import java.util.List;
 
 import gnu.trove.list.array.TDoubleArrayList;
 import gnu.trove.list.array.TIntArrayList;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertices;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangles;
+import net.imglib2.mesh.Vertices;
 import net.imglib2.mesh.util.MeshUtil;
 import net.imglib2.mesh.util.SortArray;
 import net.imglib2.mesh.util.SortBy;

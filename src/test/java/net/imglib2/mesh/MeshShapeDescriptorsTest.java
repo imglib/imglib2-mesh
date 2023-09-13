@@ -19,8 +19,7 @@ import gnu.trove.list.array.TLongArrayList;
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.InertiaTensor;
 import net.imglib2.mesh.alg.hull.ConvexHull;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 
 public class MeshShapeDescriptorsTest
 {
