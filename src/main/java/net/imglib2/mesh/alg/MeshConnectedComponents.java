@@ -11,10 +11,10 @@ import gnu.trove.map.hash.TLongLongHashMap;
 import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.set.hash.TIntHashSet;
 import gnu.trove.set.hash.TLongHashSet;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertices;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangles;
+import net.imglib2.mesh.Vertices;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * Connected components algorithm for meshes.
@@ -243,8 +243,8 @@ public class MeshConnectedComponents
 			} );
 
 			final BufferMesh out = new BufferMesh( vs.size(), cc.size() );
-			final net.imglib2.mesh.obj.nio.BufferMesh.Vertices outVertices = out.vertices();
-			final net.imglib2.mesh.obj.nio.BufferMesh.Triangles outTriangles = out.triangles();
+			final net.imglib2.mesh.impl.nio.BufferMesh.Vertices outVertices = out.vertices();
+			final net.imglib2.mesh.impl.nio.BufferMesh.Triangles outTriangles = out.triangles();
 
 			final TLongLongHashMap inOutMap = new TLongLongHashMap( nVertices, Constants.DEFAULT_LOAD_FACTOR, -1, -1 );
 			cc.forEach( new TIntProcedure()

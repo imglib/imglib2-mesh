@@ -1,12 +1,12 @@
-package net.imglib2.mesh.obj.transform;
+package net.imglib2.mesh.impl.transform;
 
 import java.util.Iterator;
 
 import net.imglib2.RealLocalizable;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertex;
-import net.imglib2.mesh.obj.Vertices;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangles;
+import net.imglib2.mesh.Vertex;
+import net.imglib2.mesh.Vertices;
 
 /**
  * Read-only view of a mesh where vertices are translated by a fixed amount.

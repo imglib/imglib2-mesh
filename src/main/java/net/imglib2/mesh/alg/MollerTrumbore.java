@@ -1,8 +1,8 @@
 package net.imglib2.mesh.alg;
 
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertices;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangles;
+import net.imglib2.mesh.Vertices;
 
 /**
  * Möller–Trumbore intersection algorithm.

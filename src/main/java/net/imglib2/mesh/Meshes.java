@@ -40,12 +40,7 @@ import net.imglib2.mesh.alg.MarchingCubesRealType;
 import net.imglib2.mesh.alg.MeshConnectedComponents;
 import net.imglib2.mesh.alg.RemoveDuplicateVertices;
 import net.imglib2.mesh.alg.SimplifyMesh;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertex;
-import net.imglib2.mesh.obj.Vertices;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.type.BooleanType;
 import net.imglib2.type.numeric.RealType;
 
@@ -75,7 +70,7 @@ public class Meshes
 		return p;
 	}
 
-	public static float[] boundingBox( final net.imglib2.mesh.obj.Mesh mesh )
+	public static float[] boundingBox( final net.imglib2.mesh.Mesh mesh )
 	{
 		final float[] boundingBox = new float[] { Float.POSITIVE_INFINITY,
 				Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY,
@@ -107,7 +102,7 @@ public class Meshes
 	 * @param dest
 	 *            Destination mesh, into which source will be copied.
 	 */
-	public static void copy( final net.imglib2.mesh.obj.Mesh src, final net.imglib2.mesh.obj.Mesh dest )
+	public static void copy( final net.imglib2.mesh.Mesh src, final net.imglib2.mesh.Mesh dest )
 	{
 		final Map< Long, Long > vIndexMap = new HashMap<>();
 		// Copy the vertices, keeping track when indices change.
@@ -159,7 +154,7 @@ public class Meshes
 	 *            Destination mesh, will be populated with src's info plus the
 	 *            calculated normals
 	 */
-	public static void calculateNormals( final net.imglib2.mesh.obj.Mesh src, final net.imglib2.mesh.obj.Mesh dest )
+	public static void calculateNormals( final net.imglib2.mesh.Mesh src, final net.imglib2.mesh.Mesh dest )
 	{
 
 		// Compute the triangle normals.

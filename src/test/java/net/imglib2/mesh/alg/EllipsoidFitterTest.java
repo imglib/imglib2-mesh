@@ -7,7 +7,7 @@ import org.junit.Test;
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.EllipsoidFitter.EllipsoidFit;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.mesh.util.Icosahedron;
 
 public class EllipsoidFitterTest

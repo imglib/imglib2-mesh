@@ -11,8 +11,8 @@ import org.apache.commons.math3.linear.SingularValueDecomposition;
 
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
+import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.alg.hull.ConvexHull;
-import net.imglib2.mesh.obj.Mesh;
 import net.imglib2.util.Util;
 
 /**

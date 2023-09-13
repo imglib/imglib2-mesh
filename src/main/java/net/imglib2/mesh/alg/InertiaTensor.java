@@ -5,9 +5,9 @@ import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 
 import net.imglib2.RealLocalizable;
+import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.MeshShapeDescriptors;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
+import net.imglib2.mesh.Triangle;
 
 /**
  * Inertia tensor of a 3D mesh.

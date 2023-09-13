@@ -38,10 +38,10 @@ import java.util.Random;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Test;
 
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
-import net.imglib2.mesh.obj.Vertices;
-import net.imglib2.mesh.obj.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangle;
+import net.imglib2.mesh.Vertices;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 
 /**
  * This class tests the {@link DefaultConvexHull3D} implementation. The number

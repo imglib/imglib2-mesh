@@ -50,8 +50,8 @@ import java.util.List;
 import java.util.Vector;
 
 import net.imglib2.RealPoint;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.nio.BufferMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * @author James Khan / jayfella
@@ -238,7 +238,7 @@ public class SimplifyMesh
 		refs.clear();
 
 		final Point[] meshVerts = new Point[ inMesh.vertices().size() ];
-		final Iterator< net.imglib2.mesh.obj.Vertex > iterator = inMesh.vertices().iterator();
+		final Iterator< net.imglib2.mesh.Vertex > iterator = inMesh.vertices().iterator();
 		for ( int i = 0; i < inMesh.vertices().size(); i++ )
 		{
 			final Point simpleVertex = new Point();
@@ -255,10 +255,10 @@ public class SimplifyMesh
 //        int index = 0;
 		int triIndex = 0;
 
-		final Iterator< net.imglib2.mesh.obj.Triangle > iteratorTriangles = inMesh.triangles().iterator();
+		final Iterator< net.imglib2.mesh.Triangle > iteratorTriangles = inMesh.triangles().iterator();
 		for ( int i = 0; i < inMesh.triangles().size(); i++ )
 		{
-			final net.imglib2.mesh.obj.Triangle tria = iteratorTriangles.next();
+			final net.imglib2.mesh.Triangle tria = iteratorTriangles.next();
 			final Triangle t = new Triangle(
 					( int ) tria.vertex0(),
 					( int ) tria.vertex1(),

@@ -41,9 +41,9 @@ import org.scijava.util.FileUtils;
 
 import com.google.common.base.Strings;
 
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangle;
-import net.imglib2.mesh.obj.naive.NaiveFloatMesh;
+import net.imglib2.mesh.Mesh;
+import net.imglib2.mesh.Triangle;
+import net.imglib2.mesh.impl.naive.NaiveFloatMesh;
 
 /**
  * A plugin for reading and writing STL files.

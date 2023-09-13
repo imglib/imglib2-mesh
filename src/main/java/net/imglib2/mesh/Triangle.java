@@ -28,7 +28,7 @@
  * #L%
  */
 
-package net.imglib2.mesh.obj;
+package net.imglib2.mesh;
 
 /**
  * One triangle of a {@link Triangles} collection.
