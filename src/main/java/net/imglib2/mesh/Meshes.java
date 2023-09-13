@@ -390,7 +390,7 @@ public class Meshes
 		{
 			// Add vertices.
 			final Vertices vIn = mesh.vertices();
-			final int[] inToOutMap = new int[ ( int ) vIn.size() ];
+			final int[] inToOutMap = new int[ vIn.size() ];
 			for ( int i = 0; i < vIn.size(); i++ )
 			{
 				final float xf = vIn.xf( i );
