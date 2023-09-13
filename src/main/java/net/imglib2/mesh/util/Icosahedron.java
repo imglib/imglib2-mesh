@@ -14,7 +14,7 @@ import net.imglib2.mesh.impl.nio.BufferMesh;
  * 
  * @author Jean-Yves Tinevez
  */
-public class Icosahedron
+public final class Icosahedron
 {
 
 	public static final Mesh core()
@@ -68,10 +68,20 @@ public class Icosahedron
 		return mesh;
 	}
 
+	/**
+	 * Creates a new, finer icosahedron, based on the one specified, by
+	 * subdividing each triangle into 4 smaller triangle, with vertices still on
+	 * the icosahedron.
+	 * 
+	 * @param core
+	 *            the sphere to subdivide.
+	 * @return a new sphere with 4 times the number of triangles and 6 times the
+	 *         number of vertices.
+	 */
 	public static final BufferMesh refine( final Mesh core )
 	{
-		final int nVerticesOut = ( int ) ( 6 * core.triangles().size() );
-		final int nTrianglesOut = ( int ) ( 4 * core.triangles().size() );
+		final int nVerticesOut = 6 * core.triangles().size();
+		final int nTrianglesOut = 4 * core.triangles().size();
 		final BufferMesh out = new BufferMesh( nVerticesOut, nTrianglesOut );
 
 		final double[] tmpIn = new double[ 3 ];
@@ -121,7 +131,7 @@ public class Icosahedron
 			mesh = refine( mesh );
 
 		scale( mesh, center, radius );
-		final BufferMesh out = new BufferMesh( ( int ) mesh.vertices().size(), ( int ) mesh.triangles().size() );
+		final BufferMesh out = new BufferMesh( mesh.vertices().size(), mesh.triangles().size() );
 		Meshes.calculateNormals( mesh, out );
 		return out;
 	}
@@ -145,4 +155,7 @@ public class Icosahedron
 		tmp[ 1 ] = v[ 1 ] / l;
 		tmp[ 2 ] = v[ 2 ] / l;
 	}
+
+	private Icosahedron()
+	{}
 }
