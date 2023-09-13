@@ -115,18 +115,16 @@ public class Meshes
 					v.u(), v.v() );
 			if ( srcIndex != destIndex )
 			{
-				// NB: If the destination vertex index matches the source, we
-				// skip
-				// recording the entry, to save space in the map. Later, we
-				// leave
-				// indexes unchanged which are absent from the map.
-				//
-				// This scenario is actually quite common, because vertices are
-				// often
-				// numbered in natural order, with the first vertex having index
-				// 0,
-				// the second having index 1, etc., although it is not
-				// guaranteed.
+				/*
+				 * NB: If the destination vertex index matches the source, we
+				 * skip recording the entry, to save space in the map. Later, we
+				 * leave indexes unchanged which are absent from the map.
+				 * 
+				 * This scenario is actually quite common, because vertices are
+				 * often numbered in natural order, with the first vertex having
+				 * index 0, the second having index 1, etc., although it is not
+				 * guaranteed.
+				 */
 				vIndexMap.put( srcIndex, destIndex );
 			}
 		}

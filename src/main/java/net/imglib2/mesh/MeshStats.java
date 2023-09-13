@@ -54,7 +54,7 @@ public class MeshStats
 	/**
 	 * Returns the surface area of a mesh.
 	 * <p>
-	 * It is computed as the sum of the are of the outwards-facing triangles.
+	 * It is computed as the sum of the area of the outwards-facing triangles.
 	 * 
 	 * @param mesh
 	 *            the input mesh.
@@ -174,11 +174,9 @@ public class MeshStats
 	/**
 	 * Returns the compactness of the mesh.
 	 * 
-	 * Based on: <a href=
-	 * "http://www.sciencedirect.com/science/article/pii/S003132030700324X">Ernesto
+	 * Based on: <a href= "https://doi.org/10.1016/j.patcog.2007.06.029">Ernesto
 	 * Bribiesca, An easy measure of compactness for 2D and 3D shapes, Pattern
-	 * Recognition, Volume 41, Issue 2, 2008, Pages 543-554, ISSN 0031-3203,
-	 * https://doi.org/10.1016/j.patcog.2007.06.029.</a>
+	 * Recognition, Volume 41, Issue 2, 2008, Pages 543-554, ISSN 0031-3203</a>
 	 * <p>
 	 * In the paper compactness is defined as <code>area^3/volume^2</code>. For
 	 * a sphere this is minimized and results in <code>36*PI</code>. To get
