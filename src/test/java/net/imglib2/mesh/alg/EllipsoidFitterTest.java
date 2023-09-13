@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
-import net.imglib2.mesh.alg.EllipsoidFitter.EllipsoidFit;
+import net.imglib2.mesh.alg.EllipsoidFitter.Ellipsoid;
 import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.mesh.util.Icosahedron;
 
@@ -21,7 +21,7 @@ public class EllipsoidFitterTest
 		final RealLocalizable center = new RealPoint( 1., 2., 3. );
 		final double radius = 5.;
 		final BufferMesh mesh = Icosahedron.sphere( center, radius );
-		final EllipsoidFit fit = EllipsoidFitter.fit( mesh );
+		final Ellipsoid fit = EllipsoidFitter.fit( mesh );
 		
 		for ( int d = 0; d < 3; d++ )
 		{
