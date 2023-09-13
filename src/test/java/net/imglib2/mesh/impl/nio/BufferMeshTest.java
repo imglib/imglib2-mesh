@@ -28,23 +28,23 @@
  * #L%
  */
 
-package net.imglib2.mesh.naive;
+package net.imglib2.mesh.impl.nio;
 
 import net.imglib2.mesh.AbstractMeshTest;
 import net.imglib2.mesh.Mesh;
-import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
- * Tests {@link NaiveDoubleMesh}.
+ * Tests {@link BufferMesh}.
  *
  * @author Curtis Rueden
  */
-public class NaiveDoubleMeshTest extends AbstractMeshTest
+public class BufferMeshTest extends AbstractMeshTest
 {
 
 	@Override
 	public Mesh createMesh()
 	{
-		return new NaiveDoubleMesh();
+		return new BufferMesh( 100, 100 );
 	}
 }
