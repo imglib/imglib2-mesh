@@ -28,7 +28,7 @@
  * #L%
  */
 
-package net.imglib2.mesh.naive;
+package net.imglib2.mesh.impl.naive;
 
 import net.imglib2.mesh.AbstractMeshTest;
 import net.imglib2.mesh.Mesh;
