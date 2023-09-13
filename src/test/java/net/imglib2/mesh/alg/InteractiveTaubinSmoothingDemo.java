@@ -59,7 +59,7 @@ public class InteractiveTaubinSmoothingDemo
 		}
 
 		// Calculate normals.
-		final BufferMesh mesh = new BufferMesh( m2.vertices().isize(), m2.triangles().isize() );
+		final BufferMesh mesh = new BufferMesh( m2.vertices().size(), m2.triangles().size() );
 		Meshes.calculateNormals( m2, mesh );
 
 		final List< StupidMesh > meshes = new ArrayList<>();
