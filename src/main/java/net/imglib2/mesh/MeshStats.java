@@ -267,4 +267,7 @@ public class MeshStats
 		final double v = volume( input );
 		return new RealPoint( m100 / v, m010 / v, m001 / v );
 	}
+
+	private MeshStats()
+	{}
 }

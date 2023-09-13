@@ -425,4 +425,7 @@ public class Meshes
 		}
 		return out;
 	}
+
+	private Meshes()
+	{}
 }
