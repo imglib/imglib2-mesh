@@ -1,4 +1,4 @@
-package net.imglib2.mesh.impl.transform;
+package net.imglib2.mesh.view;
 
 import java.util.Iterator;
 
