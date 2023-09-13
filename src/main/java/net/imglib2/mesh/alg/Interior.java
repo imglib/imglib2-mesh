@@ -22,10 +22,10 @@ public class Interior
 {
 
 	/** Fraction of the specified scale to shift mesh vertices position. */
-	private static final double EPS = 4e-4;
+	private static final double SCALE_FRAC = 4e-4;
 
 	/** Precision limit for the Moller-Trumbore algorithm. */
-	private static final double EPSILON = 0.0000001;
+	private static final double PRECISION_LIMIT = 0.0000001;
 
 	/** The X coordinate of the ray vector to cast. We go along positive X. */
 	private static final double RX = 1.;
@@ -90,7 +90,7 @@ public class Interior
 		/*
 		 * Slice plane Z positions to odd multiples of eps.
 		 */
-		final double eps = EPS * scale;
+		final double eps = SCALE_FRAC * scale;
 
 		// Collect minZ & maxZ of vertices.
 		final Triangles triangles = mesh.triangles();
@@ -126,7 +126,7 @@ public class Interior
 		// The rest: ray casting along X.
 		final double ox = p.getDoublePosition( 0 );
 		final double oy = p.getDoublePosition( 1 );
-		final double oz = mround( p.getDoublePosition( 2 ), EPS, 2, 1 );
+		final double oz = mround( p.getDoublePosition( 2 ), SCALE_FRAC, 2, 1 );
 
 		// All triangles with minZ < oz
 		int k1 = Arrays.binarySearch( minZs, oz );
@@ -257,13 +257,13 @@ public class Interior
 		// Coords.
 		final double x0 = mesh.vertices().x( vertex0 );
 		final double y0 = mesh.vertices().y( vertex0 );
-		final double z0 = mround( mesh.vertices().z( vertex0 ), EPS, 2, 0 );
+		final double z0 = mround( mesh.vertices().z( vertex0 ), SCALE_FRAC, 2, 0 );
 		final double x1 = mesh.vertices().x( vertex1 );
 		final double y1 = mesh.vertices().y( vertex1 );
-		final double z1 = mround( mesh.vertices().z( vertex1 ), EPS, 2, 0 );
+		final double z1 = mround( mesh.vertices().z( vertex1 ), SCALE_FRAC, 2, 0 );
 		final double x2 = mesh.vertices().x( vertex2 );
 		final double y2 = mesh.vertices().y( vertex2 );
-		final double z2 = mround( mesh.vertices().z( vertex2 ), EPS, 2, 0 );
+		final double z2 = mround( mesh.vertices().z( vertex2 ), SCALE_FRAC, 2, 0 );
 
 		// Edge 1
 		final double e1x = x1 - x0;
@@ -279,7 +279,7 @@ public class Interior
 		final double hy = tmp[ 1 ];
 		final double hz = tmp[ 2 ];
 		final double a = dot( e1x, e1y, e1z, hx, hy, hz );
-		if ( a > -EPSILON && a < EPSILON )
+		if ( a > -PRECISION_LIMIT && a < PRECISION_LIMIT )
 			return false; // This ray is parallel to this triangle.
 
 		final double sx = ox - x0;
@@ -303,7 +303,7 @@ public class Interior
 
 		final double t = f * dot( e2x, e2y, e2z, qx, qy, qz );
 		// We have an infinite line intersection.
-		if ( t < EPSILON )
+		if ( t < PRECISION_LIMIT )
 			return false;
 
 		intersection[ 0 ] = ox + t * rx;
