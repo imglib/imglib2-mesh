@@ -6,7 +6,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 
 import net.imglib2.RealLocalizable;
 import net.imglib2.mesh.Mesh;
-import net.imglib2.mesh.MeshShapeDescriptors;
+import net.imglib2.mesh.MeshStats;
 import net.imglib2.mesh.Triangle;
 
 /**
@@ -27,7 +27,7 @@ public class InertiaTensor
 
 	public static RealMatrix calculate( final Mesh input )
 	{
-		final RealLocalizable cent = MeshShapeDescriptors.centroid( input );
+		final RealLocalizable cent = MeshStats.centroid( input );
 		final double originX = cent.getDoublePosition( 0 );
 		final double originY = cent.getDoublePosition( 1 );
 		final double originZ = cent.getDoublePosition( 2 );

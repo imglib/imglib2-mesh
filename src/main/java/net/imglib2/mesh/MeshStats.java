@@ -9,7 +9,7 @@ import net.imglib2.mesh.util.MeshUtil;
 /**
  * Static utilities that compute various shape descriptors of a mesh.
  */
-public class MeshShapeDescriptors
+public class MeshStats
 {
 
 	/**
