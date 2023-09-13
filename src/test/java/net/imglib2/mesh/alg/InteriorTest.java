@@ -21,7 +21,7 @@ import net.imglib2.util.Localizables;
 import net.imglib2.util.Util;
 import net.imglib2.view.Views;
 
-public class InteriorPointTestTest
+public class InteriorTest
 {
 
 	@Test
@@ -61,7 +61,7 @@ public class InteriorPointTestTest
 			}
 		}
 
-		final BufferMesh mesh = new BufferMesh( m2.vertices().isize(), m2.triangles().isize() );
+		final BufferMesh mesh = new BufferMesh( m2.vertices().size(), m2.triangles().size() );
 		Meshes.calculateNormals( m2, mesh );
 
 		/*
@@ -72,7 +72,7 @@ public class InteriorPointTestTest
 		final RealPoint p = new RealPoint( 9.5, 12, 10.5 );
 
 		final boolean expected = true;
-		final boolean actual = new InteriorPointTest( mesh, 1. ).isInside( p );
+		final boolean actual = new Interior( mesh, 1. ).isInside( p );
 		assertEquals( "Point at position " + Util.printCoordinates( p ) + " was not properly located inside the mesh.", expected, actual );
 
 	}
@@ -155,7 +155,7 @@ public class InteriorPointTestTest
 		final double scale = 1.;
 		// Scale is 1: this is the pixel length on which the mesh is created in
 		// our case.
-		final InteriorPointTest test = new InteriorPointTest( mesh, scale );
+		final Interior test = new Interior( mesh, scale );
 
 		final int nPoints = 100;
 		final Random ran = new Random( 50l );
@@ -180,13 +180,13 @@ public class InteriorPointTestTest
 		// Build a mesh from the source image..
 		final Mesh m = Meshes.marchingCubes( img );
 		final Mesh m2 = Meshes.removeDuplicateVertices( m, 2 );
-		final BufferMesh mesh = new BufferMesh( m2.vertices().isize(), m2.triangles().isize() );
+		final BufferMesh mesh = new BufferMesh( m2.vertices().size(), m2.triangles().size() );
 		Meshes.calculateNormals( m2, mesh );
 		return mesh;
 	}
 
 	public static void main( final String[] args )
 	{
-		new InteriorPointTestTest().testEdgeCase();
+		new InteriorTest().testEdgeCase();
 	}
 }

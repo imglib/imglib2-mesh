@@ -18,7 +18,7 @@ import net.imglib2.mesh.util.SortArray;
 import net.imglib2.mesh.util.SortBy;
 import net.imglib2.util.Intervals;
 
-public class InteriorPointTest
+public class Interior
 {
 
 	/** Fraction of the specified scale to shift mesh vertices position. */
@@ -77,12 +77,12 @@ public class InteriorPointTest
 
 	private final RealInterval boundingBox;
 
-	public InteriorPointTest( final Mesh mesh, final double scale )
+	public Interior( final Mesh mesh, final double scale )
 	{
 		this( mesh, MeshUtil.toRealInterval( Meshes.boundingBox( mesh ) ), scale );
 	}
 
-	public InteriorPointTest( final Mesh mesh, final RealInterval boundingBox, final double scale )
+	public Interior( final Mesh mesh, final RealInterval boundingBox, final double scale )
 	{
 		this.mesh = mesh;
 		this.boundingBox = boundingBox;
