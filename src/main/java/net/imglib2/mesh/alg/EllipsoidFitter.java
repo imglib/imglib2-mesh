@@ -31,7 +31,7 @@ public class EllipsoidFitter
 	/**
 	 * The results of fitting an ellipsoid to a mesh or a collection of points.
 	 */
-	public static final class EllipsoidFit
+	public static final class Ellipsoid
 	{
 		/** The ellipsoid center. */
 		public final RealLocalizable center;
@@ -54,7 +54,7 @@ public class EllipsoidFitter
 		/** The radius of the largest axis of the ellipsoid. */
 		public final double r3;
 
-		private EllipsoidFit( final RealLocalizable center,
+		private Ellipsoid( final RealLocalizable center,
 				final RealLocalizable ev1,
 				final RealLocalizable ev2,
 				final RealLocalizable ev3,
@@ -90,7 +90,7 @@ public class EllipsoidFitter
 	 *            the mesh to fit.
 	 * @return the fit results.
 	 */
-	public static final EllipsoidFit fit( final Mesh mesh )
+	public static final Ellipsoid fit( final Mesh mesh )
 	{
 		final Mesh ch = ConvexHull.calculate( mesh );
 		return fitOnConvexHull( ch );
@@ -103,7 +103,7 @@ public class EllipsoidFitter
 	 *            the convex-Hull of the mesh to fit.
 	 * @return the fit results.
 	 */
-	public static final EllipsoidFit fitOnConvexHull( final Mesh mesh )
+	public static final Ellipsoid fitOnConvexHull( final Mesh mesh )
 	{
 		return fit( mesh.vertices(), ( int ) mesh.vertices().size() );
 	}
@@ -119,7 +119,7 @@ public class EllipsoidFitter
 	 *            points in the iterable, whatever comes first.
 	 * @return the fit results.
 	 */
-	public static EllipsoidFit fit( final Iterable< ? extends RealLocalizable > points, final int nPoints )
+	public static Ellipsoid fit( final Iterable< ? extends RealLocalizable > points, final int nPoints )
 	{
 		final RealVector V = solve( points, nPoints );
 
@@ -133,11 +133,11 @@ public class EllipsoidFitter
 		final RealMatrix R = translateToCenter( C, A );
 
 		// Ellipsoid eigenvectors and eigenvalues.
-		final EllipsoidFit fit = getFit( R, C );
+		final Ellipsoid fit = getFit( R, C );
 		return fit;
 	}
 
-	private static EllipsoidFit getFit( final RealMatrix R, final RealVector C )
+	private static Ellipsoid getFit( final RealMatrix R, final RealVector C )
 	{
 		final RealMatrix subr = R.getSubMatrix( 0, 2, 0, 2 );
 
@@ -164,7 +164,7 @@ public class EllipsoidFitter
 		final RealPoint ev1 = new RealPoint( e1.getEntry( 0 ), e1.getEntry( 1 ), e1.getEntry( 2 ) );
 		final RealPoint ev2 = new RealPoint( e2.getEntry( 0 ), e2.getEntry( 1 ), e2.getEntry( 2 ) );
 		final RealPoint ev3 = new RealPoint( e3.getEntry( 0 ), e3.getEntry( 1 ), e3.getEntry( 2 ) );
-		return new EllipsoidFit( center, ev1, ev2, ev3, SAL.getEntry( 0 ), SAL.getEntry( 1 ), SAL.getEntry( 2 ) );
+		return new Ellipsoid( center, ev1, ev2, ev3, SAL.getEntry( 0 ), SAL.getEntry( 1 ), SAL.getEntry( 2 ) );
 	}
 
 	/**
