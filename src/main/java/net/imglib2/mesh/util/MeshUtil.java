@@ -1,10 +1,10 @@
 package net.imglib2.mesh.util;
 
 import net.imglib2.RealInterval;
+import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Meshes;
-import net.imglib2.mesh.obj.Mesh;
-import net.imglib2.mesh.obj.Triangles;
-import net.imglib2.mesh.obj.Vertices;
+import net.imglib2.mesh.Triangles;
+import net.imglib2.mesh.Vertices;
 import net.imglib2.util.Intervals;
 
 public class MeshUtil
