@@ -1,9 +1,8 @@
 /*-
  * #%L
- * I/O plugins for ImageJ meshes.
+ * 3D mesh structures for ImgLib2-related projects.
  * %%
- * Copyright (C) 2016 - 2018 University of Idaho, Royal Veterinary College, and
- * Board of Regents of the University of Wisconsin-Madison.
+ * Copyright (C) 2016 - 2023 ImgLib2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:

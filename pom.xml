@@ -14,7 +14,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 
 	<name>ImgLib2 Mesh</name>
-	<description>3D mesh structures for ImgLib2 related projects.</description>
+	<description>3D mesh structures for ImgLib2-related projects.</description>
 	<url>https://imagej.net/ImgLib2_Mesh</url>
 	<inceptionYear>2016</inceptionYear>
 	<organization>
@@ -117,8 +117,7 @@
 		<package-name>net.imglib2.mesh</package-name>
 
 		<license.licenseName>bsd_2</license.licenseName>
-		<license.copyrightOwners>University of Idaho, Royal Veterinary College, and
-Board of Regents of the University of Wisconsin-Madison.</license.copyrightOwners>
+		<license.copyrightOwners>ImgLib2 developers.</license.copyrightOwners>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
