@@ -15,11 +15,11 @@
 
 	<name>ImgLib2 Mesh</name>
 	<description>3D mesh structures for ImgLib2-related projects.</description>
-	<url>https://imagej.net/ImgLib2_Mesh</url>
+	<url>https://github.com/imglib/imglib2-mesh</url>
 	<inceptionYear>2016</inceptionYear>
 	<organization>
 		<name>ImgLib2</name>
-		<url>http://imglib2.net/</url>
+		<url>https://imglib2.net/</url>
 	</organization>
 	<licenses>
 		<license>
@@ -30,13 +30,12 @@
 
 	<developers>
 		<developer>
-			<id>kephale</id>
-			<name>Kyle Harrington</name>
-			<url>https://imagej.net/User:Kharrington</url>
+			<id>tinevez</id>
+			<name>Jean-Yves Tinevez</name>
+			<url>https://imagej.net/people/tinevez</url>
 			<roles>
 				<role>founder</role>
 				<role>lead</role>
-				<role>developer</role>
 				<role>debugger</role>
 				<role>reviewer</role>
 				<role>support</role>
@@ -44,73 +43,73 @@
 			</roles>
 		</developer>
 		<developer>
-			<id>rimadoma</id>
-			<name>Richard Domander</name>
-			<url>https://imagej.net/User:Rdom</url>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<url>https://imagej.net/people/ctrueden</url>
 			<roles>
 				<role>founder</role>
-				<role>developer</role>
+				<role>lead</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
 			</roles>
 		</developer>
 		<developer>
-			<id>ctrueden</id>
-			<name>Curtis Rueden</name>
-			<url>https://imagej.net/User:Rueden</url>
+			<id>kephale</id>
+			<name>Kyle Harrington</name>
+			<url>https://imagej.net/people/kephale</url>
 			<roles>
 				<role>founder</role>
+				<role>lead</role>
 				<role>debugger</role>
 				<role>reviewer</role>
+				<role>support</role>
 				<role>maintainer</role>
 			</roles>
 		</developer>
 		<developer>
 			<id>tpietzsch</id>
 			<name>Tobias Pietzsch</name>
-			<url>https://imagej.net/User:tpietzsch</url>
+			<url>https://imagej.net/people/tpietzsch</url>
 			<roles>
-				<role>developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Jean-Yves Tinevez</name>
-			<url>https://imagej.net/User:JeanYvesTinevez</url>
-			<roles>
-				<role>developer</role>
-				<role>reviewer</role>
 				<role>maintainer</role>
 			</roles>
 		</developer>
 	</developers>
 	<contributors>
-		<!--
-		NB: Need at least one element to override the parent.
-		See: https://issues.apache.org/jira/browse/MNG-5220
-		-->
 		<contributor>
-			<name>None</name>
+			<name>Richard Domander</name>
+			<url>https://imagej.net/people/rimadoma</url>
+			<properties><id>rimadoma</id></properties>
+		</contributor>
+		<contributor>
+			<name>Deborah Schmidt</name>
+			<url>https://imagej.net/people/frauzufall</url>
+			<properties><id>frauzufall</id></properties>
 		</contributor>
 	</contributors>
 
 	<mailingLists>
 		<mailingList>
 			<name>Image.sc Forum</name>
-			<archive>https://forum.image.sc/tags/imagej</archive>
+			<archive>https://forum.image.sc/tag/imagej</archive>
 		</mailingList>
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:https://github.com/tinevez/imglib2-mesh</connection>
-		<developerConnection>scm:git:git@github.com:tinevez/imglib2-mesh</developerConnection>
+		<connection>scm:git:https://github.com/imglib/imglib2-mesh</connection>
+		<developerConnection>scm:git:git@github.com:imglib/imglib2-mesh</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/tinevez/imglib2-mesh</url>
+		<url>https://github.com/imglib/imglib2-mesh</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/tinevez/imglib2-mesh/issues</url>
+		<url>https://github.com/imglib/imglib2-mesh/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>GitHub Actions</system>
-		<url>https://github.com/tinevez/imglib2-mesh/actions</url>
+		<url>https://github.com/imglib/imglib2-mesh/actions</url>
 	</ciManagement>
 
 	<properties>
