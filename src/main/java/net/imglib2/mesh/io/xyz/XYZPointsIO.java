@@ -42,12 +42,17 @@ import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
 
 /**
- * A plugin for reading XYZ files.
+ * Routines for reading XYZ files.
  * 
  * @author Curtis Rueden
  */
-public class XYZPointsIO
+public final class XYZPointsIO
 {
+
+	private XYZPointsIO()
+	{
+		// NB: Prevent instantiation of utility class.
+	}
 
 	public static final List< RealLocalizable > open( final String source ) throws IOException
 	{

@@ -45,13 +45,18 @@ import net.imglib2.mesh.Triangle;
 import net.imglib2.mesh.impl.naive.NaiveFloatMesh;
 
 /**
- * A plugin for reading and writing STL files.
+ * Routines for reading and writing STL files.
  * 
  * @author Richard Domander (Royal Veterinary College, London)
  * @author Curtis Rueden
  */
-public class STLMeshIO
+public final class STLMeshIO
 {
+
+	private STLMeshIO()
+	{
+		// NB: Prevent instantiation of utility class.
+	}
 
 	public static final int HEADER_BYTES = 80;
 

@@ -60,14 +60,19 @@ import net.imglib2.mesh.Vertices;
 import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
- * A plugin for reading and writing
+ * Routines for reading and writing
  * <a href= "https://en.wikipedia.org/wiki/PLY_(file_format)">PLY files</a>.
  *
  * @author Kyle Harrington (University of Idaho, Moscow)
  * @author Curtis Rueden
  */
-public class PLYMeshIO
+public final class PLYMeshIO
 {
+
+	private PLYMeshIO()
+	{
+		// NB: Prevent instantiation of utility class.
+	}
 
 	public static final BufferMesh open( final String source ) throws IOException
 	{
