@@ -40,9 +40,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import gnu.trove.list.array.TLongArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Test;
-import org.scijava.util.LongArray;
 
 import io.scif.img.IO;
 import net.imglib2.Point;
@@ -182,7 +182,7 @@ public class MeshesTest
 		final Mesh m = new NaiveDoubleMesh();
 		// To prevent duplicates, map each (x, y, z) triple to its own index.
 		final Map< Vector3D, Long > indexMap = new HashMap<>();
-		final LongArray indices = new LongArray();
+		final TLongArrayList indices = new TLongArrayList();
 		try
 		{
 			Files.lines( Paths.get( MeshesTest.class.getResource( "3d_geometric_features_mesh.txt" ).toURI() ) )

@@ -35,9 +35,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.scijava.log.LogService;
-import org.scijava.log.StderrLogService;
-
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
 
@@ -56,11 +53,6 @@ public final class XYZPointsIO
 
 	public static final List< RealLocalizable > open( final String source ) throws IOException
 	{
-		return open( source, new StderrLogService() );
-	}
-
-	public static final List< RealLocalizable > open( final String source, final LogService log ) throws IOException
-	{
 		final ArrayList< RealLocalizable > points = new ArrayList<>();
 
 		try (final BufferedReader br = new BufferedReader( new FileReader( source ) ))
@@ -73,7 +65,7 @@ public final class XYZPointsIO
 				final String[] parts = line.trim().split( "[\\s,]+" );
 				if ( parts.length < 3 )
 				{
-					log.warn( "Invalid line: " + line );
+					//log.warn( "Invalid line: " + line );
 					continue;
 				}
 				final double x, y, z;
@@ -85,7 +77,7 @@ public final class XYZPointsIO
 				}
 				catch ( final NumberFormatException e )
 				{
-					log.warn( "Invalid line: " + line );
+					//log.warn( "Invalid line: " + line );
 					continue;
 				}
 				points.add( new RealPoint( x, y, z ) );

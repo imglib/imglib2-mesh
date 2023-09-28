@@ -32,6 +32,7 @@ package net.imglib2.mesh.io.ply;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -41,7 +42,6 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.scijava.util.FileUtils;
 import org.smurn.jply.Element;
 import org.smurn.jply.ElementReader;
 import org.smurn.jply.PlyReader;
@@ -88,7 +88,10 @@ public final class PLYMeshIO
 	public static final void save( final Mesh data, final String destination ) throws IOException
 	{
 		final byte[] bytes = writeBinary( data );
-		FileUtils.writeFile( new File( destination ), bytes );
+		try ( FileOutputStream fos = new FileOutputStream( destination ) )
+		{
+			fos.write( bytes );
+		}
 	}
 
 	public static final void read( final File plyFile, final Mesh mesh ) throws IOException

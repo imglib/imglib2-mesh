@@ -30,13 +30,12 @@
 package net.imglib2.mesh.io.stl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import org.scijava.util.FileUtils;
 
 import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Triangle;
@@ -130,7 +129,10 @@ public final class STLMeshIO
 	public static final void save( final Mesh data, final String destination ) throws IOException
 	{
 		final byte[] bytes = write( data );
-		FileUtils.writeFile( new File( destination ), bytes );
+		try ( FileOutputStream fos = new FileOutputStream( destination ) )
+		{
+			fos.write( bytes );
+		}
 	}
 
 	// -- Helper methods --
