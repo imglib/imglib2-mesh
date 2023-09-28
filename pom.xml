@@ -158,11 +158,6 @@
 		
 		<!-- Additional dependencies -->
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.smurn</groupId>
 			<artifactId>jply</artifactId>
 		</dependency>

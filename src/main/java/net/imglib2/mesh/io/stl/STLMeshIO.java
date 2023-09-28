@@ -38,8 +38,6 @@ import java.nio.file.Paths;
 
 import org.scijava.util.FileUtils;
 
-import com.google.common.base.Strings;
-
 import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Triangle;
 import net.imglib2.mesh.impl.naive.NaiveFloatMesh;
@@ -60,7 +58,8 @@ public final class STLMeshIO
 
 	public static final int HEADER_BYTES = 80;
 
-	public static final String HEADER = Strings.padEnd( "Binary STL created with ImageJ", HEADER_BYTES, '.' );
+
+	public static final String HEADER = padEnd( "Binary STL created with ImageJ", HEADER_BYTES, '.' );
 
 	public static final int COUNT_BYTES = 4;
 
@@ -82,8 +81,7 @@ public final class STLMeshIO
 			return;
 
 		buffer.position( FACET_START );
-		for ( int offset = FACET_START; offset < buffer.capacity(); offset +=
-				FACET_BYTES )
+		for ( int offset = FACET_START; offset < buffer.capacity(); offset += FACET_BYTES )
 		{
 			readFacet( mesh, buffer );
 		}
@@ -176,5 +174,13 @@ public final class STLMeshIO
 				v1x, v1y, v1z, //
 				v2x, v2y, v2z, //
 				nx, ny, nz );
+	}
+
+	private static String padEnd( final String s, final int minLen, final char padChar )
+	{
+		final StringBuilder sb = new StringBuilder();
+		while ( sb.length() < minLen )
+			sb.append(padChar);
+		return sb.toString();
 	}
 }
