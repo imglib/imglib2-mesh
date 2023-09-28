@@ -29,9 +29,8 @@
 
 package net.imglib2.mesh.impl.naive;
 
-import org.scijava.util.DoubleArray;
-import org.scijava.util.IntArray;
-
+import gnu.trove.list.array.TDoubleArrayList;
+import gnu.trove.list.array.TIntArrayList;
 import net.imglib2.mesh.Mesh;
 
 public class NaiveDoubleMesh implements Mesh
@@ -64,22 +63,22 @@ public class NaiveDoubleMesh implements Mesh
 	public class Vertices implements net.imglib2.mesh.Vertices
 	{
 
-		private final DoubleArray xs, ys, zs;
+		private final TDoubleArrayList xs, ys, zs;
 
-		private final DoubleArray nxs, nys, nzs;
+		private final TDoubleArrayList nxs, nys, nzs;
 
-		private final DoubleArray us, vs;
+		private final TDoubleArrayList us, vs;
 
 		public Vertices()
 		{
-			xs = new DoubleArray();
-			ys = new DoubleArray();
-			zs = new DoubleArray();
-			nxs = new DoubleArray();
-			nys = new DoubleArray();
-			nzs = new DoubleArray();
-			us = new DoubleArray();
-			vs = new DoubleArray();
+			xs = new TDoubleArrayList();
+			ys = new TDoubleArrayList();
+			zs = new TDoubleArrayList();
+			nxs = new TDoubleArrayList();
+			nys = new TDoubleArrayList();
+			nzs = new TDoubleArrayList();
+			us = new TDoubleArrayList();
+			vs = new TDoubleArrayList();
 		}
 
 		@Override
@@ -295,18 +294,18 @@ public class NaiveDoubleMesh implements Mesh
 	public class Triangles implements net.imglib2.mesh.Triangles
 	{
 
-		private final IntArray v0s, v1s, v2s;
+		private final TIntArrayList v0s, v1s, v2s;
 
-		private final DoubleArray nxs, nys, nzs;
+		private final TDoubleArrayList nxs, nys, nzs;
 
 		public Triangles()
 		{
-			v0s = new IntArray();
-			v1s = new IntArray();
-			v2s = new IntArray();
-			nxs = new DoubleArray();
-			nys = new DoubleArray();
-			nzs = new DoubleArray();
+			v0s = new TIntArrayList();
+			v1s = new TIntArrayList();
+			v2s = new TIntArrayList();
+			nxs = new TDoubleArrayList();
+			nys = new TDoubleArrayList();
+			nzs = new TDoubleArrayList();
 		}
 
 		@Override

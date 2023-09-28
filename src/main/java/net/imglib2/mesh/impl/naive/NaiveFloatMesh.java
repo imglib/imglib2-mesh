@@ -29,9 +29,8 @@
 
 package net.imglib2.mesh.impl.naive;
 
-import org.scijava.util.FloatArray;
-import org.scijava.util.IntArray;
-
+import gnu.trove.list.array.TFloatArrayList;
+import gnu.trove.list.array.TIntArrayList;
 import net.imglib2.mesh.Mesh;
 
 public class NaiveFloatMesh implements Mesh
@@ -64,22 +63,22 @@ public class NaiveFloatMesh implements Mesh
 	public class Vertices implements net.imglib2.mesh.Vertices
 	{
 
-		private final FloatArray xs, ys, zs;
+		private final TFloatArrayList xs, ys, zs;
 
-		private final FloatArray nxs, nys, nzs;
+		private final TFloatArrayList nxs, nys, nzs;
 
-		private final FloatArray us, vs;
+		private final TFloatArrayList us, vs;
 
 		public Vertices()
 		{
-			xs = new FloatArray();
-			ys = new FloatArray();
-			zs = new FloatArray();
-			nxs = new FloatArray();
-			nys = new FloatArray();
-			nzs = new FloatArray();
-			us = new FloatArray();
-			vs = new FloatArray();
+			xs = new TFloatArrayList();
+			ys = new TFloatArrayList();
+			zs = new TFloatArrayList();
+			nxs = new TFloatArrayList();
+			nys = new TFloatArrayList();
+			nzs = new TFloatArrayList();
+			us = new TFloatArrayList();
+			vs = new TFloatArrayList();
 		}
 
 		@Override
@@ -213,18 +212,18 @@ public class NaiveFloatMesh implements Mesh
 	public class Triangles implements net.imglib2.mesh.Triangles
 	{
 
-		private final IntArray v0s, v1s, v2s;
+		private final TIntArrayList v0s, v1s, v2s;
 
-		private final FloatArray nxs, nys, nzs;
+		private final TFloatArrayList nxs, nys, nzs;
 
 		public Triangles()
 		{
-			v0s = new IntArray();
-			v1s = new IntArray();
-			v2s = new IntArray();
-			nxs = new FloatArray();
-			nys = new FloatArray();
-			nzs = new FloatArray();
+			v0s = new TIntArrayList();
+			v1s = new TIntArrayList();
+			v2s = new TIntArrayList();
+			nxs = new TFloatArrayList();
+			nys = new TFloatArrayList();
+			nzs = new TFloatArrayList();
 		}
 
 		@Override
