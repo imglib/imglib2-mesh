@@ -385,7 +385,4 @@ public final class PLYMeshIO
 			reader.close();
 		}
 	}
-
-	private PLYMeshIO()
-	{}
 }
