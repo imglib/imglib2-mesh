@@ -371,6 +371,57 @@ public class Meshes
 		}
 	}
 
+	/**
+	 * Translates the vertices position by the amount specified by the array.
+	 * <p>
+	 * The positions are equal to
+	 * <code>new_pos[d] = old_pos[d] + translate[d]</code>.
+	 * 
+	 * @param mesh
+	 *            the mesh to translate.
+	 * @param translate
+	 *            a <code>double</code> array of at least 3 elements.
+	 */
+	public static void translate( final Mesh mesh, final double[] translate )
+	{
+		final Vertices vertices = mesh.vertices();
+		final long nVertices = vertices.sizel();
+		for ( long i = 0; i < nVertices; i++ )
+		{
+			final double x = vertices.x( i );
+			final double y = vertices.y( i );
+			final double z = vertices.z( i );
+			vertices.set( i, x + translate[ 0 ], y + translate[ 1 ], z + translate[ 2 ] );
+		}
+	}
+
+	/**
+	 * Translates the vertices position by the amount specified by the array,
+	 * then scales the coordinates.
+	 * <p>
+	 * The positions are equal to
+	 * <code>new_pos[d] = (old_pos[d] + translate[d]) * scale[d]</code>.
+	 * 
+	 * @param mesh
+	 *            the mesh to translate.
+	 * @param translate
+	 *            a <code>double</code> array of at least 3 elements.
+	 * @param scale
+	 *            a <code>double</code> array of at least 3 elements.
+	 */
+	public static void translateScale( final Mesh mesh, final double[] translate, final double[] scale )
+	{
+		final Vertices vertices = mesh.vertices();
+		final long nv = vertices.size();
+		for ( long i = 0; i < nv; i++ )
+		{
+			final double x = ( translate[ 0 ] + vertices.x( i ) ) * scale[ 0 ];
+			final double y = ( translate[ 1 ] + vertices.y( i ) ) * scale[ 1 ];
+			final double z = ( translate[ 2 ] + vertices.z( i ) ) * scale[ 2 ];
+			vertices.set( i, x, y, z );
+		}
+	}
+
 	public static BufferMesh merge( final Iterable< Mesh > meshes )
 	{
 		int nVertices = 0;
