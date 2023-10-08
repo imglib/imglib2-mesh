@@ -41,7 +41,6 @@ import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.Triangles;
 import net.imglib2.mesh.Vertices;
-import net.imglib2.mesh.util.MeshUtil;
 import net.imglib2.mesh.util.SortArray;
 import net.imglib2.mesh.util.SortBy;
 import net.imglib2.util.Intervals;
@@ -107,7 +106,7 @@ public class Interior
 
 	public Interior( final Mesh mesh, final double scale )
 	{
-		this( mesh, MeshUtil.toRealInterval( Meshes.boundingBox( mesh ) ), scale );
+		this( mesh, Meshes.boundingBox( mesh ), scale );
 	}
 
 	public Interior( final Mesh mesh, final RealInterval boundingBox, final double scale )

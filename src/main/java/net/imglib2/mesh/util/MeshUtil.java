@@ -28,29 +28,12 @@
  */
 package net.imglib2.mesh.util;
 
-import net.imglib2.RealInterval;
 import net.imglib2.mesh.Mesh;
-import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.Triangles;
 import net.imglib2.mesh.Vertices;
-import net.imglib2.util.Intervals;
 
 public class MeshUtil
 {
-
-	/**
-	 * Convenience utility to map the <code>float[]</code> array returned by
-	 * {@link Meshes#boundingBox(net.imglib2.mesh.obj.Mesh)} to an ImgLib2
-	 * {@link RealInterval}.
-	 * 
-	 * @param boundingBox
-	 *            a <code>float[]</code> array with 6 elements.
-	 * @return a new 3D real interval.
-	 */
-	public static final RealInterval toRealInterval( final float[] boundingBox )
-	{
-		return Intervals.createMinMaxReal( boundingBox[ 0 ], boundingBox[ 1 ], boundingBox[ 2 ], boundingBox[ 3 ], boundingBox[ 4 ], boundingBox[ 5 ] );
-	}
 
 	/**
 	 * Dot product between vectors V1 and V2.

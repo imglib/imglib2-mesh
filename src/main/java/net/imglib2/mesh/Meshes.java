@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.imglib2.RandomAccessibleInterval;
+import net.imglib2.RealInterval;
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.MarchingCubesBooleanType;
 import net.imglib2.mesh.alg.MarchingCubesRealType;
@@ -42,6 +43,7 @@ import net.imglib2.mesh.alg.SimplifyMesh;
 import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.type.BooleanType;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.util.Intervals;
 
 /**
  * Utility methods for working with {@link Mesh} objects.
@@ -69,14 +71,14 @@ public class Meshes
 		return p;
 	}
 
-	public static float[] boundingBox( final net.imglib2.mesh.Mesh mesh )
+	public static RealInterval boundingBox( final net.imglib2.mesh.Mesh mesh )
 	{
-		final float[] boundingBox = new float[] { Float.POSITIVE_INFINITY,
-				Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY,
-				Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY };
+		final double[] boundingBox = new double[] { Double.POSITIVE_INFINITY,
+				Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+				Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY };
 		for ( final Vertex v : mesh.vertices() )
 		{
-			final float x = v.xf(), y = v.yf(), z = v.zf();
+			final double x = v.x(), y = v.y(), z = v.z();
 			if ( x < boundingBox[ 0 ] )
 				boundingBox[ 0 ] = x;
 			if ( y < boundingBox[ 1 ] )
@@ -90,7 +92,7 @@ public class Meshes
 			if ( z > boundingBox[ 5 ] )
 				boundingBox[ 5 ] = z;
 		}
-		return boundingBox;
+		return Intervals.createMinMaxReal( boundingBox[ 0 ], boundingBox[ 1 ], boundingBox[ 2 ], boundingBox[ 3 ], boundingBox[ 4 ], boundingBox[ 5 ] );
 	}
 
 	/**

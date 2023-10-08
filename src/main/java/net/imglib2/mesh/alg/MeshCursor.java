@@ -44,7 +44,6 @@ import net.imglib2.mesh.alg.zslicer.RamerDouglasPeucker;
 import net.imglib2.mesh.alg.zslicer.Slice;
 import net.imglib2.mesh.alg.zslicer.ZSlicer;
 import net.imglib2.mesh.impl.nio.BufferMesh;
-import net.imglib2.mesh.util.MeshUtil;
 
 public class MeshCursor< T > implements Cursor< T >
 {
@@ -87,7 +86,7 @@ public class MeshCursor< T > implements Cursor< T >
 
 	public MeshCursor( final RandomAccess< T > ra, final Mesh mesh, final double[] cal )
 	{
-		this( ra, mesh, cal, MeshUtil.toRealInterval( Meshes.boundingBox( mesh ) ) );
+		this( ra, mesh, cal, Meshes.boundingBox( mesh ) );
 	}
 
 	public MeshCursor( final RandomAccess< T > ra, final Mesh mesh, final double[] cal, final RealInterval boundingBox )
