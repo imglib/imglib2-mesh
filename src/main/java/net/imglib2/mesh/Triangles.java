@@ -138,6 +138,13 @@ public interface Triangles extends Iterable< Triangle >
 	 */
 	float nzf( long tIndex );
 
+	void setNormal( int tIndex, float nxf, float nyf, float nzf );
+
+	default void setNormal( final long tIndex, final float nxf, final float nyf, final float nzf )
+	{
+		throw new UnsupportedOperationException( "Unsupported operation: setting the normal with a long index." );
+	}
+
 	/**
 	 * Adds a triangle to the mesh's triangles list.
 	 *

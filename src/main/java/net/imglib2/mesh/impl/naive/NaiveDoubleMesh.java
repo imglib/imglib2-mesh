@@ -94,56 +94,56 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public double x( long vIndex )
+		public double x( final long vIndex )
 		{
 			return xs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double y( long vIndex )
+		public double y( final long vIndex )
 		{
 			return ys.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double z( long vIndex )
+		public double z( final long vIndex )
 		{
 			return zs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double nx( long vIndex )
+		public double nx( final long vIndex )
 		{
 			return nxs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double ny( long vIndex )
+		public double ny( final long vIndex )
 		{
 			return nys.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double nz( long vIndex )
+		public double nz( final long vIndex )
 		{
 			return nzs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double u( long vIndex )
+		public double u( final long vIndex )
 		{
 			return us.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public double v( long vIndex )
+		public double v( final long vIndex )
 		{
 			return vs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public long add( double x, double y, double z, double nx, double ny, double nz,
-				double u, double v )
+		public long add( final double x, final double y, final double z, final double nx, final double ny, final double nz,
+				final double u, final double v )
 		{
 			final int index = xs.size();
 			xs.add( x );
@@ -158,8 +158,8 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public void set( long vIndex, double x, double y, double z, double nx, double ny,
-				double nz, double u, double v )
+		public void set( final long vIndex, final double x, final double y, final double z, final double nx, final double ny,
+				final double nz, final double u, final double v )
 		{
 			final int index = safeIndex( vIndex );
 			xs.set( index, x );
@@ -209,63 +209,63 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public float xf( long vIndex )
+		public float xf( final long vIndex )
 		{
 			return ( float ) x( vIndex );
 		}
 
 		@Override
-		public float yf( long vIndex )
+		public float yf( final long vIndex )
 		{
 			return ( float ) y( vIndex );
 		}
 
 		@Override
-		public float zf( long vIndex )
+		public float zf( final long vIndex )
 		{
 			return ( float ) z( vIndex );
 		}
 
 		@Override
-		public float nxf( long vIndex )
+		public float nxf( final long vIndex )
 		{
 			return ( float ) nx( vIndex );
 		}
 
 		@Override
-		public float nyf( long vIndex )
+		public float nyf( final long vIndex )
 		{
 			return ( float ) ny( vIndex );
 		}
 
 		@Override
-		public float nzf( long vIndex )
+		public float nzf( final long vIndex )
 		{
 			return ( float ) nz( vIndex );
 		}
 
 		@Override
-		public float uf( long vIndex )
+		public float uf( final long vIndex )
 		{
 			return ( float ) u( vIndex );
 		}
 
 		@Override
-		public float vf( long vIndex )
+		public float vf( final long vIndex )
 		{
 			return ( float ) v( vIndex );
 		}
 
 		@Override
-		public long addf( float x, float y, float z, float nx, float ny, float nz,
-				float u, float v )
+		public long addf( final float x, final float y, final float z, final float nx, final float ny, final float nz,
+				final float u, final float v )
 		{
 			return add( x, y, z, nx, ny, nz, u, v );
 		}
 
 		@Override
-		public void setf( long vIndex, float x, float y, float z, float nx, float ny,
-				float nz, float u, float v )
+		public void setf( final long vIndex, final float x, final float y, final float z, final float nx, final float ny,
+				final float nz, final float u, final float v )
 		{
 			set( vIndex, x, y, z, nx, ny, nz, u, v );
 		}
@@ -321,43 +321,43 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public long vertex0( long tIndex )
+		public long vertex0( final long tIndex )
 		{
 			return v0s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long vertex1( long tIndex )
+		public long vertex1( final long tIndex )
 		{
 			return v1s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long vertex2( long tIndex )
+		public long vertex2( final long tIndex )
 		{
 			return v2s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public double nx( long tIndex )
+		public double nx( final long tIndex )
 		{
 			return nxs.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public double ny( long tIndex )
+		public double ny( final long tIndex )
 		{
 			return nys.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public double nz( long tIndex )
+		public double nz( final long tIndex )
 		{
 			return nzs.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long add( long v0, long v1, long v2, double nx, double ny, double nz )
+		public long add( final long v0, final long v1, final long v2, final double nx, final double ny, final double nz )
 		{
 			final int index = v0s.size();
 			v0s.add( safeIndex( v0 ) );
@@ -377,25 +377,33 @@ public class NaiveDoubleMesh implements Mesh
 		}
 
 		@Override
-		public float nxf( long tIndex )
+		public float nxf( final long tIndex )
 		{
 			return ( float ) nx( tIndex );
 		}
 
 		@Override
-		public float nyf( long tIndex )
+		public float nyf( final long tIndex )
 		{
 			return ( float ) ny( tIndex );
 		}
 
 		@Override
-		public float nzf( long tIndex )
+		public float nzf( final long tIndex )
 		{
 			return ( float ) nz( tIndex );
 		}
 
 		@Override
-		public long addf( long v0, long v1, long v2, float nx, float ny, float nz )
+		public void setNormal( final int tIndex, final float nxf, final float nyf, final float nzf )
+		{
+			nxs.set( tIndex, nxf );
+			nys.set( tIndex, nyf );
+			nzs.set( tIndex, nzf );
+		}
+
+		@Override
+		public long addf( final long v0, final long v1, final long v2, final float nx, final float ny, final float nz )
 		{
 			return add( v0, v1, v2, nx, ny, nz );
 		}

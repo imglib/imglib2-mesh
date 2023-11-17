@@ -103,11 +103,11 @@ public class BufferMesh implements Mesh
 
 		private static final int T_STRIDE = 2;
 
-		private FloatBuffer verts;
+		private final FloatBuffer verts;
 
-		private FloatBuffer normals;
+		private final FloatBuffer normals;
 
-		private FloatBuffer texCoords;
+		private final FloatBuffer texCoords;
 
 		public Vertices( final FloatBuffer verts, final FloatBuffer normals,
 				final FloatBuffer texCoords )
@@ -145,56 +145,56 @@ public class BufferMesh implements Mesh
 		}
 
 		@Override
-		public float xf( long vIndex )
+		public float xf( final long vIndex )
 		{
 			return verts.get( safeIndex( vIndex, V_STRIDE, 0 ) );
 		}
 
 		@Override
-		public float yf( long vIndex )
+		public float yf( final long vIndex )
 		{
 			return verts.get( safeIndex( vIndex, V_STRIDE, 1 ) );
 		}
 
 		@Override
-		public float zf( long vIndex )
+		public float zf( final long vIndex )
 		{
 			return verts.get( safeIndex( vIndex, V_STRIDE, 2 ) );
 		}
 
 		@Override
-		public float nxf( long vIndex )
+		public float nxf( final long vIndex )
 		{
 			return normals.get( safeIndex( vIndex, N_STRIDE, 0 ) );
 		}
 
 		@Override
-		public float nyf( long vIndex )
+		public float nyf( final long vIndex )
 		{
 			return normals.get( safeIndex( vIndex, N_STRIDE, 1 ) );
 		}
 
 		@Override
-		public float nzf( long vIndex )
+		public float nzf( final long vIndex )
 		{
 			return normals.get( safeIndex( vIndex, N_STRIDE, 2 ) );
 		}
 
 		@Override
-		public float uf( long vIndex )
+		public float uf( final long vIndex )
 		{
 			return texCoords.get( safeIndex( vIndex, T_STRIDE, 0 ) );
 		}
 
 		@Override
-		public float vf( long vIndex )
+		public float vf( final long vIndex )
 		{
 			return texCoords.get( safeIndex( vIndex, T_STRIDE, 1 ) );
 		}
 
 		@Override
-		public long addf( float x, float y, float z, float nx, float ny, float nz,
-				float u, float v )
+		public long addf( final float x, final float y, final float z, final float nx, final float ny, final float nz,
+				final float u, final float v )
 		{
 			final long index = sizel();
 			grow( verts, V_STRIDE );
@@ -212,9 +212,9 @@ public class BufferMesh implements Mesh
 		}
 
 		@Override
-		public void setf( long vIndex, float x, float y, float z, //
-				float nx, float ny, float nz, //
-				float u, float v )
+		public void setf( final long vIndex, final float x, final float y, final float z, //
+				final float nx, final float ny, final float nz, //
+				final float u, final float v )
 		{
 			verts.put( safeIndex( vIndex, V_STRIDE, 0 ), x );
 			verts.put( safeIndex( vIndex, V_STRIDE, 1 ), y );
@@ -259,9 +259,9 @@ public class BufferMesh implements Mesh
 
 		private static final int N_STRIDE = 3;
 
-		private IntBuffer indices;
+		private final IntBuffer indices;
 
-		private FloatBuffer normals;
+		private final FloatBuffer normals;
 
 		public Triangles( final IntBuffer indices, final FloatBuffer normals )
 		{
@@ -292,43 +292,52 @@ public class BufferMesh implements Mesh
 		}
 
 		@Override
-		public long vertex0( long tIndex )
+		public long vertex0( final long tIndex )
 		{
 			return indices.get( safeIndex( tIndex, I_STRIDE, 0 ) );
 		}
 
 		@Override
-		public long vertex1( long tIndex )
+		public long vertex1( final long tIndex )
 		{
 			return indices.get( safeIndex( tIndex, I_STRIDE, 1 ) );
 		}
 
 		@Override
-		public long vertex2( long tIndex )
+		public long vertex2( final long tIndex )
 		{
 			return indices.get( safeIndex( tIndex, I_STRIDE, 2 ) );
 		}
 
 		@Override
-		public float nxf( long tIndex )
+		public float nxf( final long tIndex )
 		{
 			return normals.get( safeIndex( tIndex, N_STRIDE, 0 ) );
 		}
 
 		@Override
-		public float nyf( long tIndex )
+		public float nyf( final long tIndex )
 		{
 			return normals.get( safeIndex( tIndex, N_STRIDE, 1 ) );
 		}
 
 		@Override
-		public float nzf( long tIndex )
+		public float nzf( final long tIndex )
 		{
 			return normals.get( safeIndex( tIndex, N_STRIDE, 2 ) );
 		}
 
 		@Override
-		public long addf( long v0, long v1, long v2, float nx, float ny, float nz )
+		public void setNormal( final int tIndex, final float nxf, final float nyf, final float nzf )
+		{
+			final int i = safeIndex( tIndex, N_STRIDE, 0 );
+			normals.put( i, nxf );
+			normals.put( i + 1, nyf );
+			normals.put( i + 2, nzf );
+		}
+
+		@Override
+		public long addf( final long v0, final long v1, final long v2, final float nx, final float ny, final float nz )
 		{
 			final long index = sizel();
 			grow( indices, I_STRIDE );

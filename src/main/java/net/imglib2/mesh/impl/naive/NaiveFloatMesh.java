@@ -94,56 +94,56 @@ public class NaiveFloatMesh implements Mesh
 		}
 
 		@Override
-		public float xf( long vIndex )
+		public float xf( final long vIndex )
 		{
 			return xs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float yf( long vIndex )
+		public float yf( final long vIndex )
 		{
 			return ys.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float zf( long vIndex )
+		public float zf( final long vIndex )
 		{
 			return zs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float nxf( long vIndex )
+		public float nxf( final long vIndex )
 		{
 			return nxs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float nyf( long vIndex )
+		public float nyf( final long vIndex )
 		{
 			return nys.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float nzf( long vIndex )
+		public float nzf( final long vIndex )
 		{
 			return nzs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float uf( long vIndex )
+		public float uf( final long vIndex )
 		{
 			return us.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public float vf( long vIndex )
+		public float vf( final long vIndex )
 		{
 			return vs.get( safeIndex( vIndex ) );
 		}
 
 		@Override
-		public long addf( float x, float y, float z, float nx, float ny, float nz,
-				float u, float v )
+		public long addf( final float x, final float y, final float z, final float nx, final float ny, final float nz,
+				final float u, final float v )
 		{
 			final int index = xs.size();
 			xs.add( x );
@@ -158,8 +158,8 @@ public class NaiveFloatMesh implements Mesh
 		}
 
 		@Override
-		public void setf( long vIndex, float x, float y, float z, float nx, float ny,
-				float nz, float u, float v )
+		public void setf( final long vIndex, final float x, final float y, final float z, final float nx, final float ny,
+				final float nz, final float u, final float v )
 		{
 			final int index = safeIndex( vIndex );
 			xs.set( index, x );
@@ -239,43 +239,51 @@ public class NaiveFloatMesh implements Mesh
 		}
 
 		@Override
-		public long vertex0( long tIndex )
+		public long vertex0( final long tIndex )
 		{
 			return v0s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long vertex1( long tIndex )
+		public long vertex1( final long tIndex )
 		{
 			return v1s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long vertex2( long tIndex )
+		public long vertex2( final long tIndex )
 		{
 			return v2s.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public float nxf( long tIndex )
+		public float nxf( final long tIndex )
 		{
 			return nxs.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public float nyf( long tIndex )
+		public float nyf( final long tIndex )
 		{
 			return nys.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public float nzf( long tIndex )
+		public float nzf( final long tIndex )
 		{
 			return nzs.get( safeIndex( tIndex ) );
 		}
 
 		@Override
-		public long addf( long v0, long v1, long v2, float nx, float ny, float nz )
+		public void setNormal( final int tIndex, final float nxf, final float nyf, final float nzf )
+		{
+			nxs.set( tIndex, nxf );
+			nys.set( tIndex, nyf );
+			nzs.set( tIndex, nzf );
+		}
+
+		@Override
+		public long addf( final long v0, final long v1, final long v2, final float nx, final float ny, final float nz )
 		{
 			final int index = v0s.size();
 			v0s.add( safeIndex( v0 ) );
