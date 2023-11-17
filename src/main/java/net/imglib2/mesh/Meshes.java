@@ -144,8 +144,52 @@ public class Meshes
 	}
 
 	/**
-	 * Calculates the normals for a mesh. Creates a new mesh with the calculated
-	 * normals. Assumes CCW winding order.
+	 * Calculates the normals for a mesh. Modifies the specified mesh. Assumes
+	 * CCW winding order.
+	 *
+	 * @param src
+	 *            the source mesh.
+	 */
+	public static void calculateNormals( final net.imglib2.mesh.Mesh src )
+	{
+		final Triangles triangles = src.triangles();
+		final Vertices vertices = src.vertices();
+		for ( int i = 0; i < triangles.size(); i++ )
+		{
+			final int v0 = triangles.vertex0( i );
+			final int v1 = triangles.vertex1( i );
+			final int v2 = triangles.vertex2( i );
+
+			final float v0x = vertices.xf( v0 );
+			final float v0y = vertices.yf( v0 );
+			final float v0z = vertices.zf( v0 );
+			final float v1x = vertices.xf( v1 );
+			final float v1y = vertices.yf( v1 );
+			final float v1z = vertices.zf( v1 );
+			final float v2x = vertices.xf( v2 );
+			final float v2y = vertices.yf( v2 );
+			final float v2z = vertices.zf( v2 );
+
+			final float v10x = v1x - v0x;
+			final float v10y = v1y - v0y;
+			final float v10z = v1z - v0z;
+
+			final float v20x = v2x - v0x;
+			final float v20y = v2y - v0y;
+			final float v20z = v2z - v0z;
+
+			final float nx = v10y * v20z - v10z * v20y;
+			final float ny = v10z * v20x - v10x * v20z;
+			final float nz = v10x * v20y - v10y * v20x;
+			final float nmag = ( float ) Math.sqrt( nx * nx + ny * ny + ny );
+
+			triangles.setNormal( i, nx / nmag, ny / nmag, nz / nmag );
+		}
+	}
+
+	/**
+	 * Calculates the normals for a mesh. Creates a new mesh, copied and
+	 * augmented with the calculated normals. Assumes CCW winding order.
 	 *
 	 * @param src
 	 *            Source mesh, used for vertex and triangle info
