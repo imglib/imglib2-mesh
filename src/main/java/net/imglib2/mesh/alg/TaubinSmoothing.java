@@ -61,35 +61,7 @@ public class TaubinSmoothing
 	 */
 	public static final BufferMesh smooth( final Mesh mesh )
 	{
-		return smooth( mesh, 10, 0.1 );
-	}
-
-	/**
-	 * Smooth the specified mesh using the Taubin smoothing algorithm, using
-	 * cotangent weights.
-	 *
-	 * @param mesh
-	 *            the mesh to smooth.
-	 * @param iters
-	 *            the number of iterations to apply. Typical values: 10.
-	 * @param passBand
-	 *            the spatial frequency to use for smoothing. For instance 0.1.
-	 * @return a new smoothed mesh.
-	 */
-	public static final BufferMesh smooth( final Mesh mesh, final int iters, final double passBand )
-	{
-		final double A = -1.;
-		final double B = passBand;
-		final double C = 2.;
-
-		final double discr = Math.sqrt( B * B - 4. * A * C );
-		final double r0 = ( -B + discr ) / ( 2. * A * C );
-		final double r1 = ( -B - discr ) / ( 2. * A * C );
-
-		final double lambda = Math.max( r0, r1 );
-		final double mu = Math.min( r0, r1 );
-
-		return smooth( mesh, iters, lambda, mu, TaubinWeightType.COTANGENT );
+		return smooth( mesh, 10, 0.50, -0.53, TaubinWeightType.NAIVE );
 	}
 
 	/**
