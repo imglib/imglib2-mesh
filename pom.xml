@@ -120,6 +120,8 @@
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
+
+		<imageio-tiff.version>3.9.4</imageio-tiff.version>
 	</properties>
 
 	<repositories>
@@ -173,8 +175,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.scif</groupId>
-			<artifactId>scifio</artifactId>
+			<groupId>com.twelvemonkeys.imageio</groupId>
+			<artifactId>imageio-tiff</artifactId>
+			<version>${imageio-tiff.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

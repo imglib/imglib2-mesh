@@ -31,25 +31,31 @@ package net.imglib2.mesh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import gnu.trove.list.array.TLongArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Test;
 
-import io.scif.img.IO;
 import net.imglib2.Point;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
+import net.imglib2.img.basictypeaccess.array.FloatArray;
+import net.imglib2.img.planar.PlanarImg;
 import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.roi.labeling.LabelRegion;
@@ -58,6 +64,7 @@ import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
+import net.imglib2.util.Fraction;
 import net.imglib2.view.RandomAccessibleIntervalCursor;
 
 public class MeshesTest
@@ -173,8 +180,14 @@ public class MeshesTest
 
 	private static Img< FloatType > getTestImage3D()
 	{
-		final URL url = MeshesTest.class.getResource( "3d_geometric_features_testlabel.tif" );
-		return IO.openAllFloat( url.getPath() ).get( 0 ).getImg();
+		try
+		{
+			return openFloatImg( "3d_geometric_features_testlabel.tif" );
+		}
+		catch ( IOException exc )
+		{
+			throw new RuntimeException( exc );
+		}
 	}
 
 	private static Mesh getMesh()
@@ -239,7 +252,49 @@ public class MeshesTest
 		final LabelRegions< String > labelRegions = new LabelRegions<>( labeling );
 
 		return labelRegions.getLabelRegion( "1" );
-
 	}
 
+	private static Img< FloatType > openFloatImg( String path ) throws IOException
+	{
+		final ImageReader reader = ImageIO.getImageReadersByFormatName( "TIFF" ).next();
+
+		// TODO: Make this work from a resource URL rather than a File.
+		//final URL url = MeshesTest.class.getResource( path );
+		//reader.setInput( ImageIO.createImageInputStream( url ) );
+		final File file = new File( "src/test/resources/net/imglib2/mesh/" + path );
+		reader.setInput( ImageIO.createImageInputStream( file ) );
+
+		final int pageCount = reader.getNumImages( true );
+		if ( pageCount < 1 )
+		{
+			throw new IOException( "No image planes detected for path: " + path );
+		}
+		final List< FloatArray > planes = new ArrayList<>();
+		int width = -1, height = -1;
+		for ( int i = 0; i < pageCount; i++ )
+		{
+			final BufferedImage bufferedImage = reader.read( i );
+			final int w = bufferedImage.getWidth();
+			final int h = bufferedImage.getHeight();
+			if (i == 0)
+			{
+				width = w;
+				height = h;
+			}
+			else if ( width != w || height != h )
+			{
+				throw new UnsupportedOperationException(
+					"Multi-plane image dimensions differ between planes: " +
+					w + "x" + h + " != " + width + "x" + height
+				);
+			}
+			final float[] pixels = new float[ 4 * w * h ];
+			bufferedImage.getData().getPixels(0, 0, w, h, pixels );
+			planes.add( new FloatArray( pixels ) );
+		}
+		final PlanarImg< FloatType, FloatArray > img = new PlanarImg<>( planes, new long[] { width, height, pageCount }, new Fraction() );
+		final FloatType t = new FloatType( img );
+		img.setLinkedType( t );
+		return img;
+	}
 }
