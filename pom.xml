@@ -164,11 +164,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.imglib2</groupId>
-			<artifactId>imglib2-ij</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-tiff</artifactId>
 			<version>${imageio-tiff.version}</version>
