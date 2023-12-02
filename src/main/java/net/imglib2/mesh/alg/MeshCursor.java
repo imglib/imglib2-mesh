@@ -37,7 +37,6 @@ import gnu.trove.list.array.TDoubleArrayList;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 import net.imglib2.RealInterval;
-import net.imglib2.Sampler;
 import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.alg.zslicer.RamerDouglasPeucker;
@@ -246,11 +245,11 @@ public class MeshCursor< T > implements Cursor< T >
 	{
 		final BufferMesh dest = new BufferMesh( mesh.vertices().size(), mesh.triangles().size() );
 		Meshes.copy( mesh, dest );
-		return new MeshCursor<>( ra.copyRandomAccess(), dest, cal.clone() );
+		return new MeshCursor<>( ra.copy(), dest, cal.clone() );
 	}
 
 	@Override
-	public Sampler< T > copy()
+	public Cursor< T > copy()
 	{
 		return copyCursor();
 	}
