@@ -53,6 +53,9 @@ import net.imglib2.mesh.Triangle;
 public class InertiaTensor
 {
 
+	/**
+	 * @implNote op names='geom.secondMoment'
+	 */
 	public static RealMatrix calculate( final Mesh input )
 	{
 		final RealLocalizable cent = MeshStats.centroid( input );
