@@ -29,11 +29,13 @@
 package net.imglib2.mesh;
 
 import net.imglib2.mesh.alg.InertiaTensor;
+import net.imglib2.type.numeric.real.DoubleType;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.util.MeshUtil;
+import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 
@@ -47,7 +49,7 @@ public class MeshStats
 	 * Computes the volume of the specified mesh.
 	 *
 	 * @return the volume in physical units.
-	 * @implNote op names='geom.size', label='Geometric (2D): Size',
+	 * @implNote op names='geom.size', label='Geometric (3D): Volume',
 	 *           priority='9999.'
 	 */
 	public static double volume( final Mesh mesh )
@@ -85,6 +87,18 @@ public class MeshStats
 	}
 
 	/**
+	 * Computes the volume of the convex hull of the specified mesh.
+	 *
+	 * @param mesh a {@link Mesh}
+	 * @return the volume in physical units.
+	 * @implNote op names='geom.sizeConvexHull', label='Geometric (3D): Convex Hull Volume',
+	 *           priority='9999.'
+	 */
+	public static double convexHullVolume(final Mesh mesh) {
+		return volume(ConvexHull.calculate(mesh));
+	}
+
+	/**
 	 * Returns the surface area of a mesh.
 	 * <p>
 	 * It is computed as the sum of the area of the outwards-facing triangles.
@@ -111,6 +125,18 @@ public class MeshStats
 				total += norm * 0.5;
 		}
 		return total;
+	}
+
+	/**
+	 * Computes the surface area of the convex hull of the specified mesh.
+	 *
+	 * @param mesh a {@link Mesh}
+	 * @return the surface area in physical units.
+	 * @implNote op names='geom.boundarySizeConvexHull', label='Geometric (3D): Convex Hull Surface Area',
+	 *           priority='9999.'
+	 */
+	public static double convexHullSurfaceArea(final Mesh mesh) {
+		return surfaceArea(ConvexHull.calculate(mesh));
 	}
 
 	/**
@@ -256,7 +282,7 @@ public class MeshStats
 	 * @param input
 	 *            the input mesh.
 	 * @return the centroid of the mesh.
-	 * @implNote op names='geom.centroid', priority='10000.'
+	 * @implNote op names='geom.centerOfGravity', priority='10000.'
 	 */
 	public static RealPoint centroid( final Mesh input )
 	{
@@ -312,6 +338,127 @@ public class MeshStats
 
 		final double v = volume( input );
 		return new RealPoint( m100 / v, m010 / v, m001 / v );
+	}
+
+	/**
+	 * Describes the elogation of a {@link Mesh}. As elongation is a metric of a
+	 * two-dimensional object, this functionality describes elongation as a
+	 * {@link RealMatrix}, where each index {@code x,y} is the elongation
+	 * considering principal axes {@code x} and {@code y}.
+	 *
+	 * @param input a {@link Mesh}
+	 * @return the elongation of each subset of principal axes of {@code input}
+	 * @implNote op names='geom.elongation', label='Geometric (3D): Elongation', priority='10000.'
+	 */
+	public static RealMatrix elongation(final Mesh input) {
+		final RealMatrix it = InertiaTensor.calculate(input);
+		final EigenDecomposition ed = new EigenDecomposition(it);
+
+		final double l1 = ed.getRealEigenvalue(0) - ed.getRealEigenvalue(2) + ed
+				.getRealEigenvalue(1);
+		final double l2 = ed.getRealEigenvalue(0) - ed.getRealEigenvalue(1) + ed
+				.getRealEigenvalue(2);
+		final double l3 = ed.getRealEigenvalue(2) - ed.getRealEigenvalue(0) + ed
+				.getRealEigenvalue(1);
+
+		final double g = 1 / (8 * Math.PI / 15);
+
+		final double a = Math.pow(g * l1 * l1 / Math.sqrt(l2 * l3), 1 / 5d);
+		final double b = Math.pow(g * l2 * l2 / Math.sqrt(l1 * l3), 1 / 5d);
+		final double c = Math.pow(g * l3 * l3 / Math.sqrt(l1 * l2), 1 / 5d);
+		final BlockRealMatrix out = new BlockRealMatrix(3, 3);
+		out.setRow(0, new double[] {elongation(a, a), elongation(a, b), elongation(a, c)});
+		out.setRow(1, new double[] {elongation(b, a), elongation(b, b), elongation(b, c)});
+		out.setRow(2, new double[] {elongation(c, a), elongation(c, b), elongation(c, c)});
+		return out;
+	}
+
+	private static double elongation(double major, double minor) {
+		// Ensure elongation contained in [0, 1]
+		if (minor > major) {
+			double tmp = minor;
+			minor = major;
+			major = tmp;
+		}
+		return 1 - (minor / major);
+	}
+
+	/**
+	 * Describes the elongation of the two <b>larger</b> principle axes of the
+	 * minimum box containing a {@link Mesh}. Provides functionality equivalent
+	 * to the {@code "geom.mainElongation"} Op of ImageJ Ops.
+	 *
+	 * @param input a {@link Mesh}
+	 * @return the elongation of a cross-section containing the two <b>larger</b> principle axes
+	 * @implNote op names='geom.mainElongation', label='Geometric (3D): Main Elongation', priority='10000.'
+	 */
+	public static double mainElongation(final Mesh input){
+		return elongation(input).getEntry(0, 1);
+	}
+
+	/**
+	 * Describes the elongation of the two <b>smaller</b> principle axes of the
+	 * minimum box containing a {@link Mesh}. Provides functionality equivalent
+	 * to the {@code "geom.medianElongation"} Op of ImageJ Ops.
+	 *
+	 * @param input a {@link Mesh}
+	 * @return the elongation of a cross-section containing the two <b>smaller</b> principle axes
+	 * @implNote op names='geom.medianElongation', label='Geometric (3D): Median Elongation', priority='10000.'
+	 */
+	public static double medianElongation(final Mesh input) {
+		return elongation(input).getEntry(1, 2);
+	}
+
+	/**
+	 * Describes the number of vertices on the surface of a {@link Mesh}.
+	 *
+	 * @param input a {@link Mesh}
+	 * @return the number of vertices in {@code input}
+	 * @implNote op names='geom.verticesCount', label='Geometric (3D): Surface Vertices Count', priority='10000.'
+	 */
+	public static long verticesCount(final Mesh input) {
+		return input.vertices().size();
+	}
+
+	/**
+	 * Describes the number of vertices on the surface of the convex hull of {@link Mesh}.
+	 *
+	 * @param input a {@link Mesh}
+	 * @return the number of vertices in the convex hull of {@code input}
+	 * @implNote op names='geom.verticesCountConvexHull', label='Geometric (3D): Convex Hull Vertices Count', priority='10000.'
+	 */
+	public static long convexHullVerticesCount(final Mesh input) {
+		return ConvexHull.calculate(input).vertices().size();
+	}
+
+
+	/**
+	 * Describes the spareness of {@code geom.spareness}. Based on ImageJ.
+	 *
+	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 * @implNote op names='geom.spareness', label='Geometric (3D): Spareness',
+	 *           priority='10000.'
+	 */
+	public static double spareness(final Mesh input) {
+		final RealMatrix it = InertiaTensor.calculate(input);
+		final EigenDecomposition ed = new EigenDecomposition(it);
+
+		final double l1 = ed.getRealEigenvalue(0) - ed.getRealEigenvalue(2) + ed
+				.getRealEigenvalue(1);
+		final double l2 = ed.getRealEigenvalue(0) - ed.getRealEigenvalue(1) + ed
+				.getRealEigenvalue(2);
+		final double l3 = ed.getRealEigenvalue(2) - ed.getRealEigenvalue(0) + ed
+				.getRealEigenvalue(1);
+
+		final double g = 1 / (8 * Math.PI / 15);
+
+		final double a = Math.pow(g * l1 * l1 / Math.sqrt(l2 * l3), 1 / 5d);
+		final double b = Math.pow(g * l2 * l2 / Math.sqrt(l1 * l3), 1 / 5d);
+		final double c = Math.pow(g * l3 * l3 / Math.sqrt(l1 * l2), 1 / 5d);
+
+		double volumeEllipsoid = (4 / 3d * Math.PI * a * b * c);
+
+		return volume(input) / volumeEllipsoid;
 	}
 
 	private MeshStats()

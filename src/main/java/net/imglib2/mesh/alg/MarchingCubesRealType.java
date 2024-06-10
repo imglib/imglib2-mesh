@@ -47,6 +47,7 @@ import net.imglib2.view.Views;
  *
  * @author Tim-Oliver Buchholz (University of Konstanz)
  * @author Tobias Pietzsch
+ *
  */
 public class MarchingCubesRealType
 {
@@ -106,6 +107,15 @@ public class MarchingCubesRealType
 		return ( byte ) ( unsignedByte & 0xff );
 	}
 
+	/**
+	 * Generates a {@link Mesh} surface from a {@link RandomAccessibleInterval}, containing all points with data value {@code isolevel}
+	 *
+	 * @param input the input {@link RandomAccessibleInterval}
+	 * @param isoLevel the value such that all locations on the output surface
+	 * @return a {@link Mesh} containing the isosurface within {@code input} corresponding to {@code isolevel}
+	 * @param <T> the element type of {@code input}
+	 * @implNote op names="geom.marchingCubes"
+	 */
 	public static < T extends RealType< T > > Mesh calculate( final RandomAccessibleInterval< T > input, final double isoLevel )
 	{
 		final Mesh output = new NaiveDoubleMesh();

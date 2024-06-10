@@ -104,6 +104,14 @@ public class MarchingCubesBooleanType
 		return ( byte ) ( unsignedByte & 0xff );
 	}
 
+	/**
+	 * Generates a {@link Mesh} surface from a {@link RandomAccessibleInterval}, containing all points with data value {@code true}
+	 *
+	 * @param input the input {@link RandomAccessibleInterval}
+	 * @return a {@link Mesh} describing a surface within {@code input} of all {@code true} points.
+	 * @param <T> the element type of {@code input}
+	 * @implNote op names="geom.marchingCubes", priority="100."
+	 */
 	public static < T extends BooleanType< T > > Mesh calculate( final RandomAccessibleInterval< T > input )
 	{
 		Mesh output = new NaiveDoubleMesh();
