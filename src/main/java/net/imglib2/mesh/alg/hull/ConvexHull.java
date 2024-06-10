@@ -29,20 +29,13 @@
 
 package net.imglib2.mesh.alg.hull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 import net.imglib2.util.Pair;
 import net.imglib2.util.ValuePair;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
+import java.util.*;
 
 /**
  * This quickhull implementation is based on the paper "The Quickhull Algorithm
@@ -63,6 +56,13 @@ public class ConvexHull
 
 	private static double epsilon;
 
+	/**
+	 * Computes the convex hull of a {@link Mesh}
+	 *
+	 * @param input the input {@link Mesh}
+	 * @return the convex hull of {@code input}
+	 * @implNote op names="geom.convexHull"
+	 */
 	public static NaiveDoubleMesh calculate( final Mesh input )
 	{
 		final NaiveDoubleMesh output = new NaiveDoubleMesh();
@@ -101,11 +101,41 @@ public class ConvexHull
 	}
 
 	/**
+	 * Computes the tolerance (epsilon) of the Mesh.
+	 * <p>
+	 * The convex hull algorithm implemented is susceptible to errors from the
+	 * numerical imprecision of floating point arithmetic. In John Lloyd's
+	 * quickhull
+	 * <a href="http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html">implementation</a>,
+	 * which our implementation follows, these errors usually arise in the form
+	 * of nonconvex edges, which the quickhull algorithm merges. Given two
+	 * faces joined by an edge, the edge is considered nonconvex if the centroid
+	 * of either face is "sufficiently below" the plane of the other face.
+	 * "Sufficiently below", in this case, means greater than the tolerance,
+	 * which is computed from the point list.
+	 * </p>
+	 * @param input the input {@link Mesh}
+	 * @return the epsilon, or tolerance, of the {@link Mesh} as computed by the
+	 * 		algorithm
+	 * @implNote op names='geom.convexHullEpsilon'
+	 */
+	public static double calculateEpsilon(final Mesh input) {
+		Set<Vertex> vertices = new LinkedHashSet<>();
+		for (final net.imglib2.mesh.Vertex v : input.vertices()) {
+			final Vertex vertex = new Vertex(v.x(), v.y(), v.z());
+			vertices.add(vertex);
+		}
+		List<TriangularFacet> facets = new ArrayList<>();
+		List<TriangularFacet> facetsWithPointInFront = new ArrayList<>();
+		return computeHull(vertices, facets, facetsWithPointInFront);
+	}
+
+	/**
 	 * Compute the convex hull.
 	 * 
 	 * @param facetsWithPointInFront
 	 */
-	private final static double computeHull( final Set< Vertex > vertices,
+	private static double computeHull( final Set< Vertex > vertices,
 			final List< TriangularFacet > facets,
 			final List< TriangularFacet > facetsWithPointInFront )
 	{
@@ -127,7 +157,7 @@ public class ConvexHull
 	 *            the facet to replace. At least one point must be in front of
 	 *            next.
 	 */
-	private final static void replaceFacet( final double eps, final Set< Vertex > vertices,
+	private static void replaceFacet( final double eps, final Set< Vertex > vertices,
 			final List< TriangularFacet > facets,
 			final List< TriangularFacet > facetsPointInFront,
 			final TriangularFacet facet )
@@ -148,7 +178,7 @@ public class ConvexHull
 	 *            point which is added to the convex hull
 	 * @return new created facets
 	 */
-	private final static List< TriangularFacet > createFacets( final Horizon horizon,
+	private static List< TriangularFacet > createFacets( final Horizon horizon,
 			final Vertex vTop )
 	{
 		final List< TriangularFacet > newFacets = new ArrayList<>();
@@ -190,7 +220,7 @@ public class ConvexHull
 	 * @param newFacets
 	 *            the triangles
 	 */
-	private final static void connectTriangles( final List< TriangularFacet > newFacets )
+	private static void connectTriangles( final List< TriangularFacet > newFacets )
 	{
 		final int lastFacetIndex = newFacets.size() - 1;
 		for ( int i = 1; i < lastFacetIndex; i++ )
@@ -213,7 +243,7 @@ public class ConvexHull
 	 * @param n
 	 *            the neighbor facet.
 	 */
-	private final static void setNeighborZero( final TriangularFacet f,
+	private static void setNeighborZero( final TriangularFacet f,
 			final TriangularFacet n )
 	{
 		final int vertexIndex = n.indexOfVertex( f.getVertex( 2 ) );
@@ -232,7 +262,7 @@ public class ConvexHull
 	 *            a point outside of the convex hull
 	 * @return facet containing all facets which are in front of vTop
 	 */
-	private final static Horizon computeHorizon( final double eps,
+	private static Horizon computeHorizon( final double eps,
 			final Set< Vertex > vertices, final List< TriangularFacet > facets,
 			final List< TriangularFacet > facetsWithPointInFront,
 			final TriangularFacet frontFacet, final Vertex vTop )
@@ -281,7 +311,7 @@ public class ConvexHull
 	 * @param merge
 	 *            the facet which will be merged with frontFacet.
 	 */
-	private final static void updateNeighbors( final TriangularFacet frontFacet,
+	private static void updateNeighbors( final TriangularFacet frontFacet,
 			final TriangularFacet merge )
 	{
 		for ( final TriangularFacet f : merge.getNeighbors() )
@@ -300,7 +330,7 @@ public class ConvexHull
 	 *            point which is added to the convex hull
 	 * @return neighboring facet of front or null if no facet is in front
 	 */
-	private final static TriangularFacet nextFacetToMerge( final double eps,
+	private static TriangularFacet nextFacetToMerge( final double eps,
 			final Horizon frontFacet, final Vertex vTop )
 	{
 		final Iterator< TriangularFacet > it = frontFacet.getNeighbors().iterator();
@@ -362,7 +392,7 @@ public class ConvexHull
 	 *            which could have a point in front
 	 * @param facetsWithPointInFront
 	 */
-	private final static void assignPointsToFacets( final double eps,
+	private static void assignPointsToFacets( final double eps,
 			final Set< Vertex > vertices, final List< TriangularFacet > newFacets,
 			final List< TriangularFacet > facets,
 			final List< TriangularFacet > facetsWithPointInFront )
@@ -412,7 +442,7 @@ public class ConvexHull
 	 * dimension. v2 is the point with the largest distance to v0----v1. v3 is
 	 * the point with the largest distance to the plane described by v0, v1, v2.
 	 */
-	private final static double createSimplex( final Set< Vertex > vertices,
+	private static double createSimplex( final Set< Vertex > vertices,
 			final List< TriangularFacet > facets,
 			final List< TriangularFacet > facetsWithPointInFront )
 	{
@@ -498,7 +528,7 @@ public class ConvexHull
 	 *            Vertex of the plane.
 	 * @return Vertex with the largest distance.
 	 */
-	private final static Vertex getV3( final double eps, final Set< Vertex > vertices,
+	private static Vertex getV3( final double eps, final Set< Vertex > vertices,
 			final Vertex v0, final Vertex v1, final Vertex v2 )
 	{
 		double distPlanePoint = eps;
@@ -528,7 +558,7 @@ public class ConvexHull
 	 *            Vertex of the line.
 	 * @return Vertex with the largest distance.
 	 */
-	private final static Vertex getV2( final double eps, final Set< Vertex > vertices,
+	private static Vertex getV2( final double eps, final Set< Vertex > vertices,
 			final Vertex v0, final Vertex v1 )
 	{
 		final Iterator< Vertex > it = vertices.iterator();
@@ -569,7 +599,7 @@ public class ConvexHull
 	 * @return index of the dimension with the largest distance between two
 	 *         points.
 	 */
-	private final static int getMaxDistPointIndex( final Vertex[] minMax )
+	private static int getMaxDistPointIndex( final Vertex[] minMax )
 	{
 		final double[] diff = new double[] { minMax[ 3 ].getX() - minMax[ 0 ].getX(),
 				minMax[ 4 ].getY() - minMax[ 1 ].getY(), minMax[ 5 ].getZ() - minMax[ 2 ]
@@ -593,7 +623,7 @@ public class ConvexHull
 	 * 
 	 * @return min and max vertices of each dimension
 	 */
-	private final static Pair< Double, Vertex[] > computeMinMax( final Set< Vertex > vertices )
+	private static Pair< Double, Vertex[] > computeMinMax( final Set< Vertex > vertices )
 	{
 		final Vertex[] minMax = new Vertex[ 6 ];
 		double maxX, maxY, maxZ;
