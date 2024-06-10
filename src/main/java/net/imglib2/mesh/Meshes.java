@@ -40,6 +40,7 @@ import net.imglib2.mesh.alg.MarchingCubesRealType;
 import net.imglib2.mesh.alg.MeshConnectedComponents;
 import net.imglib2.mesh.alg.RemoveDuplicateVertices;
 import net.imglib2.mesh.alg.SimplifyMesh;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.type.BooleanType;
 import net.imglib2.type.numeric.RealType;
@@ -71,6 +72,13 @@ public class Meshes
 		return p;
 	}
 
+	/**
+	 * Computes and returns an <b>oriented</b> bounding box {@link RealInterval}
+	 *
+	 * @param input
+	 * @return the output {@link Mesh}
+	 * @implNote op names="geom.boundingBox"
+	 */
 	public static RealInterval boundingBox( final net.imglib2.mesh.Mesh mesh )
 	{
 		final double[] boundingBox = new double[] { Double.POSITIVE_INFINITY,
