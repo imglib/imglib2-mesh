@@ -28,11 +28,14 @@
  */
 package net.imglib2.mesh;
 
+import net.imglib2.mesh.alg.InertiaTensor;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.util.MeshUtil;
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 
 /**
  * Static utilities that compute various shape descriptors of a mesh.
@@ -44,6 +47,8 @@ public class MeshStats
 	 * Computes the volume of the specified mesh.
 	 *
 	 * @return the volume in physical units.
+	 * @implNote op names='geom.size', label='Geometric (2D): Size',
+	 *           priority='9999.'
 	 */
 	public static double volume( final Mesh mesh )
 	{
@@ -88,6 +93,8 @@ public class MeshStats
 	 *            the input mesh.
 	 * @return the mesh surface area.
 	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 * @implNote op names='geom.boundarySize', label='Geometric (3D): Surface Area',
+	 *           priority='10000.'
 	 */
 	public static double surfaceArea( final Mesh mesh )
 	{
@@ -115,6 +122,8 @@ public class MeshStats
 	 * @param mesh
 	 *            the input mesh.
 	 * @return the mesh solidity value.
+	 * @implNote op names='geom.solidity', label='Geometric (3D): Solidity',
+	 *           priority='10000.'
 	 */
 	public static double solidity( final Mesh mesh )
 	{
@@ -133,6 +142,8 @@ public class MeshStats
 	 * @param convexHull
 	 *            the convex hull of the input, if it has been pre-calculated.
 	 * @return the mesh solidity value.
+	 * @implNote op names='geom.solidity', label='Geometric (3D): Solidity',
+	 *           priority='10000.'
 	 */
 	public static double solidity( final Mesh mesh, final Mesh convexHull )
 	{
@@ -151,6 +162,8 @@ public class MeshStats
 	 * @param mesh
 	 *            the input mesh.
 	 * @return the mesh convexity value.
+	 * @implNote op names='geom.convexity', label='Geometric (3D): Convexity',
+	 *           priority='10000.'
 	 */
 	public static double convexity( final Mesh mesh )
 	{
@@ -169,6 +182,8 @@ public class MeshStats
 	 * @param convexHull
 	 *            the convex hull of the input, if it has been pre-calculated.
 	 * @return the mesh convexity value.
+	 * @implNote op names='geom.convexity', label='Geometric (3D): Convexity',
+	 *           priority='10000.'
 	 */
 	public static double convexity( final Mesh mesh, final Mesh convexHull )
 	{
@@ -188,6 +203,8 @@ public class MeshStats
 	 * @param mesh
 	 *            the input mesh.
 	 * @return the mesh sphericity value.
+	 * @implNote op names='geom.sphericity', label='Geometric (3D): Sphericity',
+	 *           priority='10000.'
 	 */
 	public static double sphericity( final Mesh mesh )
 	{
@@ -214,6 +231,8 @@ public class MeshStats
 	 *            the input mesh.
 	 * @return the mesh compactness value.
 	 * @author Tim-Oliver Buchholz (University of Konstanz)
+	 * @implNote op names='geom.compactness', label='Geometric (3D): Compactness',
+	 *           priority='10000.'
 	 */
 	public static double compactness( final Mesh mesh )
 	{
@@ -237,6 +256,7 @@ public class MeshStats
 	 * @param input
 	 *            the input mesh.
 	 * @return the centroid of the mesh.
+	 * @implNote op names='geom.centroid', priority='10000.'
 	 */
 	public static RealPoint centroid( final Mesh input )
 	{
