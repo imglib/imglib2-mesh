@@ -75,7 +75,7 @@ public class Meshes
 	/**
 	 * Computes and returns an <b>oriented</b> bounding box {@link RealInterval}
 	 *
-	 * @param input
+	 * @param mesh
 	 * @return the output {@link Mesh}
 	 * @implNote op names="geom.boundingBox"
 	 */
@@ -101,6 +101,49 @@ public class Meshes
 				boundingBox[ 5 ] = z;
 		}
 		return Intervals.createMinMaxReal( boundingBox[ 0 ], boundingBox[ 1 ], boundingBox[ 2 ], boundingBox[ 3 ], boundingBox[ 4 ], boundingBox[ 5 ] );
+	}
+
+	/**
+	 * Computes and returns an <b>oriented</b> bounding box {@link Mesh}
+	 *
+	 * @param input
+	 * @return the output {@link Mesh}
+	 * @implNote op names="geom.boundingBox"
+	 */
+	public static Mesh boundingBoxMesh(final Mesh input) {
+		RealInterval interval = boundingBox(input);
+		Mesh m = new NaiveDoubleMesh();
+		// BOTTOM VERTICES
+		long bbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMin(2));
+		long bbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMin(2));
+		long bfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMin(2));
+		long bfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMin(2));
+		// TOP VERTICES
+		long tbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMax(2));
+		long tbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMax(2));
+		long tfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMax(2));
+		long tfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMax(2));
+
+		// BOTTOM TRIANGLES
+		m.triangles().add(bbl, bfr, bbr);
+		m.triangles().add(bbl, bfl, bfr);
+		// FRONT TRIANGLES
+		m.triangles().add(tfl, bfr, bfl);
+		m.triangles().add(tfl, tfr, bfr);
+		// TOP TRIANGLES
+		m.triangles().add(tbl, tfr, tfl);
+		m.triangles().add(tbl, tbr, tfr);
+		// BACK TRIANGLES
+		m.triangles().add(tbl, bbl, bbr);
+		m.triangles().add(tbl, tbr, tfr);
+		// LEFT TRIANGLES
+		m.triangles().add(tfl, bfl, bbl);
+		m.triangles().add(tfl, bbl, tbr);
+		// RIGHT TRIANGLES
+		m.triangles().add(tfr, tbr, bbr);
+		m.triangles().add(tfr, bbr, tfr);
+
+		return m;
 	}
 
 	/**
