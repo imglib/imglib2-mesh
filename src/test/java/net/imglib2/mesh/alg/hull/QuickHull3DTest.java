@@ -61,6 +61,7 @@ public class QuickHull3DTest
 
 		final NaiveDoubleMesh convexHull = ConvexHull.calculate( df );
 		final double epsilon = ConvexHull.lastEpsilon();
+		assertEquals(epsilon, ConvexHull.calculateEpsilon(convexHull), 0);
 		assertEquals( 175, convexHull.vertices().size() );
 		assertConvex( convexHull, epsilon );
 	}
@@ -76,6 +77,7 @@ public class QuickHull3DTest
 
 		final NaiveDoubleMesh convexHull = ConvexHull.calculate( df );
 		final double epsilon = ConvexHull.lastEpsilon();
+		assertEquals(epsilon, ConvexHull.calculateEpsilon(convexHull), 0);
 		assertEquals( 4, convexHull.vertices().size() );
 		assertConvex( convexHull, epsilon );
 	}
@@ -93,6 +95,7 @@ public class QuickHull3DTest
 
 		final NaiveDoubleMesh convexHull = ConvexHull.calculate( df );
 		final double epsilon = ConvexHull.lastEpsilon();
+		assertEquals(epsilon, ConvexHull.calculateEpsilon(convexHull), 0);
 		assertEquals( 5, convexHull.vertices().size() );
 		assertConvex( convexHull, epsilon );
 	}
@@ -119,6 +122,7 @@ public class QuickHull3DTest
 
 		final NaiveDoubleMesh convexHull = ConvexHull.calculate( df );
 		final double epsilon = ConvexHull.lastEpsilon();
+		assertEquals(epsilon, ConvexHull.calculateEpsilon(convexHull), 0);
 		assertEquals( 12, convexHull.vertices().size() );
 		assertConvex( convexHull, epsilon );
 	}
@@ -172,6 +176,7 @@ public class QuickHull3DTest
 
 		final NaiveDoubleMesh convexHull = ConvexHull.calculate( df );
 		final double epsilon = ConvexHull.lastEpsilon();
+		assertEquals(epsilon, ConvexHull.calculateEpsilon(convexHull), 0);
 		assertEquals( 20, convexHull.vertices().size() );
 		assertConvex( convexHull, epsilon );
 	}
