@@ -88,6 +88,60 @@ public class MeshStatsTest
 	}
 
 	@Test
+	public void elongation()
+	{
+		// The below code creates an octahedron, with all points on an axis.
+		// The octahedron is stretched on the x-axis, such that the
+		// elongation on the x-z and x-y principal planes is 0.5
+		// and the elongation on the y-z plane is 0
+		Mesh mesh2 = new NaiveDoubleMesh();
+		mesh2.vertices().add(2, 0, 0);
+		mesh2.vertices().add(0, 1, 0);
+		mesh2.vertices().add(0, 0, 1);
+		mesh2.vertices().add(-2, 0, 0);
+		mesh2.vertices().add(0, -1, 0);
+		mesh2.vertices().add(0, 0, -1);
+		mesh2.triangles().add(0, 2, 1);
+		mesh2.triangles().add(4, 2, 0);
+		mesh2.triangles().add(3, 2, 4);
+		mesh2.triangles().add(1, 2, 3);
+		mesh2.triangles().add(5, 0, 1);
+		mesh2.triangles().add(5, 4, 0);
+		mesh2.triangles().add(5, 3, 4);
+		mesh2.triangles().add(5, 1, 3);
+		final double[] expected = { //
+				0.0, 0.5, 0.5, //
+				0.5, 0.0, 0.0, //
+				0.5, 0.0, 0.0 //
+		};
+		final RealMatrix actual = MeshStats.elongation(mesh2);
+		actual.walkInRowOrder( new RealMatrixChangingVisitor()
+		{
+
+			private int i = 0;
+
+			@Override
+			public double visit( final int row, final int column, final double value )
+			{
+				final double e = expected[ i++ ];
+				assertEquals( "Incorrect inertia tensor value returned for row " + row + " and column " + column,
+						e, value, EPSILON );
+				return 0;
+			}
+
+			@Override
+			public void start( final int rows, final int columns, final int startRow, final int endRow, final int startColumn, final int endColumn )
+			{}
+
+			@Override
+			public double end()
+			{
+				return 0;
+			}
+		} );
+	}
+
+	@Test
 	public void inertiaTensor()
 	{
 		// Computed with MATLAB.
@@ -166,6 +220,15 @@ public class MeshStatsTest
 		// ground truth computed with matlab
 		final double expected = 0.845648604269294;
 		assertEquals( "Incorrect solidity returned.", expected, actual, EPSILON );
+	}
+
+	@Test
+	public void spareness()
+	{
+		final double actual = MeshStats.spareness(mesh);
+		// ground truth computed with matlab
+		final double expected = 0.9838757743034947;
+		assertEquals( "Incorrect sphericity returned.", expected, actual, EPSILON );
 	}
 
 	@Test

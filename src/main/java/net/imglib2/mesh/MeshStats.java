@@ -29,7 +29,6 @@
 package net.imglib2.mesh;
 
 import net.imglib2.mesh.alg.InertiaTensor;
-import net.imglib2.type.numeric.real.DoubleType;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import net.imglib2.RealPoint;
@@ -37,7 +36,11 @@ import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.util.MeshUtil;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Static utilities that compute various shape descriptors of a mesh.
@@ -48,6 +51,7 @@ public class MeshStats
 	/**
 	 * Computes the volume of the specified mesh.
 	 *
+	 * @param mesh the input {@link Mesh}
 	 * @return the volume in physical units.
 	 * @implNote op names='geom.size', label='Geometric (3D): Volume',
 	 *           priority='9999.'
@@ -282,7 +286,7 @@ public class MeshStats
 	 * @param input
 	 *            the input mesh.
 	 * @return the centroid of the mesh.
-	 * @implNote op names='geom.centerOfGravity', priority='10000.'
+	 * @implNote op names='geom.centroid', priority='10000.'
 	 */
 	public static RealPoint centroid( final Mesh input )
 	{
@@ -433,8 +437,11 @@ public class MeshStats
 
 
 	/**
-	 * Describes the spareness of {@code geom.spareness}. Based on ImageJ.
+	 * Describes the spareness of a {@link Mesh}. Spareness is defined as the ratio of the {@code Mesh}'s volume to that of a best-fit ellipsoid.
+	 * Inspiration drawn from ImageJ.
 	 *
+	 * @param input the input {@link Mesh}
+	 * @return the ellipse variance
 	 * @author Tim-Oliver Buchholz (University of Konstanz)
 	 * @implNote op names='geom.spareness', label='Geometric (3D): Spareness',
 	 *           priority='10000.'

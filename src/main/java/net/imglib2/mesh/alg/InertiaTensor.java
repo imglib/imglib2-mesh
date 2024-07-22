@@ -28,6 +28,7 @@
  */
 package net.imglib2.mesh.alg;
 
+import net.imglib2.mesh.Meshes;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -54,11 +55,14 @@ public class InertiaTensor
 {
 
 	/**
+	 * Computes the inertia tensor.
+	 * @param input the input {@link Mesh}
+	 * @return a {@link RealMatrix} whose entries form the inertia tensor
 	 * @implNote op names='geom.secondMoment'
 	 */
 	public static RealMatrix calculate( final Mesh input )
 	{
-		final RealLocalizable cent = MeshStats.centroid( input );
+		final RealLocalizable cent = MeshStats.centroid(input);
 		final double originX = cent.getDoublePosition( 0 );
 		final double originY = cent.getDoublePosition( 1 );
 		final double originZ = cent.getDoublePosition( 2 );
