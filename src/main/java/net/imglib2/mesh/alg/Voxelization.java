@@ -28,18 +28,13 @@
  */
 package net.imglib2.mesh.alg;
 
-import net.imglib2.FinalDimensions;
-import net.imglib2.RandomAccess;
-import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.RealLocalizable;
-import net.imglib2.RealPoint;
+import net.imglib2.*;
 import net.imglib2.img.Img;
 import net.imglib2.mesh.Mesh;
 import net.imglib2.mesh.Triangle;
 import net.imglib2.mesh.Vertices;
 import net.imglib2.type.BooleanType;
 import net.imglib2.type.logic.BitType;
-
 import net.imglib2.util.Util;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -62,13 +57,43 @@ public final class Voxelization
 		// NB: Prevent instantiation of utility class.
 	}
 
+	/**
+	 * Voxelizes {@code mesh}
+	 *
+	 * @param mesh the input {@link Mesh}
+	 * @param width the width of the resulting image
+	 * @param height the height of the resulting image
+	 * @param depth the depth of the resulting image
+	 * @return an {@link Img} containing a voxelization of {@code mesh}
+	 * @implNote op names="geom.voxelization"
+	 */
 	public static Img< BitType > voxelize( Mesh mesh, int width, int height, int depth )
 	{
-		Img< BitType > outImg = Util.getSuitableImgFactory( new FinalDimensions( width, height, depth ), new BitType() ).create( width, height, depth );
+		return voxelize(mesh, new FinalDimensions(width, height, depth));
+	}
+
+	/**
+	 * Voxelizes {@code mesh}
+	 *
+	 * @param mesh the input {@link Mesh}
+	 * @param dims the {@link Dimensions} of the output image
+	 * @return an {@link Img} containing a voxelization of {@code mesh}
+	 * @implNote op names="geom.voxelization"
+	 */
+	public static Img< BitType > voxelize( Mesh mesh, Dimensions dims )
+	{
+		Img< BitType > outImg = Util.getSuitableImgFactory(dims , new BitType() ).create(dims.dimensionsAsLongArray());
 		voxelize( mesh, outImg );
 		return outImg;
 	}
 
+	/**
+	 * Voxelizes {@code mesh}
+	 *
+	 * @param mesh the input {@link Mesh}
+	 * @param out an output buffer in which the voxelization will be stored (container)
+	 * @implNote op names="geom.voxelization"
+	 */
 	public static < B extends BooleanType< B > > void voxelize( Mesh mesh, RandomAccessibleInterval< B > out )
 	{
 		final long[] dims = out.dimensionsAsLongArray();

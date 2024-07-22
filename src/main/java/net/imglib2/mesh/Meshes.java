@@ -152,7 +152,8 @@ public class Meshes
 	 * @param src
 	 *            Source mesh, from which data will be copied.
 	 * @param dest
-	 *            Destination mesh, into which source will be copied.
+	 *            Destination mesh, into which source will be copied. (container)
+	 * @implNote op names="engine.copy, copy.mesh"
 	 */
 	public static void copy( final net.imglib2.mesh.Mesh src, final net.imglib2.mesh.Mesh dest )
 	{
