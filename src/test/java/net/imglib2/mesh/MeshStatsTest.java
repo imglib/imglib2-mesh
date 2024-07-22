@@ -142,6 +142,14 @@ public class MeshStatsTest
 	}
 
 	@Test
+	public void ellipseVariance()
+	{
+		final double actual = MeshStats.ellipsoidVariance( mesh );
+		final double expected = 0.9015548405842188;
+		assertEquals( "Incorrect ellipse variance returned.", expected, actual, EPSILON );
+	}
+
+	@Test
 	public void sizeConvexHullMesh()
 	{
 		final double actual = MeshStats.volume( ch );

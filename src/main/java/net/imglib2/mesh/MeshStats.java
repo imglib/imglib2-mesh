@@ -33,6 +33,12 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.alg.hull.ConvexHull;
 import net.imglib2.mesh.util.MeshUtil;
+import org.apache.commons.math3.linear.BlockRealMatrix;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Static utilities that compute various shape descriptors of a mesh.
@@ -292,6 +298,68 @@ public class MeshStats
 
 		final double v = volume( input );
 		return new RealPoint( m100 / v, m010 / v, m001 / v );
+	}
+
+	/**
+	 * Describes how well a {@link Mesh} resembles an ellipsoid with an identical <a href="https://en.wikipedia.org/wiki/Covariance_matrix">covariance matrix</a>.
+	 *
+	 * Inspiration drawn from <a href="https://hal.science/hal-00446037/PDF/ARS-Journal-SurveyPatternRecognition.pdf">here<a>
+	 *
+	 * @param input the input {@link Mesh}
+	 * @return the ellipse variance
+	 * @author Gabriel Selzer
+	 * @implNote op names='geom.ellipsoidVariance', label='Geometric (3D): Ellipsoid Variance',
+	 *           priority='10000.'
+	 */
+	public static double ellipsoidVariance(final Mesh input) {
+		RealPoint centroid = MeshStats.centroid(input);
+		double cx = centroid.getDoublePosition(0);
+		double cy = centroid.getDoublePosition(1);
+		double cz = centroid.getDoublePosition(2);
+
+		double cxx = 0;
+		double cxy = 0;
+		double cyy = 0;
+		double cyz = 0;
+		double czz = 0;
+		double czx = 0;
+		for (Vertex v : input.vertices()) {
+			cxx += (v.x() - cx) * (v.x() - cx);
+			cyy += (v.y() - cy) * (v.y() - cy);
+			czz += (v.z() - cz) * (v.z() - cz);
+			cxy += (v.x() - cx) * (v.y() - cy);
+			cyz += (v.y() - cy) * (v.z() - cz);
+			czx += (v.z() - cz) * (v.x() - cx);
+		}
+		cxx /= input.vertices().size();
+		cyy /= input.vertices().size();
+		czz /= input.vertices().size();
+		cxy /= input.vertices().size();
+		cyz /= input.vertices().size();
+		czx /= input.vertices().size();
+		final RealMatrix c = new BlockRealMatrix(3, 3);
+		c.setRow(0, new double[]{cxx, cxy, czx});
+		c.setRow(1, new double[]{cxy, cyy, cyz});
+		c.setRow(2, new double[]{czx, cyz, czz});
+		final RealMatrix inv = MatrixUtils.inverse(c);
+
+		final List<Double> d = new ArrayList<>();
+		for (Vertex v : input.vertices()) {
+			RealMatrix r = new BlockRealMatrix(3, 1);
+			r.setColumn(0, new double[]{v.x() - cx, v.y() - cy, v.z() - cz});
+			final RealMatrix mat = r.transpose().multiply(inv).multiply(r); // 1x1 matrix
+			d.add(Math.sqrt(mat.getEntry(0, 0)));
+
+		}
+		final double mu = d.stream().reduce(Double::sum).get() / input.vertices().size();
+		double sigma = 0;
+		for (double di : d) {
+			sigma += (di - mu) * (di - mu);
+		}
+		sigma = Math.sqrt(sigma / d.size());
+
+		final double e = sigma / mu;
+		return 1 - e;
 	}
 
 	private MeshStats()
