@@ -122,6 +122,8 @@
 		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 
 		<imageio-tiff.version>3.9.4</imageio-tiff.version>
+
+		<scijava.ops.parse>true</scijava.ops.parse>
 	</properties>
 
 	<repositories>
@@ -130,6 +132,28 @@
 			<url>https://maven.scijava.org/content/groups/public</url>
 		</repository>
 	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.scijava</groupId>
+							<artifactId>scijava-ops-indexer</artifactId>
+							<version>1.0.1-SNAPSHOT</version>
+						</path>
+					</annotationProcessorPaths>
+					<fork>true</fork>
+					<compilerArgs>
+						<arg>-Ascijava.ops.parse=${scijava.ops.parse}</arg>
+						<arg>-Ascijava.ops.opVersion=${project.version}</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<!-- ImgLib2 dependencies -->
@@ -156,6 +180,11 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-algorithm</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

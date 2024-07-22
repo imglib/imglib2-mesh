@@ -40,6 +40,7 @@ import net.imglib2.mesh.alg.MarchingCubesRealType;
 import net.imglib2.mesh.alg.MeshConnectedComponents;
 import net.imglib2.mesh.alg.RemoveDuplicateVertices;
 import net.imglib2.mesh.alg.SimplifyMesh;
+import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
 import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.type.BooleanType;
 import net.imglib2.type.numeric.RealType;
@@ -71,6 +72,13 @@ public class Meshes
 		return p;
 	}
 
+	/**
+	 * Computes and returns an <b>oriented</b> bounding box {@link RealInterval}
+	 *
+	 * @param mesh
+	 * @return the output {@link Mesh}
+	 * @implNote op names="geom.boundingBox"
+	 */
 	public static RealInterval boundingBox( final net.imglib2.mesh.Mesh mesh )
 	{
 		final double[] boundingBox = new double[] { Double.POSITIVE_INFINITY,
@@ -96,12 +104,56 @@ public class Meshes
 	}
 
 	/**
+	 * Computes and returns an <b>oriented</b> bounding box {@link Mesh}
+	 *
+	 * @param input
+	 * @return the output {@link Mesh}
+	 * @implNote op names="geom.boundingBox"
+	 */
+	public static Mesh boundingBoxMesh(final Mesh input) {
+		RealInterval interval = boundingBox(input);
+		Mesh m = new NaiveDoubleMesh();
+		// BOTTOM VERTICES
+		long bbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMin(2));
+		long bbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMin(2));
+		long bfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMin(2));
+		long bfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMin(2));
+		// TOP VERTICES
+		long tbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMax(2));
+		long tbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMax(2));
+		long tfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMax(2));
+		long tfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMax(2));
+
+		// BOTTOM TRIANGLES
+		m.triangles().add(bbl, bfr, bbr);
+		m.triangles().add(bbl, bfl, bfr);
+		// FRONT TRIANGLES
+		m.triangles().add(tfl, bfr, bfl);
+		m.triangles().add(tfl, tfr, bfr);
+		// TOP TRIANGLES
+		m.triangles().add(tbl, tfr, tfl);
+		m.triangles().add(tbl, tbr, tfr);
+		// BACK TRIANGLES
+		m.triangles().add(tbl, bbl, bbr);
+		m.triangles().add(tbl, tbr, tfr);
+		// LEFT TRIANGLES
+		m.triangles().add(tfl, bfl, bbl);
+		m.triangles().add(tfl, bbl, tbr);
+		// RIGHT TRIANGLES
+		m.triangles().add(tfr, tbr, bbr);
+		m.triangles().add(tfr, bbr, tfr);
+
+		return m;
+	}
+
+	/**
 	 * Copies a mesh into another mesh.
 	 *
 	 * @param src
 	 *            Source mesh, from which data will be copied.
 	 * @param dest
-	 *            Destination mesh, into which source will be copied.
+	 *            Destination mesh, into which source will be copied. (container)
+	 * @implNote op names="engine.copy, copy.mesh"
 	 */
 	public static void copy( final net.imglib2.mesh.Mesh src, final net.imglib2.mesh.Mesh dest )
 	{

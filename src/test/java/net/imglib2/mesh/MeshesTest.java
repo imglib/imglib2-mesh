@@ -28,9 +28,6 @@
  */
 package net.imglib2.mesh;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import java.awt.image.BufferedImage;
@@ -39,11 +36,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import gnu.trove.list.array.TLongArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -66,6 +59,8 @@ import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.util.Fraction;
 import net.imglib2.view.RandomAccessibleIntervalCursor;
+
+import static org.junit.Assert.*;
 
 public class MeshesTest
 {
@@ -159,6 +154,34 @@ public class MeshesTest
 			assertEquals( expected.v2z(), actual.v2z(), EPSILON );
 		}
 		assertTrue( !expectedFacets.hasNext() && !actualFacets.hasNext() );
+	}
+
+	@Test
+	public void testBoundingBoxMesh() {
+		final Mesh mesh = new NaiveDoubleMesh();
+		// Create a pyramid between the points
+		long bbl = mesh.vertices().add(0, 0, 0);
+		long bbr = mesh.vertices().add(1, 0, 0);
+		long bfl = mesh.vertices().add(0, 1, 0);
+		long t = mesh.vertices().add(0, 0, 1);
+		mesh.triangles().add(bbl, bfl, bbr);
+		mesh.triangles().add(t, bbr, bfl);
+		mesh.triangles().add(t, bbl, bbr);
+		mesh.triangles().add(t, bfl, bbl);
+
+		// Get the bounding box
+		final Mesh bounding = Meshes.boundingBoxMesh(mesh);
+		// Assert expected points and number of vertices
+		Iterator<Vertex> itr = bounding.vertices().iterator();
+		assertArrayEquals(new double[] {0, 0, 0}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {1, 0, 0}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {0, 1, 0}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {1, 1, 0}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {0, 0, 1}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {1, 0, 1}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {0, 1, 1}, itr.next().positionAsDoubleArray(), 0);
+		assertArrayEquals(new double[] {1, 1, 1}, itr.next().positionAsDoubleArray(), 0);
+		assertFalse(itr.hasNext());
 	}
 
 	private static Mesh createMeshWithNoise()
