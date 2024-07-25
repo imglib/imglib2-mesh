@@ -106,6 +106,13 @@ public class MarchingCubesBooleanType
 
 	public static < T extends BooleanType< T > > Mesh calculate( final RandomAccessibleInterval< T > input )
 	{
+		Mesh output = new NaiveDoubleMesh();
+		compute( input, output );
+		return output;
+	}
+
+	public static < T extends BooleanType< T > > Mesh compute( final RandomAccessibleInterval< T > input, final Mesh output )
+	{
 		final double[][] vertlist = new double[ 12 ][];
 
 		final int msx = ( int ) input.dimension( 0 );
@@ -115,8 +122,6 @@ public class MarchingCubesBooleanType
 		final int isy = msy + 2;
 //		final int isz = msz + 2;
 		final byte[] mask = mask( input );
-
-		final Mesh output = new NaiveDoubleMesh();
 
 		final int minX = ( int ) input.min( 0 ) - 1;
 		final int minY = ( int ) input.min( 1 ) - 1;

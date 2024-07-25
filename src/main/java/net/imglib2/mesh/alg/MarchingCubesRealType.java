@@ -108,6 +108,13 @@ public class MarchingCubesRealType
 
 	public static < T extends RealType< T > > Mesh calculate( final RandomAccessibleInterval< T > input, final double isoLevel )
 	{
+		final Mesh output = new NaiveDoubleMesh();
+		compute( input, isoLevel, output );
+		return output;
+	}
+
+	public static < T extends RealType< T > > Mesh compute( final RandomAccessibleInterval< T > input, final double isoLevel, final Mesh output )
+	{
 		final double[][] vertlist = new double[ 12 ][ 3 ];
 		final double[] vertex_values = new double[ 8 ];
 		final int msx = ( int ) input.dimension( 0 );
@@ -116,7 +123,6 @@ public class MarchingCubesRealType
 		final int isy = msy + 2;
 		final byte[] mask = mask( input, isoLevel );
 
-		final Mesh output = new NaiveDoubleMesh();
 		final RandomAccess< T > ra = Views.extendZero( input ).randomAccess( Intervals.expand( input, 1 ) );
 		final int[] pos = new int[ 3 ];
 
