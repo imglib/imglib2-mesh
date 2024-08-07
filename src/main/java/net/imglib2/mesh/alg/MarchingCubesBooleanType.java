@@ -39,9 +39,10 @@ import net.imglib2.type.BooleanType;
 import net.imglib2.view.Views;
 
 /**
- * This is a marching cubes implementation. It is inspired by Paul Bourke's
- * (http://paulbourke.net/geometry/polygonise/) implementation. Especially the
- * lookup tables are from his implementation.
+ * This is a marching cubes implementation. It is inspired by
+ * <a href="https://paulbourke.net/geometry/polygonise/">Paul
+ * Bourke's implementation</a>. Especially the lookup tables
+ * are from his implementation.
  *
  * @author Tim-Oliver Buchholz (University of Konstanz)
  * @author Tobias Pietzsch
