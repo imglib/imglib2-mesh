@@ -2,7 +2,7 @@
  * #%L
  * 3D mesh structures for ImgLib2-related projects.
  * %%
- * Copyright (C) 2016 - 2023 ImgLib2 developers.
+ * Copyright (C) 2016 - 2024 ImgLib2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
