@@ -51,6 +51,7 @@ import net.imglib2.util.Intervals;
  *
  * @author Curtis Rueden
  * @author Kyle Harrington
+ * @author Eugene Katrukha
  */
 public class Meshes
 {
@@ -208,8 +209,13 @@ public class Meshes
 	public static void calculateNormals( final net.imglib2.mesh.Mesh src, final net.imglib2.mesh.Mesh dest )
 	{
 
-		// Compute the triangle normals.
+		// Store the triangle normals
 		final HashMap< Long, float[] > triNormals = new HashMap<>();
+		// Store per vertex normals
+		final HashMap< Long, float[] > vNormals = new HashMap<>();
+		//vertex cumulative normal
+		float[] cumNormal;
+		
 		for ( final Triangle tri : src.triangles() )
 		{
 			final int v0 = ( int ) tri.vertex0();
@@ -237,27 +243,19 @@ public class Meshes
 			final float nx = v10y * v20z - v10z * v20y;
 			final float ny = v10z * v20x - v10x * v20z;
 			final float nz = v10x * v20y - v10y * v20x;
-			final float nmag = ( float ) Math.sqrt( Math.pow( nx, 2 ) + Math.pow( ny, 2 ) + Math.pow( nz, 2 ) );
-
-			triNormals.put( tri.index(), new float[] { nx / nmag, ny / nmag, nz / nmag } );
-		}
-
-		// Next, compute the normals per vertex based on face normals
-		final HashMap< Long, float[] > vNormals = new HashMap<>();
-		// Note: these are cumulative until normalized by vNbrCount
-
-		float[] cumNormal, triNormal;
-		for ( final Triangle tri : src.triangles() )
-		{
-			triNormal = triNormals.get( tri.index() );
+			
+			//cumulative, triangle area weighted normals per vertex.
 			for ( final long idx : new long[] { tri.vertex0(), tri.vertex1(), tri.vertex2() } )
 			{
 				cumNormal = vNormals.getOrDefault( idx, new float[] { 0, 0, 0 } );
-				cumNormal[ 0 ] += triNormal[ 0 ];
-				cumNormal[ 1 ] += triNormal[ 1 ];
-				cumNormal[ 2 ] += triNormal[ 2 ];
+				cumNormal[ 0 ] += nx;
+				cumNormal[ 1 ] += ny;
+				cumNormal[ 2 ] += nz;
 				vNormals.put( idx, cumNormal );
 			}
+			
+			final float nmag = ( float ) Math.sqrt( Math.pow( nx, 2 ) + Math.pow( ny, 2 ) + Math.pow( nz, 2 ) );
+			triNormals.put( tri.index(), new float[] { nx / nmag, ny / nmag, nz / nmag } );
 		}
 
 		// Now populate dest
@@ -290,6 +288,8 @@ public class Meshes
 			}
 		}
 		// Copy the triangles, taking care to use destination indices.
+		//triangle normalized normal
+		float[] triNormal;
 		for ( final Triangle tri : src.triangles() )
 		{
 			final long v0src = tri.vertex0();
