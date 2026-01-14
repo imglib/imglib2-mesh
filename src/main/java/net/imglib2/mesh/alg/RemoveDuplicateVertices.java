@@ -39,6 +39,7 @@ import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
  * @author Deborah Schmidt
+ * @author Eugene Katrukha
  */
 public class RemoveDuplicateVertices
 {
@@ -54,10 +55,18 @@ public class RemoveDuplicateVertices
 			final RealPoint p1 = new RealPoint( triangle.v0x(), triangle.v0y(), triangle.v0z() );
 			final RealPoint p2 = new RealPoint( triangle.v1x(), triangle.v1y(), triangle.v1z() );
 			final RealPoint p3 = new RealPoint( triangle.v2x(), triangle.v2y(), triangle.v2z() );
-			triangles[ trianglesCount ][ 0 ] = getVertex( vertices, p1, precision );
-			triangles[ trianglesCount ][ 1 ] = getVertex( vertices, p2, precision );
-			triangles[ trianglesCount ][ 2 ] = getVertex( vertices, p3, precision );
-			trianglesCount++;
+			
+			final int v1 = getVertex( vertices, p1, precision );
+			final int v2 = getVertex( vertices, p2, precision );
+			final int v3 = getVertex( vertices, p3, precision );
+			
+			if( v1 != v2 && v1 != v3 && v2 != v3 )
+			{
+				triangles[ trianglesCount ][ 0 ] = v1;
+				triangles[ trianglesCount ][ 1 ] = v2;
+				triangles[ trianglesCount ][ 2 ] = v3;
+				trianglesCount++;
+			}
 		}
 		final BufferMesh res = new BufferMesh( vertices.size(), triangles.length );
 		vertices.values().forEach( vertex -> {
