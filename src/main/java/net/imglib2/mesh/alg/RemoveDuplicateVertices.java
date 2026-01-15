@@ -68,14 +68,14 @@ public class RemoveDuplicateVertices
 				trianglesCount++;
 			}
 		}
-		final BufferMesh res = new BufferMesh( vertices.size(), triangles.length );
+		final BufferMesh res = new BufferMesh( vertices.size(), trianglesCount );
 		vertices.values().forEach( vertex -> {
 			res.vertices().add( vertex.point.getFloatPosition( 0 ), vertex.point.getFloatPosition( 1 ), vertex.point.getFloatPosition( 2 ) );
 		} );
 
-		for ( final int[] triangle : triangles )
+		for ( int i = 0; i < trianglesCount; i++ )
 		{
-			res.triangles().add( triangle[ 0 ], triangle[ 1 ], triangle[ 2 ] );
+			res.triangles().add( triangles[ i ][ 0 ], triangles[ i ][ 1 ], triangles[ i ][ 2 ] );
 		}
 		return res;
 	}

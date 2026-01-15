@@ -328,7 +328,8 @@ public class Meshes
 	/**
 	 * Creates a new mesh from a given mesh without any duplicate vertices.
 	 * Normals and uv coordinates will be ignored and not added to the output
-	 * mesh.
+	 * mesh. The number of the output triangles is equal or less than the input,
+	 * since degenerate (collapsed) triangles are omitted.
 	 *
 	 * @param mesh
 	 *            Source mesh
