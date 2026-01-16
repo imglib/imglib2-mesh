@@ -215,6 +215,8 @@ public class Meshes
 		final HashMap< Long, float[] > vNormals = new HashMap<>();
 		//vertex cumulative normal
 		float[] cumNormal;
+		//vertex index
+		long idx;
 		
 		for ( final Triangle tri : src.triangles() )
 		{
@@ -245,16 +247,28 @@ public class Meshes
 			final float nz = v10x * v20y - v10y * v20x;
 			
 			//cumulative, triangle area weighted normals per vertex.
-			for ( final long idx : new long[] { tri.vertex0(), tri.vertex1(), tri.vertex2() } )
-			{
-				cumNormal = vNormals.getOrDefault( idx, new float[] { 0, 0, 0 } );
-				cumNormal[ 0 ] += nx;
-				cumNormal[ 1 ] += ny;
-				cumNormal[ 2 ] += nz;
-				vNormals.put( idx, cumNormal );
-			}
+			idx = tri.vertex0();
+			cumNormal = vNormals.getOrDefault(idx, new float[] { 0, 0, 0 });
+			cumNormal[0] += nx;
+			cumNormal[1] += ny;
+			cumNormal[2] += nz;
+			vNormals.put(idx, cumNormal);
+
+			idx = tri.vertex1();
+			cumNormal = vNormals.getOrDefault(idx, new float[] { 0, 0, 0 });
+			cumNormal[0] += nx;
+			cumNormal[1] += ny;
+			cumNormal[2] += nz;
+			vNormals.put(idx, cumNormal);
+
+			idx = tri.vertex2();
+			cumNormal = vNormals.getOrDefault(idx, new float[] { 0, 0, 0 });
+			cumNormal[0] += nx;
+			cumNormal[1] += ny;
+			cumNormal[2] += nz;
+			vNormals.put(idx, cumNormal);
 			
-			final float nmag = ( float ) Math.sqrt( Math.pow( nx, 2 ) + Math.pow( ny, 2 ) + Math.pow( nz, 2 ) );
+			final float nmag = ( float ) Math.sqrt( nx * nx + ny * ny + nz * nz );
 			triNormals.put( tri.index(), new float[] { nx / nmag, ny / nmag, nz / nmag } );
 		}
 
@@ -267,7 +281,7 @@ public class Meshes
 		{
 			final long srcIndex = v.index();
 			vNormal = vNormals.get( v.index() );
-			vNormalMag = Math.sqrt( Math.pow( vNormal[ 0 ], 2 ) + Math.pow( vNormal[ 1 ], 2 ) + Math.pow( vNormal[ 2 ], 2 ) );
+			vNormalMag = Math.sqrt( vNormal[ 0 ] * vNormal[ 0 ] + vNormal[ 1 ] * vNormal[ 1 ] + vNormal[ 2 ] * vNormal[ 2 ] );
 			final long destIndex = dest.vertices().add( //
 					v.x(), v.y(), v.z(), //
 					vNormal[ 0 ] / vNormalMag, vNormal[ 1 ] / vNormalMag, vNormal[ 2 ] / vNormalMag, //
@@ -465,8 +479,8 @@ public class Meshes
 	public static void translateScale( final Mesh mesh, final double[] translate, final double[] scale )
 	{
 		final Vertices vertices = mesh.vertices();
-		final long nv = vertices.size();
-		for ( long i = 0; i < nv; i++ )
+		final long nVertices = vertices.sizel();
+		for ( long i = 0; i < nVertices; i++ )
 		{
 			final double x = ( translate[ 0 ] + vertices.x( i ) ) * scale[ 0 ];
 			final double y = ( translate[ 1 ] + vertices.y( i ) ) * scale[ 1 ];
