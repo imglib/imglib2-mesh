@@ -46,7 +46,10 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  * </p>
  * 
  * @author Kyle Harrington
+ *
+ * @deprecated Use {@link EuclideanDistanceVoxelization} instead
  */
+@Deprecated
 public final class Voxelization
 {
 
