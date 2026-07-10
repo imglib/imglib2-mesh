@@ -32,7 +32,7 @@ import net.imglib2.Cursor;
 import net.imglib2.Point;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.algorithm.fill.FloodFill;
-import net.imglib2.algorithm.neighborhood.RectangleShape;
+import net.imglib2.algorithm.neighborhood.DiamondShape;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.loops.LoopBuilder;
@@ -43,10 +43,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests {@link Voxelization}.
+ * Tests {@link EuclideanDistanceVoxelization}.
  *
  * @author Kyle Harrington
  * @author Curtis Rueden
+ * @author Andrew McCall
  */
 public class VoxelizationTest
 {
@@ -54,13 +55,12 @@ public class VoxelizationTest
 	@Test
 	public void voxelization3D() {
 		final int radius = 50; // a balance between speed and accuracy
-		final int w, h, d;
-		w = h = d = 2 * radius;
 		RandomAccessibleInterval<BitType> sphere = generateSphere(radius);
 		final Mesh mesh = MarchingCubesBooleanType.calculate(sphere);
+		Img<BitType> voxelization = ArrayImgs.bits(sphere.dimensionsAsLongArray());
 
 		// The mesh is good by now, let's check the voxelization
-		Img< BitType > voxelization = Voxelization.voxelize(mesh, w, h, d);
+		EuclideanDistanceVoxelization.voxelize(mesh, voxelization);
 
 		// Flood fill (ops implementation starts from borders)
 		//RandomAccessibleInterval< BitType > filledVoxelization = ops.run(DefaultFillHoles.class, voxelization);
@@ -70,33 +70,15 @@ public class VoxelizationTest
 			filledVoxelization, // target
 			new Point( radius, radius ,radius ), // seed
 			new BitType( true ), // fillLabel
-			new RectangleShape( 1, false ) );
+			new DiamondShape( 1 ) );
 
 		// Comparison
 		long diff = compareImages(sphere, filledVoxelization);
 
-		// radius |  samples | deviations | area (4πr²) | dev-to-area
-		// -------|----------|------------|-------------|------------
-		//     10 |     4166 |       1494 |      1256.6 | 1.188922489
-		//     20 |    33398 |       6690 |      5026.4 | 1.330972465
-		//     30 |   113078 |      15406 |     11309.4 | 1.362229650
-		//     40 |   267758 |      27850 |     20105.6 | 1.385186217
-		//     50 |   523302 |      43710 |     31415.0 | 1.391373548
-		//     60 |   904086 |      63102 |     45237.6 | 1.394901586
-		//     70 |  1436382 |      86178 |     61573.4 | 1.399597878
-		//     80 |  2143638 |     112690 |     80422.4 | 1.401226524
-		//     90 |  3053614 |     143070 |    101784.6 | 1.405615388
-		//    100 |  4187854 |     176886 |    125660.0 | 1.407655579
-		//    110 |  5574718 |     213954 |    152048.6 | 1.407142190
-		//    120 |  7236574 |     255058 |    180950.4 | 1.409546483
-		//    130 |  9201622 |     299470 |    212365.4 | 1.410163803
-		//    140 | 11492078 |     347286 |    246293.6 | 1.410048820
-		//    150 | 14137634 |     399078 |    282735.0 | 1.411491326
 		final double area = 4 * Math.PI * radius * radius;
 		final double ratio = diff / area;
 		final String statSuffix = String.format(" (diff=%d, area=%f, ratio=%f).", diff, area, ratio);
-		assertTrue("Voxelization differs from the original image too much" + statSuffix, ratio < 1.412);
-		assertTrue("Voxelization matches the original image suspiciously well" + statSuffix, ratio > 1.18);
+		assertTrue("Voxelization does not match image perfectly" + statSuffix, ratio <= Double.MIN_VALUE);
 	}
 
 	/**
