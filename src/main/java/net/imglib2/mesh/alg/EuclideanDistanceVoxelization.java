@@ -48,7 +48,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  * Calculates the Euclidean distance between each pixel in the output image and the nearest point in the mesh,
  * and sets the pixel to true if it is within 'wallThickness'/2 pixel units of the mesh.
  * Calling this op with the default wallThickness of 1.0, and subsequently performing an
- * org.scijava.ops.image.morphology.FillHoles command using net.imglib2.algorithm.neighborhood.DiamondShape of size 1 is
+ * net.imglib2.algorithm.fill.FloodFill command using net.imglib2.algorithm.neighborhood.DiamondShape of size 1 is
  * a functional inverse of {@link MarchingCubesBooleanType} for any object in the original data that is successfully
  * converted to a mesh via marching cubes.
  * </p>
