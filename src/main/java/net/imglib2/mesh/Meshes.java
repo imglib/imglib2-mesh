@@ -112,18 +112,18 @@ public class Meshes
 	 * @implNote op names="geom.boundingBox"
 	 */
 	public static Mesh boundingBoxMesh(final Mesh input) {
-		RealInterval interval = boundingBox(input);
-		Mesh m = new NaiveDoubleMesh();
+		final RealInterval interval = boundingBox(input);
+		final Mesh m = new NaiveDoubleMesh();
 		// BOTTOM VERTICES
-		long bbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMin(2));
-		long bbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMin(2));
-		long bfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMin(2));
-		long bfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMin(2));
+		final long bbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMin(2));
+		final long bbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMin(2));
+		final long bfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMin(2));
+		final long bfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMin(2));
 		// TOP VERTICES
-		long tbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMax(2));
-		long tbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMax(2));
-		long tfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMax(2));
-		long tfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMax(2));
+		final long tbl = m.vertices().add(interval.realMin(0), interval.realMin(1), interval.realMax(2));
+		final long tbr = m.vertices().add(interval.realMax(0), interval.realMin(1), interval.realMax(2));
+		final long tfl = m.vertices().add(interval.realMin(0), interval.realMax(1), interval.realMax(2));
+		final long tfr = m.vertices().add(interval.realMax(0), interval.realMax(1), interval.realMax(2));
 
 		// BOTTOM TRIANGLES
 		m.triangles().add(bbl, bfr, bbr);
@@ -541,6 +541,54 @@ public class Meshes
 			}
 		}
 		return out;
+	}
+
+	public static boolean equals( final Mesh a, final Mesh b )
+	{
+		if ( a == null && b == null )
+			return true;
+		if ( a == null || b == null )
+			return false;
+
+		final Vertices verticesA = a.vertices();
+		final Vertices verticesB = b.vertices();
+		final long nVerticesA = verticesA.size();
+		final long nVerticesB = verticesB.size();
+
+		if ( nVerticesA != nVerticesB )
+			return false;
+
+		// Compare vertex positions
+		for ( long i = 0; i < nVerticesA; i++ )
+		{
+			if ( Float.compare( verticesA.xf( i ), verticesB.xf( i ) ) != 0 ||
+					Float.compare( verticesA.yf( i ), verticesB.yf( i ) ) != 0 ||
+					Float.compare( verticesA.zf( i ), verticesB.zf( i ) ) != 0 )
+			{
+				return false;
+			}
+		}
+
+		// Compare triangles
+		final Triangles trianglesA = a.triangles();
+		final Triangles trianglesB = b.triangles();
+		final long nTrianglesA = trianglesA.size();
+		final long nTrianglesB = trianglesB.size();
+
+		if ( nTrianglesA != nTrianglesB )
+			return false;
+
+		for ( long i = 0; i < nTrianglesA; i++ )
+		{
+			if ( trianglesA.vertex0( i ) != trianglesB.vertex0( i ) ||
+					trianglesA.vertex1( i ) != trianglesB.vertex1( i ) ||
+					trianglesA.vertex2( i ) != trianglesB.vertex2( i ) )
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private Meshes()
