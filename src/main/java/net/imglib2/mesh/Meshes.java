@@ -543,6 +543,19 @@ public class Meshes
 		return out;
 	}
 
+	/**
+	 * Returns <code>true</code> if the two meshes are equal.
+	 * <p>
+	 * This method performs a numerical (dumb) comparison. If the two meshes
+	 * represent the same object with the same vertices and triangles, but in a
+	 * different order, this test will still return <code>false</code>.
+	 * 
+	 * @param a
+	 *            the first mesh.
+	 * @param b
+	 *            the second mesh.
+	 * @return <code>true</code> if the two meshes are equal numerically.
+	 */
 	public static boolean equals( final Mesh a, final Mesh b )
 	{
 		if ( a == null && b == null )
