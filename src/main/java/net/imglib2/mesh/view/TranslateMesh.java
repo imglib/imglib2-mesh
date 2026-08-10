@@ -73,7 +73,7 @@ public class TranslateMesh implements Mesh
 		return in.triangles();
 	}
 
-	private static final class TranslatedVertices implements Vertices
+	private static final class TranslatedVertices implements DelegateVertices
 	{
 
 		private final Vertices invs;
@@ -84,6 +84,12 @@ public class TranslateMesh implements Mesh
 		{
 			this.invs = invs;
 			this.t = t;
+		}
+
+		@Override
+		public Vertices delegate()
+		{
+			return invs;
 		}
 
 		@Override
@@ -162,18 +168,6 @@ public class TranslateMesh implements Mesh
 		}
 
 		@Override
-		public Mesh mesh()
-		{
-			return invs.mesh();
-		}
-
-		@Override
-		public long sizel()
-		{
-			return invs.sizel();
-		}
-
-		@Override
 		public float xf( final long vIndex )
 		{
 			return invs.xf( vIndex ) + t.getFloatPosition( 0 );
@@ -207,36 +201,6 @@ public class TranslateMesh implements Mesh
 		public double z( final long vIndex )
 		{
 			return invs.z( vIndex ) + t.getDoublePosition( 2 );
-		}
-
-		@Override
-		public float nxf( final long vIndex )
-		{
-			return invs.nxf( vIndex );
-		}
-
-		@Override
-		public float nyf( final long vIndex )
-		{
-			return invs.nyf( vIndex );
-		}
-
-		@Override
-		public float nzf( final long vIndex )
-		{
-			return invs.nzf( vIndex );
-		}
-
-		@Override
-		public float uf( final long vIndex )
-		{
-			return invs.uf( vIndex );
-		}
-
-		@Override
-		public float vf( final long vIndex )
-		{
-			return invs.vf( vIndex );
 		}
 
 		@Override
@@ -282,18 +246,6 @@ public class TranslateMesh implements Mesh
 		public void setPosition( final long vIndex, final double x, final double y, final double z )
 		{
 			throw new IllegalArgumentException( "The position of mesh views are not modifiable." );
-		}
-
-		@Override
-		public void setNormalf( final long vIndex, final float nx, final float ny, final float nz )
-		{
-			invs.setNormalf( vIndex, nx, ny, nz );
-		}
-
-		@Override
-		public void setTexturef( final long vIndex, final float u, final float v )
-		{
-			invs.setTexturef( vIndex, u, v );
 		}
 	}
 }
