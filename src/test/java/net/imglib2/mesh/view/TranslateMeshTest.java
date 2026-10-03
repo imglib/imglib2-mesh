@@ -35,7 +35,7 @@ import org.junit.Test;
 
 import net.imglib2.RealPoint;
 import net.imglib2.mesh.Mesh;
-import net.imglib2.mesh.MeshExamples;
+import net.imglib2.mesh.SampleMeshes;
 import net.imglib2.mesh.Meshes;
 import net.imglib2.mesh.Vertex;
 import net.imglib2.mesh.impl.nio.BufferMesh;
@@ -48,7 +48,7 @@ public class TranslateMeshTest
 	@Test
 	public void testTranslateMeshZeroTranslation()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final RealPoint translation = new RealPoint( 0., 0., 0. );
 		final Mesh translated = TranslateMesh.translate( original, translation );
 
@@ -61,7 +61,7 @@ public class TranslateMeshTest
 		final double dx = 5.;
 		final double dy = -3.;
 		final double dz = 2.;
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final RealPoint translation = new RealPoint( dx, dy, dz );
 		final Mesh translated = TranslateMesh.translate( original, translation );
 

@@ -35,7 +35,7 @@ import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
 import net.imglib2.mesh.Mesh;
-import net.imglib2.mesh.MeshExamples;
+import net.imglib2.mesh.SampleMeshes;
 import net.imglib2.mesh.Triangle;
 import net.imglib2.mesh.Vertex;
 import net.imglib2.mesh.impl.nio.BufferMesh;
@@ -48,7 +48,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testVertexPositions()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		int vertexIndex = 0;
@@ -65,7 +65,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testTriangleConnectivity()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		int triIndex = 0;
@@ -82,7 +82,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testTriangleNormals()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		int triIndex = 0;
@@ -99,7 +99,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testReadOnlyMeshCannotAddVertex()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		assertThrows( "Adding vertex should throw UnsupportedOperationException",
@@ -110,7 +110,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testReadOnlyMeshCannotSetVertexPosition()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		assertThrows( "Setting vertex position should throw UnsupportedOperationException",
@@ -121,7 +121,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testReadOnlyMeshCannotSetVertexNormal()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		assertThrows( "Setting vertex normal should throw UnsupportedOperationException",
@@ -132,7 +132,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testReadOnlyMeshCannotSetVertexTexture()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		assertThrows( "Setting vertex texture should throw UnsupportedOperationException",
@@ -143,7 +143,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testReadOnlyMeshCannotSetVertexAttributes()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		assertThrows( "Setting vertex attributes should throw UnsupportedOperationException",
@@ -154,7 +154,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testVertexIterator()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		int vertexCount = 0;
@@ -169,7 +169,7 @@ public class ReadOnlyMeshTest
 	@Test
 	public void testTriangleIterator()
 	{
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		int triangleCount = 0;
@@ -185,7 +185,7 @@ public class ReadOnlyMeshTest
 	public void testReadOnlyMeshChaining()
 	{
 		// Test that read-only wrapper can be chained
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly1 = ReadOnlyMesh.readOnly( original );
 		final Mesh readOnly2 = ReadOnlyMesh.readOnly( readOnly1 );
 
@@ -198,7 +198,7 @@ public class ReadOnlyMeshTest
 	public void testVertexReads()
 	{
 		// Verify that read operations delegate to the original mesh
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		final double x = 100.;
@@ -216,7 +216,7 @@ public class ReadOnlyMeshTest
 	public void testTriangleReads()
 	{
 		// Verify that read operations delegate to the original mesh
-		final BufferMesh original = MeshExamples.createTetrahedron();
+		final BufferMesh original = SampleMeshes.createTetrahedron();
 		final Mesh readOnly = ReadOnlyMesh.readOnly( original );
 
 		final Triangle origTri = getTriangle( original, 0 );

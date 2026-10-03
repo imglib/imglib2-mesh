@@ -31,9 +31,9 @@ package net.imglib2.mesh;
 import net.imglib2.mesh.impl.nio.BufferMesh;
 
 /**
- * Utility class providing example meshes for testing purposes.
+ * Sample meshes for use in tests.
  */
-public class MeshExamples
+public class SampleMeshes
 {
 
 	public static BufferMesh createTetrahedron()
