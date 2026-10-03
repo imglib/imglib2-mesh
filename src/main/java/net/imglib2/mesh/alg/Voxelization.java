@@ -46,7 +46,12 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  * </p>
  * 
  * @author Kyle Harrington
+ *
+ * @deprecated This algorithm fills in the entire bounding box of each
+ * {@link Triangle} in the mesh. See {@link EuclideanDistanceVoxelization}
+ * for a finer-grained approximation.
  */
+@Deprecated
 public final class Voxelization
 {
 
