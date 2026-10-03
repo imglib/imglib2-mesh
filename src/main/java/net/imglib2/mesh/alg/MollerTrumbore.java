@@ -147,7 +147,7 @@ public class MollerTrumbore
 
 		intersection[ 0 ] = ox + t * rx;
 		intersection[ 1 ] = oy + t * ry;
-		intersection[ 2 ] = oy + t * rz;
+		intersection[ 2 ] = oz + t * rz;
 		return true;
 	}
 
