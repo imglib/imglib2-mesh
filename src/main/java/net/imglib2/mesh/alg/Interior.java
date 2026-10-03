@@ -114,6 +114,12 @@ public class Interior
 
 	private final RealInterval boundingBox;
 
+	/** Rounding scale for Y positions, i.e. {@link #SCALE_FRAC_Y} times the scale. */
+	private final double epsY;
+
+	/** Rounding scale for Z positions, i.e. {@link #SCALE_FRAC} times the scale. */
+	private final double epsZ;
+
 	public Interior( final Mesh mesh, final double scale )
 	{
 		this( mesh, Meshes.boundingBox( mesh ), scale );
@@ -127,7 +133,8 @@ public class Interior
 		/*
 		 * Slice plane Z positions to odd multiples of eps.
 		 */
-		final double eps = SCALE_FRAC * scale;
+		this.epsY = SCALE_FRAC_Y * scale;
+		this.epsZ = SCALE_FRAC * scale;
 
 		// Collect minZ & maxZ of vertices.
 		final Triangles triangles = mesh.triangles();
@@ -141,8 +148,8 @@ public class Interior
 			final long v1 = triangles.vertex1( t );
 			final long v2 = triangles.vertex2( t );
 
-			minZs[ t ] = minZ( vertices, v0, v1, v2, eps );
-			maxZs[ t ] = maxZ( vertices, v0, v1, v2, eps );
+			minZs[ t ] = minZ( vertices, v0, v1, v2, epsZ );
+			maxZs[ t ] = maxZ( vertices, v0, v1, v2, epsZ );
 		}
 		this.indexMin = SortArray.quicksort( minZs );
 		this.indices = new int[ indexMin.length ];
@@ -160,8 +167,8 @@ public class Interior
 
 		// The rest: ray casting along X.
 		final double ox = p.getDoublePosition( 0 );
-		final double oy = mround( p.getDoublePosition( 1 ), SCALE_FRAC_Y, 2, 1 );
-		final double oz = mround( p.getDoublePosition( 2 ), SCALE_FRAC, 2, 1 );
+		final double oy = mround( p.getDoublePosition( 1 ), epsY, 2, 1 );
+		final double oz = mround( p.getDoublePosition( 2 ), epsZ, 2, 1 );
 
 		// All triangles with minZ < oz
 		int k1 = Arrays.binarySearch( minZs, oz );
@@ -296,14 +303,14 @@ public class Interior
 
 		// Coords.
 		final double x0 = mesh.vertices().x( vertex0 );
-		final double y0 = mround( mesh.vertices().y( vertex0 ), SCALE_FRAC_Y, 2, 0 );
-		final double z0 = mround( mesh.vertices().z( vertex0 ), SCALE_FRAC, 2, 0 );
+		final double y0 = mround( mesh.vertices().y( vertex0 ), epsY, 2, 0 );
+		final double z0 = mround( mesh.vertices().z( vertex0 ), epsZ, 2, 0 );
 		final double x1 = mesh.vertices().x( vertex1 );
-		final double y1 = mround( mesh.vertices().y( vertex1 ), SCALE_FRAC_Y, 2, 0 );
-		final double z1 = mround( mesh.vertices().z( vertex1 ), SCALE_FRAC, 2, 0 );
+		final double y1 = mround( mesh.vertices().y( vertex1 ), epsY, 2, 0 );
+		final double z1 = mround( mesh.vertices().z( vertex1 ), epsZ, 2, 0 );
 		final double x2 = mesh.vertices().x( vertex2 );
-		final double y2 = mround( mesh.vertices().y( vertex2 ), SCALE_FRAC_Y, 2, 0 );
-		final double z2 = mround( mesh.vertices().z( vertex2 ), SCALE_FRAC, 2, 0 );
+		final double y2 = mround( mesh.vertices().y( vertex2 ), epsY, 2, 0 );
+		final double z2 = mround( mesh.vertices().z( vertex2 ), epsZ, 2, 0 );
 
 		// Edge 1
 		final double e1x = x1 - x0;

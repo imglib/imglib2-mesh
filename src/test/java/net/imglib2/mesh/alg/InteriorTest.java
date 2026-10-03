@@ -213,6 +213,45 @@ public class InteriorTest
 		}
 	}
 
+	/**
+	 * Tests a mesh in physical units, with a scale other than 1. Rays are cast
+	 * just above the Z of vertices, where triangles are most easily skipped if
+	 * their Z range is rounded inconsistently.
+	 */
+	@Test
+	public void testScaledSmoothSphere()
+	{
+		final int length = 32;
+		final double c = ( length - 1 ) / 2.;
+		final double r = 10;
+		final Img< BitType > img = ArrayImgs.bits( length, length, length );
+		final Cursor< BitType > cursor = img.localizingCursor();
+		while ( cursor.hasNext() )
+		{
+			cursor.fwd();
+			cursor.get().set( distance( cursor, c ) <= r );
+		}
+		// Note: Smoothing moves vertices off the rounding grid.
+		final BufferMesh smooth = TaubinSmoothing.smooth( makeMesh( img ) );
+		final double pixelSize = 10;
+		Meshes.scale( smooth, new double[] { pixelSize, pixelSize, pixelSize } );
+		final BufferMesh mesh = new BufferMesh( smooth.vertices().size(), smooth.triangles().size() );
+		Meshes.calculateNormals( smooth, mesh );
+		final Interior test = new Interior( mesh, pixelSize );
+
+		final double center = c * pixelSize;
+		final RealPoint p = new RealPoint( 3 );
+		for ( final Vertex v : mesh.vertices() )
+		{
+			// Aim at vertices well on the +X side of the sphere, from a point
+			// well inside it.
+			if ( v.x() - center < r / 2 * pixelSize )
+				continue;
+			p.setPosition( new double[] { center, v.y(), v.z() + 1e-3 } );
+			assertEquals( "Point at position " + Util.printCoordinates( p ) + " was not properly located inside the mesh.", true, test.isInside( p ) );
+		}
+	}
+
 	private static double distance( final Cursor< ? > pos, final double c )
 	{
 		final double dx = pos.getDoublePosition( 0 ) - c;
