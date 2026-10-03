@@ -43,17 +43,9 @@ import net.imglib2.view.Views;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
- * <p>
- * This is a voxelizer that produces a binary image with values set to true along the surface of the mesh.
- * Calculates the Euclidean distance between each pixel in the output image and the nearest point in the mesh,
- * and sets the pixel to true if it is within 'wallThickness'/2 pixel units of the mesh.
- * Calling this op with the default wallThickness of 1.0, and subsequently performing an
- * net.imglib2.algorithm.fill.FloodFill command using net.imglib2.algorithm.neighborhood.DiamondShape of size 1 is
- * a functional inverse of {@link MarchingCubesBooleanType} for any object in the original data that is successfully
- * converted to a mesh via marching cubes.
- * </p>
+ * Algorithms for voxelization, based on euclidean distance to a {@link Mesh}.
  *
- * @see Voxelization for the original Voxelization algorithm. This algorithm was deprecated as it generated results
+ * @see Voxelization for the previous Voxelization algorithms, which were deprecated as they generated results
  * that could often differ greatly from the surface of the input mesh, particularly with larger triangular facets.
  * @author Andrew McCall (University at Buffalo)
  */
@@ -66,6 +58,10 @@ public final class EuclideanDistanceVoxelization {
     }
 
     /**
+     * Produces a binary image with values set to true along the surface of the mesh.
+     * Calculates the Euclidean distance between each pixel in the output image and the nearest point in the mesh,
+     * and sets the pixel to true if it is within 1/2 pixel units of the mesh.
+     *
      * @param inputMesh a {@link Mesh}
      * @return an {@link Img} containing a voxelization of {@code mesh}
      * @implNote op names="geom.voxelization", label="Geometric: Voxelization of Mesh", priority="100."
@@ -74,7 +70,12 @@ public final class EuclideanDistanceVoxelization {
     {
         return voxelize(inputMesh, 1.0);
     }
+
     /**
+     * Produces a binary image with values set to true along the surface of the mesh.
+     * Calculates the Euclidean distance between each pixel in the output image and the nearest point in the mesh,
+     * and sets the pixel to true if it is within 'wallThickness'/2 pixel units of the mesh.
+     *
      * @param inputMesh a {@link Mesh}
      * @param wallThickness an optional double value for the thickness of the voxelized mesh surface in pixels,
      *                      default is 1
@@ -91,6 +92,10 @@ public final class EuclideanDistanceVoxelization {
     }
 
     /**
+     * Populates a binary image with values set to true along the surface of the mesh.
+     * Calculates the Euclidean distance between each pixel in the output image and the nearest point in the mesh,
+     * and sets the pixel to true if it is within 1/2 pixel units of the mesh.
+     *
      * @param inputMesh a {@link Mesh}
      * @param out the output image (container)
      * @implNote op names="geom.voxelization", label="Geometric: Voxelization of Mesh", priority="100."
@@ -100,6 +105,14 @@ public final class EuclideanDistanceVoxelization {
         voxelize(inputMesh, 1.0, out);
     }
     /**
+     * Populates a binary image with values set to true along the surface of the mesh.
+     * Calculates the Euclidean distance between each pixel in the output image and the nearest point in the mesh,
+     * and sets the pixel to true if it is within 'wallThickness'/2 pixel units of the mesh.
+     * Calling this op with the default wallThickness of 1.0, and subsequently performing an
+     * net.imglib2.algorithm.fill.FloodFill command using net.imglib2.algorithm.neighborhood.DiamondShape of size 1 is
+     * a functional inverse of {@link MarchingCubesBooleanType} for any object in the original data that is successfully
+     * converted to a mesh via marching cubes.
+     *
      * @param inputMesh a {@link Mesh}
      * @param wallThickness an optional double value for the thickness of the voxelized mesh surface in pixels,
      *                      default is 1
