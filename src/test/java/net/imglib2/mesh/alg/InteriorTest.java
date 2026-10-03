@@ -35,6 +35,7 @@ import java.util.function.Predicate;
 
 import org.junit.Test;
 
+import net.imglib2.Cursor;
 import net.imglib2.FinalInterval;
 import net.imglib2.RealPoint;
 import net.imglib2.img.Img;
@@ -176,6 +177,48 @@ public class InteriorTest
 		final Predicate< RealPoint > actualInside = p -> Intervals.contains( cube, p );
 
 		makeTest( mesh, actualInside, length );
+	}
+
+	/**
+	 * Tests integer grid points against a sphere mesh. Rays cast from these
+	 * points run exactly along mesh edges, which must be counted as a single
+	 * boundary crossing.
+	 */
+	@Test
+	public void testSphereGridPoints()
+	{
+		final int length = 32;
+		final double c = ( length - 1 ) / 2.;
+		final double r = 10;
+		final Img< BitType > img = ArrayImgs.bits( length, length, length );
+		final Cursor< BitType > cursor = img.localizingCursor();
+		while ( cursor.hasNext() )
+		{
+			cursor.fwd();
+			cursor.get().set( distance( cursor, c ) <= r );
+		}
+		final Interior test = new Interior( makeMesh( img ), 1. );
+
+		cursor.reset();
+		final RealPoint p = new RealPoint( 3 );
+		while ( cursor.hasNext() )
+		{
+			cursor.fwd();
+			final double d = distance( cursor, c );
+			// Note: Skip points near the surface, where the mesh and sphere differ.
+			if ( Math.abs( d - r ) < 1.5 )
+				continue;
+			p.setPosition( cursor );
+			assertEquals( "Point at position " + Util.printCoordinates( p ) + " was not properly located in or outside the mesh.", d < r, test.isInside( p ) );
+		}
+	}
+
+	private static double distance( final Cursor< ? > pos, final double c )
+	{
+		final double dx = pos.getDoublePosition( 0 ) - c;
+		final double dy = pos.getDoublePosition( 1 ) - c;
+		final double dz = pos.getDoublePosition( 2 ) - c;
+		return Math.sqrt( dx * dx + dy * dy + dz * dz );
 	}
 
 	private void makeTest( final BufferMesh mesh, final Predicate< RealPoint > actualInside, final int length )

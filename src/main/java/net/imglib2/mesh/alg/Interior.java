@@ -43,6 +43,7 @@ import net.imglib2.mesh.Triangles;
 import net.imglib2.mesh.Vertices;
 import net.imglib2.mesh.util.SortArray;
 import net.imglib2.mesh.util.SortBy;
+import net.imglib2.mesh.util.SortTrove;
 import net.imglib2.util.Intervals;
 
 public class Interior
@@ -50,6 +51,15 @@ public class Interior
 
 	/** Fraction of the specified scale to shift mesh vertices position. */
 	private static final double SCALE_FRAC = 4e-4;
+
+	/**
+	 * Fraction of the specified scale to shift mesh vertices Y position.
+	 * <p>
+	 * Note: Incommensurate with {@link #SCALE_FRAC}, so that the ray is not
+	 * offset equally in Y and Z, which would make it hit diagonal edges of
+	 * grid-aligned meshes exactly.
+	 */
+	private static final double SCALE_FRAC_Y = SCALE_FRAC * Math.sqrt( 2 ) / 2;
 
 	/** Precision limit for the Moller-Trumbore algorithm. */
 	private static final double PRECISION_LIMIT = 0.0000001;
@@ -150,7 +160,7 @@ public class Interior
 
 		// The rest: ray casting along X.
 		final double ox = p.getDoublePosition( 0 );
-		final double oy = p.getDoublePosition( 1 );
+		final double oy = mround( p.getDoublePosition( 1 ), SCALE_FRAC_Y, 2, 1 );
 		final double oz = mround( p.getDoublePosition( 2 ), SCALE_FRAC, 2, 1 );
 
 		// All triangles with minZ < oz
@@ -207,8 +217,9 @@ public class Interior
 		 * same X intersection, then it means we crossed an edge. In that case
 		 * we need to test whether the 2 triangles of this edge are facing the
 		 * same direction. If yes (their normals along x have the same sign), it
-		 * means that we are crossing the mesh boundary. If not, they do not
-		 * count as crossing the boundary.
+		 * means that we are crossing the mesh boundary once, so the second
+		 * intersection is skipped. If not, the ray only grazes the boundary,
+		 * so both intersections are counted, leaving the parity unchanged.
 		 * 
 		 * Fantastic drawing that illustrates this situation:
 		 * 
@@ -226,8 +237,9 @@ public class Interior
 		 * protruding from the bottom, exactly on the line. In that case this
 		 * should not count as one crossing of the bounds.
 		 */
-		// Sort intersection coords.
-		xIntersect.sort();
+		// Sort intersection coords, keeping normals in sync.
+		final int[] order = SortTrove.quicksort( xIntersect );
+		SortTrove.reorder( xNormals, order );
 		int nCross = 0;
 
 		double previousX = Double.NaN;
@@ -237,7 +249,10 @@ public class Interior
 			final double v = xIntersect.get( i );
 			final double n = xNormals.get( i );
 
-			if ( ( v != previousX ) || ( n * previousN > 0 ) )
+			// Note: Hits on a shared edge are computed from different
+			// triangles, so they may differ by rounding error.
+			final boolean sameX = Math.abs( v - previousX ) < PRECISION_LIMIT;
+			if ( !sameX || n * previousN < 0 )
 				nCross++;
 
 			previousX = v;
@@ -281,13 +296,13 @@ public class Interior
 
 		// Coords.
 		final double x0 = mesh.vertices().x( vertex0 );
-		final double y0 = mesh.vertices().y( vertex0 );
+		final double y0 = mround( mesh.vertices().y( vertex0 ), SCALE_FRAC_Y, 2, 0 );
 		final double z0 = mround( mesh.vertices().z( vertex0 ), SCALE_FRAC, 2, 0 );
 		final double x1 = mesh.vertices().x( vertex1 );
-		final double y1 = mesh.vertices().y( vertex1 );
+		final double y1 = mround( mesh.vertices().y( vertex1 ), SCALE_FRAC_Y, 2, 0 );
 		final double z1 = mround( mesh.vertices().z( vertex1 ), SCALE_FRAC, 2, 0 );
 		final double x2 = mesh.vertices().x( vertex2 );
-		final double y2 = mesh.vertices().y( vertex2 );
+		final double y2 = mround( mesh.vertices().y( vertex2 ), SCALE_FRAC_Y, 2, 0 );
 		final double z2 = mround( mesh.vertices().z( vertex2 ), SCALE_FRAC, 2, 0 );
 
 		// Edge 1
