@@ -45,8 +45,6 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 /**
  * Algorithms for voxelization, based on euclidean distance to a {@link Mesh}.
  *
- * @see Voxelization for the previous Voxelization algorithms, which were deprecated as they generated results
- * that could often differ greatly from the surface of the input mesh, particularly with larger triangular facets.
  * @author Andrew McCall (University at Buffalo)
  */
 
