@@ -50,6 +50,7 @@ import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.img.basictypeaccess.array.FloatArray;
 import net.imglib2.img.planar.PlanarImg;
 import net.imglib2.mesh.impl.naive.NaiveDoubleMesh;
+import net.imglib2.mesh.impl.nio.BufferMesh;
 import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.roi.labeling.LabelRegion;
 import net.imglib2.roi.labeling.LabelRegions;
@@ -182,6 +183,69 @@ public class MeshesTest
 		assertArrayEquals(new double[] {0, 1, 1}, itr.next().positionAsDoubleArray(), 0);
 		assertArrayEquals(new double[] {1, 1, 1}, itr.next().positionAsDoubleArray(), 0);
 		assertFalse(itr.hasNext());
+	}
+
+	@Test
+	public void testCalculateNormalsSaddleVertex() {
+		/*
+		 * A "bowtie" of two coplanar triangles with opposite windings. The
+		 * area-weighted normals accumulated at the shared vertices (0 and 2)
+		 * cancel exactly, which used to produce NaN vertex normals (division
+		 * by the zero-magnitude sum). They must be finite, and the
+		 * undefined normal must fall back to (0, 0, 0).
+		 */
+		final Mesh mesh = new NaiveDoubleMesh();
+		mesh.vertices().add( 0, 0, 0 );
+		mesh.vertices().add( 1, 0, 0 );
+		mesh.vertices().add( 0, 1, 0 );
+		mesh.vertices().add( -1, 0, 0 );
+		mesh.triangles().add( 0, 1, 2 ); // normal (0, 0, +1)
+		mesh.triangles().add( 0, 3, 2 ); // normal (0, 0, -1)
+
+		final BufferMesh withNormals = new BufferMesh( 4, 2 );
+		Meshes.calculateNormals( mesh, withNormals );
+
+		for ( int i = 0; i < 4; i++ )
+		{
+			assertTrue( "vertex " + i + " normal must be finite",
+					Float.isFinite( withNormals.vertices().nxf( i ) )
+							&& Float.isFinite( withNormals.vertices().nyf( i ) )
+							&& Float.isFinite( withNormals.vertices().nzf( i ) ) );
+		}
+		assertArrayEquals( new double[] { 0, 0, 0 }, new double[] {
+				withNormals.vertices().nxf( 0 ), withNormals.vertices().nyf( 0 ), withNormals.vertices().nzf( 0 ) }, 0 );
+		assertArrayEquals( new double[] { 0, 0, 0 }, new double[] {
+				withNormals.vertices().nxf( 2 ), withNormals.vertices().nyf( 2 ), withNormals.vertices().nzf( 2 ) }, 0 );
+		assertArrayEquals( new double[] { 0, 0, 1 }, new double[] {
+				withNormals.vertices().nxf( 1 ), withNormals.vertices().nyf( 1 ), withNormals.vertices().nzf( 1 ) }, 1e-6 );
+		assertArrayEquals( new double[] { 0, 0, -1 }, new double[] {
+				withNormals.vertices().nxf( 3 ), withNormals.vertices().nyf( 3 ), withNormals.vertices().nzf( 3 ) }, 1e-6 );
+	}
+
+	@Test
+	public void testCalculateNormalsDegenerateTriangle() {
+		/*
+		 * A triangle with duplicated vertices is degenerate and has a
+		 * zero-magnitude normal, which used to produce NaN for the triangle
+		 * normal. It must fall back to (0, 0, 0).
+		 */
+		final Mesh mesh = new NaiveDoubleMesh();
+		mesh.vertices().add( 0, 0, 0 );
+		mesh.vertices().add( 1, 0, 0 );
+		mesh.vertices().add( 0, 1, 0 );
+		mesh.triangles().add( 0, 1, 1 ); // degenerate
+		mesh.triangles().add( 0, 1, 2 );
+
+		final BufferMesh withNormals = new BufferMesh( 3, 2 );
+		Meshes.calculateNormals( mesh, withNormals );
+
+		for ( int t = 0; t < 2; t++ )
+		{
+			assertTrue( "triangle " + t + " normal must be finite",
+					Float.isFinite( withNormals.triangles().nxf( t ) )
+							&& Float.isFinite( withNormals.triangles().nyf( t ) )
+							&& Float.isFinite( withNormals.triangles().nzf( t ) ) );
+		}
 	}
 
 	private static Mesh createMeshWithNoise()

@@ -269,7 +269,11 @@ public class Meshes
 			vNormals.put(idx, cumNormal);
 			
 			final float nmag = ( float ) Math.sqrt( nx * nx + ny * ny + nz * nz );
-			triNormals.put( tri.index(), new float[] { nx / nmag, ny / nmag, nz / nmag } );
+			// NB: Degenerate triangles (e.g. with duplicated vertices) have a
+			// zero-magnitude normal. Fall back to a null vector rather than
+			// dividing by zero, which would yield NaN.
+			final float invNmag = ( nmag == 0f ) ? 0f : 1f / nmag;
+			triNormals.put( tri.index(), new float[] { nx * invNmag, ny * invNmag, nz * invNmag } );
 		}
 
 		// Now populate dest
@@ -282,9 +286,18 @@ public class Meshes
 			final long srcIndex = v.index();
 			vNormal = vNormals.get( v.index() );
 			vNormalMag = Math.sqrt( vNormal[ 0 ] * vNormal[ 0 ] + vNormal[ 1 ] * vNormal[ 1 ] + vNormal[ 2 ] * vNormal[ 2 ] );
+			/*
+			 * NB: The area-weighted normal accumulated at a vertex can be
+			 * exactly zero for legitimate geometric configurations: a saddle
+			 * vertex whose surrounding face normals cancel each other, or an
+			 * isolated vertex. The normal is then undefined; fall back to a
+			 * null vector rather than dividing by zero, which would yield
+			 * NaN.
+			 */
+			final double invVNormalMag = ( vNormalMag == 0. ) ? 0. : 1. / vNormalMag;
 			final long destIndex = dest.vertices().add( //
 					v.x(), v.y(), v.z(), //
-					vNormal[ 0 ] / vNormalMag, vNormal[ 1 ] / vNormalMag, vNormal[ 2 ] / vNormalMag, //
+					vNormal[ 0 ] * invVNormalMag, vNormal[ 1 ] * invVNormalMag, vNormal[ 2 ] * invVNormalMag, //
 					v.u(), v.v() );
 			if ( srcIndex != destIndex )
 			{
